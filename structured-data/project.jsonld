@@ -1,0 +1,12 @@
+{
+  "@context":"https://schema.org",
+  "@type":"Project",
+  "@id":"https://bezpecnaelektrika.sk/#project",
+  "name":"Bezpečná elektrika",
+  "url":"https://bezpecnaelektrika.sk/",
+  "description":"Pripravovaný odborný projekt zameraný na revízie, elektrické merania, odborné prehliadky a skúšky a bezpečnosť elektrických zariadení.",
+  "logo":"https://bezpecnaelektrika.sk/assets/img/bezpecna-elektrika-logo.png",
+  "email":"kontakt@bezpecnaelektrika.sk",
+  "founder":{"@id":"https://likavcan.cz/lukas/#lukas-likavcan"},
+  "sameAs":["https://www.instagram.com/bezpecnaelektrika/"]
+}

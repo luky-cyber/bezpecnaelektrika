@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "audioBase": "https://audio.bezpecnaelektrika.sk/podcast",
+  "episodes": [
+    {
+      "id": "BE-001",
+      "title": "Prečo nestačí, že elektrina funguje?",
+      "slug": "preco-nestaci-ze-elektrina-funguje",
+      "date": null,
+      "duration": null,
+      "category": "Bezpečnosť",
+      "summary": "Funkčnosť nie je dôkazom bezpečnosti. Pilotná epizóda je v príprave a prechádza odbornou kontrolou.",
+      "audio": null,
+      "published": false,
+      "featured": true,
+      "popular": false,
+      "aiAudio": "Gemini Notebook"
+    },
+    {
+      "id": "BE-002",
+      "title": "Impedancia poruchovej slučky",
+      "slug": "impedancia-poruchovej-slucky",
+      "date": null,
+      "duration": null,
+      "category": "Meranie",
+      "summary": "Číslo na displeji je začiatok vyhodnotenia, nie jeho koniec.",
+      "audio": null,
+      "published": false,
+      "featured": false,
+      "popular": false,
+      "aiAudio": "Gemini Notebook"
+    },
+    {
+      "id": "BE-003",
+      "title": "LPS I–IV",
+      "slug": "lps-i-iv",
+      "date": null,
+      "duration": null,
+      "category": "Bleskozvod",
+      "summary": "Štyri úrovne ochrany a prečo sa nedajú priradiť jednou vetou ku každému typu budovy.",
+      "audio": null,
+      "published": false,
+      "featured": false,
+      "popular": false,
+      "aiAudio": "Gemini Notebook"
+    }
+  ]
+}
