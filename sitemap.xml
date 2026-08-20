@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://bezpecnaelektrika.sk/</loc><lastmod>2026-08-18</lastmod><priority>1.0</priority></url>
-  <url><loc>https://bezpecnaelektrika.sk/o-projekte/</loc><lastmod>2026-08-18</lastmod><priority>0.7</priority></url>
-  <url><loc>https://bezpecnaelektrika.sk/poradna/</loc><lastmod>2026-08-18</lastmod><priority>0.7</priority></url>
-  <url><loc>https://bezpecnaelektrika.sk/podcast/</loc><lastmod>2026-08-18</lastmod><priority>0.7</priority></url>
-  <url><loc>https://bezpecnaelektrika.sk/glosar/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://bezpecnaelektrika.sk/metodika/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://bezpecnaelektrika.sk/revizie/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://bezpecnaelektrika.sk/meranie/</loc></url>
+  <url><loc>https://bezpecnaelektrika.sk/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/o-projekte/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/poradna/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/podcast/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/glosar/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/metodika/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/revizie/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/meranie/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/novinky/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/novinky/2026/stn-en-iec-62305-3-2026/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/novinky/2026/stn-en-iec-62305-4-2026/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://bezpecnaelektrika.sk/novinky/2026/rccb-vs-rcbo/</loc><lastmod>2026-08-20</lastmod></url>
 </urlset>

@@ -1,58 +1,59 @@
-<!doctype html><html lang="sk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1016"><title>Podcast | Bezpečná elektrika do uší</title><meta name="description" content="Pripravované audio epizódy Bezpečnej elektriky o meraní, revíziách, bleskozvodoch a elektrickej bezpečnosti."><link rel="canonical" href="https://bezpecnaelektrika.sk/podcast/"><link rel="stylesheet" href="/assets/css/style.css"><link rel="icon" href="/assets/img/favicon-48.png"></head><body><header class="site-header"><div class="container header-inner">
-<a class="brand" href="/"><img src="/assets/img/bezpecna-elektrika-logo.png" alt="" class="brand-logo"><span>Bezpečná elektrika</span></a>
+<!DOCTYPE html>
+<html lang="sk"><head><meta content="dark light" name="color-scheme"/><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/><meta content="#0b1016" name="theme-color"/><title>Podcast | Bezpečná elektrika do uší</title><meta content="Pripravované audio epizódy Bezpečnej elektriky o meraní, revíziách, bleskozvodoch a elektrickej bezpečnosti." name="description"/><link href="https://bezpecnaelektrika.sk/podcast/" rel="canonical"/><link href="/assets/css/style.css" rel="stylesheet"/><link href="/assets/img/favicon-48.png" rel="icon"/></head><body class="v040"><header class="site-header"><div class="container header-inner">
+<a class="brand" href="/"><img alt="" class="brand-logo" src="/assets/img/bezpecna-elektrika-logo.png"/><span>Bezpečná elektrika</span></a>
 <div class="header-actions">
-<nav class="nav" id="main-nav" aria-label="Hlavná navigácia">
-  <div class="nav-group nav-primary"><a href="/">Domov</a><a href="/revizie/">Revízie</a><a href="/poradna/">Poradňa</a><a class="active" aria-current="page" href="/podcast/">Podcast</a><a href="/o-projekte/">O projekte</a><a href="/#kontakt">Kontakt</a></div>
-  <div class="nav-more">
-    <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-nav">Viac <span aria-hidden="true">▾</span></button>
-    <div class="nav-group nav-supplemental" id="more-nav"><span class="nav-group-label">Ďalšie</span><a href="/meranie/">Meranie v praxi</a><a href="/glosar/">Glosár</a><a href="/metodika/">Zdroje a metodika</a></div>
-  </div>
+<nav aria-label="Hlavná navigácia" class="nav" id="main-nav">
+<div class="nav-group nav-primary"><a href="/">Domov</a><a href="/revizie/">Revízie</a><a href="/poradna/">Poradňa</a><a aria-current="page" class="active" href="/podcast/">Podcast</a><a href="/o-projekte/">O projekte</a><a href="/#kontakt">Kontakt</a></div>
+<div class="nav-more">
+<button aria-controls="more-nav" aria-expanded="false" class="more-toggle" type="button">Viac <span aria-hidden="true">▾</span></button>
+<div class="nav-group nav-supplemental" id="more-nav"><span class="nav-group-label">Ďalšie</span><a href="/meranie/">Meranie v praxi</a><a href="/glosar/">Glosár</a><a href="/novinky/">Čo nové v elektro</a><a href="/metodika/">Zdroje a metodika</a></div>
+</div>
 </nav>
-<button class="theme-toggle" type="button" aria-label="Prepnúť farebný režim" title="Prepnúť svetlý/tmavý režim"><span class="theme-icon" aria-hidden="true">◐</span></button>
-<button class="nav-toggle" type="button" aria-label="Otvoriť menu" aria-expanded="false" aria-controls="main-nav"><span class="hamburger-lines" aria-hidden="true"><i></i><i></i><i></i></span></button>
+<button aria-label="Prepnúť farebný režim" class="theme-toggle" title="Prepnúť svetlý/tmavý režim" type="button"><span aria-hidden="true" class="theme-icon">◐</span></button>
+<button aria-controls="main-nav" aria-expanded="false" aria-label="Otvoriť menu" class="nav-toggle" type="button"><span aria-hidden="true" class="hamburger-lines"><i></i><i></i><i></i></span></button>
 </div></div></header><main>
 <section class="section">
-  <div class="container">
-    <div class="section-head">
-      <div class="eyebrow">Bezpečná elektrika do uší</div>
-      <h1 class="section-title">Podcast bez odchodu z webu.</h1>
-      <p>Jedna téma, jednoduchá analógia, technický princíp, praktický význam a krátke „čo si zapamätať“. Audio bude prehrávané priamo z <strong>audio.bezpecnaelektrika.sk</strong>.</p>
-    </div>
-
-    <section class="podcast-player-shell is-empty" id="podcast-player" aria-label="Prehrávač podcastu">
-      <div class="player-heading">
-        <div><span class="tag" id="player-category">Podcast</span><h2 id="player-title">Vyberte epizódu</h2><p id="player-summary">Prehrávač je pripravený. Po publikovaní prvej epizódy sa audio načíta priamo z Cloudflare R2.</p></div>
-        <button class="player-main-btn" type="button" id="player-toggle" aria-label="Prehrať" disabled>▶</button>
-      </div>
-      <audio id="podcast-audio" preload="metadata"></audio>
-      <div class="player-timeline">
-        <span id="player-current">0:00</span>
-        <input id="player-progress" type="range" min="0" max="1000" value="0" aria-label="Pozícia prehrávania" disabled>
-        <span id="player-duration">0:00</span>
-      </div>
-      <div class="player-controls">
-        <button type="button" id="player-back" disabled>↶ 15 s</button>
-        <button type="button" id="player-forward" disabled>15 s ↷</button>
-        <label>Rýchlosť <select id="player-speed" disabled><option value="1">1×</option><option value="1.25">1,25×</option><option value="1.5">1,5×</option><option value="2">2×</option></select></label>
-        <label class="volume-control">Hlasitosť <input id="player-volume" type="range" min="0" max="1" step="0.05" value="1" disabled></label>
-        <a id="player-download" class="player-download is-disabled" href="#" download aria-disabled="true">Stiahnuť MP3</a>
-      </div>
-      <p class="player-disclosure" id="player-disclosure">Zvuk vytvorený pomocou Gemini Notebook. Odborný obsah pred publikovaním prejde kontrolou.</p>
-    </section>
-
-    <div class="section-head podcast-list-head">
-      <div class="eyebrow">Epizódy</div>
-      <h2>Pripravované a publikované.</h2>
-    </div>
-    <div id="podcast-list" class="podcast-list" aria-live="polite">
-      <p class="quiet">Načítavam zoznam epizód…</p>
-    </div>
-
-    <div class="note-box" style="margin-top:24px"><strong>Transparentnosť:</strong> Gemini Notebook používam ako nástroj na vytvorenie audio rozhovoru. Odborné zdroje sú od zvukového nástroja oddelené a obsah pred publikovaním prechádza kontrolou.</div>
-  </div>
+<div class="container">
+<div class="section-head">
+<div class="eyebrow">Bezpečná elektrika do uší</div>
+<h1 class="section-title">Bezpečná elektrika do uší.</h1>
+<p>Jedna téma, jednoduchá analógia, technický princíp, praktický význam a krátke „čo si zapamätať“. Epizódy prehrávam priamo z <strong>audio.bezpecnaelektrika.sk</strong>.</p>
+</div>
+<section aria-label="Prehrávač podcastu" class="podcast-player-shell is-empty" id="podcast-player">
+<div class="player-heading">
+<div><span class="tag" id="player-category">Podcast</span><span class="tag player-id-badge" id="player-id">BE</span><h2 id="player-title">Vyberte epizódu</h2><p id="player-summary">Vyberte publikovanú epizódu zo zoznamu nižšie.</p></div>
+<button aria-label="Prehrať" class="player-main-btn" disabled="" id="player-toggle" type="button">▶</button>
+</div>
+<audio id="podcast-audio" preload="metadata"></audio>
+<div class="player-timeline">
+<span id="player-current">0:00</span>
+<input aria-label="Pozícia prehrávania" disabled="" id="player-progress" max="1000" min="0" type="range" value="0"/>
+<span id="player-duration">0:00</span>
+</div>
+<div class="player-controls">
+<button disabled="" id="player-back" type="button">↶ 15 s</button>
+<button disabled="" id="player-forward" type="button">15 s ↷</button>
+<label>Rýchlosť <select disabled="" id="player-speed"><option value="1">1×</option><option value="1.25">1,25×</option><option value="1.5">1,5×</option><option value="2">2×</option></select></label>
+<label class="volume-control">Hlasitosť <input disabled="" id="player-volume" max="1" min="0" step="0.05" type="range" value="1"/></label>
+<a aria-disabled="true" class="player-download is-disabled" download="" href="#" id="player-download">Stiahnuť MP3</a>
+</div>
+<p class="player-disclosure" id="player-disclosure">Zvuk môže byť vytvorený pomocou Gemini Notebook. Pred publikovaním kontrolujem odborný obsah aj transcript.</p>
+</section>
+<div class="section-head podcast-list-head">
+<div class="eyebrow">Epizódy</div>
+<h2>Publikované a pripravované epizódy.</h2>
+</div>
+<div aria-live="polite" class="podcast-list" id="podcast-list">
+<p class="quiet">Načítavam zoznam epizód…</p>
+</div>
+<details class="podcast-editorial-note" style="margin-top:24px"><summary><strong>Ako podcast vzniká a aké má limity</strong></summary>
+<p>Gemini Notebook používam na vytvorenie audio rozhovoru z odborne pripravených podkladov. Pre jednu tému pripravíme najviac tri varianty, skontrolujeme transcript a publikujeme najvhodnejší.</p>
+<p><strong>Dôležité:</strong> podcast má edukatívny charakter a nenahrádza odbornú prehliadku, meranie, projektovú dokumentáciu, technické normy ani individuálne odborné posúdenie konkrétnej elektroinštalácie. Generatívny nástroj môže formuláciu zjednodušiť alebo vytvoriť nepresnosť.</p>
+</details>
+</div>
 </section>
 </main>
-<nav class="mobile-bottom-nav" aria-label="Rýchla mobilná navigácia"><a href="/">Domov</a><a href="/revizie/">Revízie</a><a href="/poradna/">Poradňa</a><a class="active" href="/podcast/">Podcast</a><a href="/o-projekte/">O projekte</a><a href="/#kontakt">Kontakt</a></nav>
-<button class="back-to-top" type="button" data-top aria-label="Späť na začiatok stránky" title="Späť hore">↑</button>
-<footer class="site-footer"><div class="container"><a href="/">← Späť na hlavnú stránku</a></div></footer><script src="/assets/js/main.js"></script>
+<nav aria-label="Rýchla mobilná navigácia" class="mobile-bottom-nav"><a href="/">Domov</a><a href="/revizie/">Revízie</a><a href="/poradna/">Poradňa</a><a class="active" href="/podcast/">Podcast</a><a href="/o-projekte/">O projekte</a><a href="/#kontakt">Kontakt</a></nav>
+<button aria-label="Späť na začiatok stránky" class="back-to-top" data-top="" title="Späť hore" type="button">↑</button>
+<footer class="site-footer"><div class="container"><a href="/">← Späť na hlavnú stránku</a><span class="build-marker">v0.4.5</span></div></footer><script src="/assets/js/main.js"></script>
 <script src="/assets/js/podcast.js"></script></body></html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1016">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="dark light">
 <title>Bezpečná elektrika | Revízie, meranie a elektrická bezpečnosť</title>
 <meta name="description" content="Pripravovaný projekt Bezpečná elektrika: revízie, merania, odborné vysvetlenia a moderný prístup k elektrickej bezpečnosti.">
 <link rel="canonical" href="https://bezpecnaelektrika.sk/">
@@ -22,8 +22,8 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"WebSite","@id":"https://bezpecnaelektrika.sk/#website","url":"https://bezpecnaelektrika.sk/","name":"Bezpečná elektrika"},
-{"@type":"Project","@id":"https://bezpecnaelektrika.sk/#project","name":"Bezpečná elektrika","url":"https://bezpecnaelektrika.sk/","founder":{"@id":"https://likavcan.cz/#lukas-likavcan"}},
-{"@type":"Person","@id":"https://likavcan.cz/#lukas-likavcan","name":"Ing. Lukáš Likavčan, PhD.","honorificPrefix":"Ing.","honorificSuffix":"PhD.","url":"https://likavcan.cz/"}
+{"@type":"Project","@id":"https://bezpecnaelektrika.sk/#project","name":"Bezpečná elektrika","url":"https://bezpecnaelektrika.sk/","founder":{"@id":"https://likavcan.cz/lukas/#lukas-likavcan"}},
+{"@type":"Person","@id":"https://likavcan.cz/lukas/#lukas-likavcan","name":"Ing. Lukáš Likavčan, PhD.","honorificPrefix":"Ing.","honorificSuffix":"PhD.","url":"https://likavcan.cz/lukas/"}
 ]}
 </script>
 </head>
@@ -36,7 +36,7 @@
   <div class="nav-group nav-primary"><a class="active" aria-current="page" href="/">Domov</a><a href="/revizie/">Revízie</a><a href="/poradna/">Poradňa</a><a href="/podcast/">Podcast</a><a href="/o-projekte/">O projekte</a><a href="/#kontakt">Kontakt</a></div>
   <div class="nav-more">
     <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-nav">Viac <span aria-hidden="true">▾</span></button>
-    <div class="nav-group nav-supplemental" id="more-nav"><span class="nav-group-label">Ďalšie</span><a href="/meranie/">Meranie v praxi</a><a href="/glosar/">Glosár</a><a href="/metodika/">Zdroje a metodika</a></div>
+    <div class="nav-group nav-supplemental" id="more-nav"><span class="nav-group-label">Ďalšie</span><a href="/meranie/">Meranie v praxi</a><a href="/glosar/">Glosár</a><a href="/novinky/">Čo nové v elektro</a><a href="/metodika/">Zdroje a metodika</a></div>
   </div>
 </nav>
 <button class="theme-toggle" type="button" aria-label="Prepnúť farebný režim" title="Prepnúť svetlý/tmavý režim"><span class="theme-icon" aria-hidden="true">◐</span></button>
@@ -44,80 +44,150 @@
 </div></div></header>
 
 <main id="obsah">
-<section class="hero hero-compact">
-  <div class="container hero-grid">
-    <div class="hero-copy reveal">
-      <div class="eyebrow">Projekt v príprave</div>
-      <h1>Bezpečná elektrika.</h1>
-      <p class="hero-lead">Revízie, meranie a elektrická bezpečnosť – odborne, zrozumiteľne a bez zbytočného strašenia.</p>
-      <p>Skúšku na revízneho technika E2A mám úspešne absolvovanú. Aktuálne čakám na osvedčenie a dokončenie formálnych krokov pred spustením služieb.</p>
-      <div class="hero-actions"><a class="button button-primary" href="/revizie/">Ako fungujú revízie</a><a class="button button-secondary" href="/o-projekte/">O projekte a o mne</a></div>
-      <div class="status-row"><span class="status-chip ok">E2A skúška: hotovo</span><span class="status-chip">Osvedčenie: čakám</span><span class="status-chip">Projekt: v príprave</span></div>
+<section class="page-hero">
+  <div class="container page-hero-grid">
+    <div class="reveal">
+      <div class="hero-kicker"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3.2 8.3-7 10-3.8-1.7-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg> Elektrorevízie a elektrická bezpečnosť</div>
+      <h1>Elektrina môže fungovať a pritom nemusí byť úplne v poriadku.</h1>
+      <p>Pripravujem odborné revízie elektrických inštalácií, meranie a zrozumiteľné vysvetľovanie výsledkov.</p>
+      <div class="hero-actions-v04">
+        <a class="button-v04 primary" href="/revizie/">Revízie a bezpečnosť <span>→</span></a>
+        <a class="button-v04 secondary" href="#kontakt">Kontakt k projektu</a>
+      </div>
+      <a class="text-link-v04" href="/meranie/">Pozrieť meranie v praxi →</a>
+      <div class="project-status" aria-label="Aktuálny stav projektu">
+        <span class="done">E2A skúška absolvovaná</span>
+        <span class="waiting">Osvedčenie: čakám</span>
+        <span class="prep">Služby: v príprave</span>
+      </div>
     </div>
-    <div class="hero-media reveal"><img src="/assets/img/bezpecna-elektrika-vizualizacia.webp" alt="Technická vizualizácia projektu Bezpečná elektrika" loading="eager"></div>
+    <div class="hero-visual-v04 reveal">
+      <img src="/assets/img/bezpecna-elektrika-vizualizacia.webp" alt="Technická vizualizácia projektu Bezpečná elektrika – postava zozadu pri rozvádzači" loading="eager">
+      <div class="hero-caption"><span>merať</span><span>dokumentovať</span><span>vysvetľovať</span></div>
+    </div>
   </div>
 </section>
 
-<section class="section--compact">
+<section class="section--compact section-tone">
   <div class="container">
-    <div class="section-head reveal"><div class="eyebrow">Kam ďalej?</div><h2>Vyberte si podľa toho, čo práve riešite.</h2></div>
-    <div class="grid grid-3 route-grid">
-      <a class="card route-card reveal" href="/revizie/#domacnosti"><div class="tag">Domácnosť</div><h3>Dom, byt, bleskozvod</h3><p>Intervaly, LPS, zanedbaná revízia a praktické súvislosti.</p><span>Prejsť na tému →</span></a>
-      <a class="card route-card reveal" href="/revizie/#zamestnavatelia"><div class="tag">Firma</div><h3>Pracovisko a spotrebiče</h3><p>Kancelárske spotrebiče, predlžovačky, kontroly a zodpovednosť zamestnávateľa.</p><span>Prejsť na tému →</span></a>
-      <a class="card route-card reveal" href="/poradna/"><div class="tag">Som zvedavý</div><h3>Poradňa a vysvetlenia</h3><p>FAQ, mýty, krátke vysvetlenia a neskôr praktické články.</p><span>Otvoriť poradňu →</span></a>
+    <div class="section-head reveal"><div class="eyebrow">Budúci rozsah</div><h2>Pre koho bude Bezpečná elektrika.</h2><p>Projekt pripravujem pre ľudí a prevádzky, ktoré potrebujú poznať technický stav elektroinštalácie — nie iba vedieť, že „svetlo svieti“.</p></div>
+    <div class="audience-grid reveal">
+      <article class="audience-card"><h3>Domácnosti</h3><p>Rodinné domy, byty, staršie rozvody a zmeny po rekonštrukcii.</p><a href="/revizie/">Čo sa pri tom rieši →</a></article>
+      <article class="audience-card"><h3>Byty a bytové domy</h3><p>Spoločné priestory, rozvádzače, ochranné prvky a dokumentácia.</p><a href="/revizie/">Viac o revíziách →</a></article>
+      <article class="audience-card"><h3>Firmy a prevádzky</h3><p>Elektrické inštalácie, pracovisko, spotrebiče a evidencia.</p><a href="/revizie/#zamestnavatelia">Čo sa pri tom rieši →</a></article>
+      <article class="audience-card"><h3>Nové a upravené inštalácie</h3><p>Nové rozvody, rekonštrukcie a zmeny, ktoré treba odborne overiť.</p><a href="/revizie/">Viac o revíziách →</a></article>
+    </div>
+    <div class="status-banner reveal" style="margin-top:1.25rem"><strong>Aktuálne:</strong> ide o pripravovaný rozsah. Komerčné revízne služby zatiaľ neposkytujem.</div>
+  </div>
+</section>
+
+<section class="section visitor-paths-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Rýchla orientácia</div>
+      <h2>Kam chcete pokračovať?</h2>
+      <p>Vyberte si podľa toho, čo práve riešite. Technický detail je vždy dostupný, ale nemusíte ním začínať.</p>
+    </div>
+    <div class="visitor-paths">
+      <article class="visitor-path reveal">
+        <span class="path-no">01</span>
+        <h3>Potrebujem riešiť revíziu</h3>
+        <p>Čo sa pri revízii overuje, kedy sa rieši a čo je výsledkom odbornej kontroly.</p>
+        <a class="text-link-v04" href="/revizie/">Revízie a bezpečnosť →</a>
+      </article>
+      <article class="visitor-path reveal">
+        <span class="path-no">02</span>
+        <h3>Chcem pochopiť problém alebo výsledok</h3>
+        <p>Praktické otázky, význam nameraných hodnôt a vysvetlenia bez zbytočnej technickej hmly.</p>
+        <div class="path-links"><a href="/poradna/">Poradňa</a><a href="/meranie/">Meranie v praxi</a></div>
+      </article>
+      <article class="visitor-path reveal">
+        <span class="path-no">03</span>
+        <h3>Chcem ísť do technického detailu</h3>
+        <p>Pojmy, ochranné prvky, merané veličiny, metodika a zmeny, ktoré majú význam pre revíznu prax.</p>
+        <div class="path-links"><a href="/glosar/">Glosár</a><a href="/novinky/">Čo nové v elektro</a><a href="/metodika/">Metodika</a></div>
+      </article>
+    </div>
+    <div class="path-more reveal">
+      <span>Ďalšie formáty:</span>
+      <a href="/podcast/">Podcast</a>
+      <a href="/o-projekte/">O projekte</a>
+    </div>
+  </div>
+</section>
+
+<section class="section--compact section-tone">
+  <div class="container">
+    <div class="section-head reveal"><div class="eyebrow">Prečo revízia</div><h2>Prečo nestačí, že elektrina funguje.</h2><p>Revízia nestojí len na pohľade do rozvádzača. Spája prehliadku, skúšanie, meranie a odborné vyhodnotenie.</p></div>
+    <div class="pillar-grid">
+      <article class="pillar reveal"><span class="pillar-index">01 / VIDIEŤ</span><h3>Nie všetko je viditeľné</h3><p>Problém s ochrannou cestou, izoláciou alebo zapojením nemusí byť pri bežnom používaní zrejmý.</p></article>
+      <article class="pillar reveal"><span class="pillar-index">02 / MERAŤ</span><h3>Ochranu treba overiť</h3><p>Samotná prítomnosť ističa, RCD alebo zemniča ešte nie je výsledkom skúšky.</p></article>
+      <article class="pillar reveal"><span class="pillar-index">03 / CHÁPAŤ</span><h3>Číslo potrebuje kontext</h3><p>Nameraná hodnota nie je verdikt sama osebe. Význam dostáva až v konkrétnej inštalácii.</p></article>
+    </div>
+    <a class="text-link-v04" href="/revizie/">Ako revízia prebieha →</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><div class="eyebrow">Prístup</div><h2>Merať. Dokumentovať. Vysvetľovať.</h2><p>Dobré rozhodnutie pri elektrike nevzniká z dojmu. Potrebuje údaje, súvislosti a zrozumiteľný výstup.</p></div>
+    <div class="pillar-grid">
+      <article class="pillar reveal"><span class="pillar-index">01</span><h3>Merať, nie hádať</h3><p>„Vyzerá to dobre“ je začiatok obhliadky, nie jej záver.</p></article>
+      <article class="pillar reveal"><span class="pillar-index">02</span><h3>Dokumentovať, nie pamätať</h3><p>Dobrá dokumentácia pomáha pochopiť stav dnes aj pri ďalšej zmene o niekoľko rokov.</p></article>
+      <article class="pillar reveal"><span class="pillar-index">03</span><h3>Vysvetľovať, nie strašiť</h3><p>Technický problém sa dá pomenovať presne, pokojne a bez hororového príbehu zo zásuvky.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section--compact section-tone">
+  <div class="container">
+    <div class="section-head reveal"><div class="eyebrow">Od pozorovania k rozhodnutiu</div><h2>Jedna hodnota na displeji nestačí.</h2></div>
+    <div class="process-v04 reveal">
+      <div class="process-step"><strong>Pozorovanie</strong><p>Čo vidíme a čo o inštalácii vieme.</p></div>
+      <div class="process-step"><strong>Skúšanie</strong><p>Či ochranné prvky a funkcie reagujú podľa očakávania.</p></div>
+      <div class="process-step"><strong>Meranie</strong><p>Konkrétne údaje namiesto dojmov.</p></div>
+      <div class="process-step"><strong>Vyhodnotenie</strong><p>Výsledok dostáva význam až v kontexte.</p></div>
+      <div class="process-step"><strong>Dokumentácia</strong><p>Aby sa poznatky nestratili po zatvorení kufra s prístrojmi.</p></div>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="container split-feature">
-    <div class="reveal">
-      <div class="eyebrow">Prečo bezpečnosť</div>
-      <h2>„Funguje“ ešte neznamená „je to bezpečné“.</h2>
-      <p>Mnohé nedostatky elektroinštalácie nie sú na prvý pohľad viditeľné. Revízia spája prehliadku, merania a odborné vyhodnotenie technického stavu.</p>
-      <p class="signature-line">Bezpečnosť inštalácie. Bezpečnosť ľudí. Bezpečná elektrika.</p>
-      <a class="text-link" href="/revizie/">Viac o revíziách a intervaloch →</a>
-    </div>
-    <div class="mini-facts reveal">
-      <div><strong>5 rokov</strong><span>typická lehota pri bežnej murovanej obytnej alebo kancelárskej budove</span></div>
-      <div><strong>2 / 4 roky</strong><span>LPS I–II / LPS III–IV – orientačné intervaly kontroly ochrany pred bleskom</span></div>
-      <div><strong>Nie naslepo</strong><span>spotrebiče a predlžovačky na pracovisku patria do systému kontrol a evidencie</span></div>
+  <div class="container">
+    <div class="section-head reveal"><div class="eyebrow">Odbornosť v praxi</div><h2>Dve cesty k tej istej bezpečnosti.</h2></div>
+    <div class="split-cards-v04">
+      <article class="feature-card-v04 reveal"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3.2 8.3-7 10-3.8-1.7-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg><h3>Revízie a bezpečnosť</h3><p>Čo sa pri revízii kontroluje, ako sa výsledky vyhodnocujú a prečo funkčnosť nie je dôkazom bezpečnosti.</p><a class="text-link-v04" href="/revizie/">Pozrieť revízie →</a></article>
+      <article class="feature-card-v04 reveal"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18a8 8 0 1 1 14 0"/><path d="M12 13l4-3"/><path d="M8 18h8"/></svg><h3>Meranie v praxi</h3><p>Prístroje nie sú hlavná téma. Dôležité je, čo nám ich meranie povie o inštalácii alebo zariadení.</p><a class="text-link-v04" href="/meranie/">Pozrieť merania →</a></article>
     </div>
   </div>
 </section>
 
 <section class="section--compact">
   <div class="container">
-    <div class="section-head reveal"><div class="eyebrow">Ako pracujem</div><h2>Meranie, dokumentácia a moderné nástroje.</h2><p>AI používam ako druhý pár očí – na triedenie podkladov, kontrolu konzistencie a dokumentáciu. Odborné rozhodnutie však zostáva na človeku.</p></div>
-    <div class="principles-grid reveal">
-      <article class="principle"><span>01</span><h3>Merať, nie hádať</h3><p>Číslo na displeji nie je cieľ. Dôležité je vedieť, čo znamená.</p></article>
-      <article class="principle"><span>02</span><h3>Dokumentovať</h3><p>QElectroTech, fotografie a poznámky vedia nahradiť chaos systémom.</p></article>
-      <article class="principle"><span>03</span><h3>Vysvetľovať</h3><p>Technike sa rozumie lepšie, keď sa vysvetlí jednoducho.</p></article>
+    <div class="section-head reveal"><div class="eyebrow">Nové na Bezpečnej elektrike</div><h2>Obsah, ktorý má pomáhať orientácii.</h2><p>Kým sa projekt pripravuje, vzniká jeho odborná a edukačná časť.</p></div>
+    <div class="latest-grid">
+      <article class="latest-card reveal"><span class="content-type">Podcast · BE-001</span><h3>Prečo nestačí, že elektrina funguje?</h3><p>Prvá publikovaná epizóda o rozdiele medzi funkčnosťou a bezpečnosťou.</p><span class="state">8:42 · zvuk vytvorený pomocou Gemini Notebook</span><br><a class="text-link-v04" href="/podcast/">Prehrať epizódu →</a></article>
+      <article class="latest-card reveal"><span class="content-type">Čo nové v elektro · Normy</span><h3>STN EN IEC 62305-4:2026</h3><p>Nové slovenské vydanie a čo znamená prechodné obdobie pri rozpracovaných dielach.</p><span class="state">Overené 20. 08. 2026</span><br><a class="text-link-v04" href="/novinky/2026/stn-en-iec-62305-4-2026/">Čítať z pohľadu revízie →</a></article>
+      <article class="latest-card reveal"><span class="content-type">Meranie</span><h3>Čo tým vlastne zisťujeme</h3><p>Veličiny prepojené s prístrojmi, ktoré ich dokážu overovať.</p><a class="text-link-v04" href="/meranie/">Meranie v praxi →</a></article>
     </div>
-    <div class="hero-actions"><a class="button button-secondary" href="/o-projekte/#moderny-pristup">Moderný prístup a AI →</a></div>
   </div>
 </section>
 
-<section class="section" id="obsah-online">
+<section class="section section-tone">
   <div class="container">
-    <div class="section-head reveal"><div class="eyebrow">Obsah</div><h2>Zo života Bezpečnej elektriky.</h2><p>Merania, technické postrehy, mýty, krátke vysvetlenia a neskôr aj podcasty.</p></div>
-    <div class="grid grid-3 content-preview">
-      <article class="card reveal"><div class="tag">Meranie v praxi</div><h3>Čo vlastne ukazuje merač?</h3><p>Krátke vysvetlenia výsledkov meraní a prečo samotné číslo nestačí.</p></article>
-      <article class="card reveal"><div class="tag">Čo si všímam</div><h3>Na prvý pohľad OK?</h3><p>Rozvádzače, zásuvky, bleskozvody a detaily, ktoré si zaslúžia druhý pohľad.</p></article>
-      <article class="card reveal"><div class="tag">Podcast</div><h3>Bezpečná elektrika do uší</h3><p>Krátke epizódy z aktuálnych zdrojov. Zvuk bude označený ako vytvorený pomocou Gemini Notebook.</p></article>
+    <div class="profile-strip reveal">
+      <div class="profile-mark"><img src="/assets/img/bezpecna-elektrika-logo.png" alt=""></div>
+      <div><h3>Ing. Lukáš Likavčan, PhD.</h3><p>Za projektom spájam technický prístup, meranie, dokumentáciu a snahu vysvetliť elektrickú bezpečnosť tak, aby výsledkom nebola iba veta „to je zlé“.</p></div>
+      <a class="button-v04 secondary" href="/o-projekte/">O projekte →</a>
     </div>
-    <div class="hero-actions"><a class="button button-secondary" href="/poradna/">Poradňa</a><a class="button button-secondary" href="/podcast/">Podcast</a></div>
   </div>
-</section>
-
-<section class="section--compact">
-  <div class="container"><div class="social-strip reveal"><div><div class="eyebrow">Sociálne siete</div><h2>Sledujte vznik projektu.</h2><p>Viac fotiek, meraní, postrehov a občas aj elektrina, ktorá sa tvári, že je úplne v poriadku.</p></div><div class="hero-actions"><a class="button button-primary" href="https://www.instagram.com/bezpecnaelektrika?igsh=MW1wN2U4NWYyZmppNw==&igsi=MW1wN2U4NWYyZmppNw==" target="_blank" rel="noopener">Instagram</a><a class="button button-secondary" href="https://www.facebook.com/share/1G9bVx9MNR/" target="_blank" rel="noopener">Facebook</a></div></div></div>
 </section>
 
 <section class="section" id="kontakt">
-  <div class="container contact-compact reveal">
-    <div><div class="eyebrow">Kontakt</div><h2>Máte otázku? Ozvite sa.</h2><p>Projekt je zatiaľ v príprave. Priamo môžete napísať na e-mail alebo sledovať sociálne siete.</p><p><a href="mailto:kontakt@bezpecnaelektrika.sk">kontakt@bezpecnaelektrika.sk</a></p><div class="hero-actions"><a class="button button-primary" href="mailto:kontakt@bezpecnaelektrika.sk">Napísať e-mail</a><a class="button button-secondary" href="/kontakt.vcf" download>Uložiť kontakt</a></div></div>
-    <img src="/assets/img/qr-bezpecnaelektrika.png" alt="QR kód na bezpecnaelektrika.sk" width="120" height="120" loading="lazy">
+  <div class="container">
+    <div class="section-head reveal"><div class="eyebrow">Kontakt</div><h2>Máte otázku k elektrike alebo projektu?</h2><p>Služby zatiaľ nie sú spustené. Ak máte otázku k projektu alebo chcete sledovať jeho prípravu, môžete sa ozvať.</p></div>
+    <div class="hero-actions-v04 reveal"><a class="button-v04 primary" href="mailto:kontakt@bezpecnaelektrika.sk">kontakt@bezpecnaelektrika.sk</a><a class="button-v04 secondary" href="https://www.instagram.com/bezpecnaelektrika?igsh=MW1wN2U4NWYyZmppNw==&igsi=MW1wN2U4NWYyZmppNw==" target="_blank" rel="noopener">Instagram</a><a class="button-v04 secondary" href="https://www.facebook.com/share/1G9bVx9MNR/" target="_blank" rel="noopener">Facebook</a></div>
+    <div class="status-banner reveal" style="margin-top:1.25rem"><strong>Stav projektu:</strong> E2A skúška je úspešne absolvovaná, čakám na osvedčenie a ešte nemám živnosť. Komerčné služby preto zatiaľ neponúkam.</div>
   </div>
 </section>
 </main>
@@ -127,6 +197,6 @@
 
 
 <button class="back-to-top" type="button" data-top aria-label="Späť na začiatok stránky" title="Späť hore">↑</button>
-<footer class="site-footer"><div class="container footer-grid"><div><strong>Bezpečná elektrika</strong><p>Pripravovaný projekt Lukáša Likavčana, PhD.</p><p>© 2026 Bezpečná elektrika</p></div><div class="footer-links"><a href="/o-projekte/">O projekte</a><a href="/revizie/">Revízie</a><a href="/poradna/">Poradňa</a><a href="/podcast/">Podcast</a><a href="/meranie/">Meranie v praxi</a><a href="/glosar/">Glosár</a><a href="/metodika/">Zdroje a metodika</a></div></div></footer>
+<footer class="site-footer"><div class="container footer-grid"><div><strong>Bezpečná elektrika</strong><p>Pripravovaný projekt Ing. Lukáša Likavčana, PhD.</p><p>© 2026 Bezpečná elektrika</p></div><div class="footer-links"><a href="/o-projekte/">O projekte</a><a href="/revizie/">Revízie</a><a href="/poradna/">Poradňa</a><a href="/podcast/">Podcast</a><a href="/meranie/">Meranie v praxi</a><a href="/glosar/">Glosár</a><a href="/novinky/">Čo nové v elektro</a><a href="/metodika/">Zdroje a metodika</a></div><span class="build-marker">v0.4.5</span></div></footer>
 <script src="/assets/js/main.js"></script>
 </body></html>

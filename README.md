@@ -37,3 +37,22 @@ Technical/legal text is an informational overview and includes links to official
 - mini changelog projektu
 - vCard kontakt a QR kód
 - pripravená infraštruktúra pre ďalší obsah bez preťaženia homepage
+
+
+## v0.4.x
+Vetva 0.4.x prináša nový vizuálny systém a informačnú architektúru. v0.4.0 je prvý živý prototyp nového dizajnu.
+
+
+## v0.4.1
+Prvá publikovaná podcastová epizóda BE-001 je načítaná z Cloudflare R2; pridaný je redakčný/AI disclaimer a prvý polish nového dizajnu.
+
+
+## v0.4.3
+Obsahová integračná a UX iterácia: RCCB/RCBO v Glosári, priame anchor odkazy, súvisiace pojmy/články, prepojenie Poradne a Merania s Glosárom, podcast selected state a accessibility/focus polish.
+
+
+## v0.4.4
+Final cleanup vetvy 0.4.x: menej vývojových placeholderov, zjednotená identita, odstránené duplicitné dátové súbory a jemný UX polish pred externou kontrolou.
+
+## v0.4.5
+Posledný obsahový/UX polish vetvy 0.4.x: jasnejšie používateľské cesty, prepojenejší Glosár a interná šablóna pre budúce anonymizované prípadové štúdie.

@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const title = document.querySelector("#player-title");
   const summary = document.querySelector("#player-summary");
   const category = document.querySelector("#player-category");
+  const playerId = document.querySelector("#player-id");
   const disclosure = document.querySelector("#player-disclosure");
   const download = document.querySelector("#player-download");
 
@@ -38,7 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     title.textContent = ep.title;
     summary.textContent = ep.summary || "";
     category.textContent = ep.category || "Podcast";
-    disclosure.textContent = `Zvuk vytvorený pomocou ${ep.aiAudio || "Gemini Notebook"}. Odborný obsah bol pred publikovaním skontrolovaný.`;
+    if (playerId) playerId.textContent = ep.id || "BE";
+    disclosure.textContent = `Zvuk vytvorený pomocou ${ep.aiAudio || "Gemini Notebook"}. Odborný základ a transcript boli pred publikovaním skontrolované. Audio má edukatívny charakter.`;
     download.href = ep.audio;
     download.classList.remove("is-disabled");
     download.setAttribute("aria-disabled","false");
@@ -46,14 +48,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     progress.value = 0;
     current.textContent = "0:00";
     duration.textContent = ep.duration || "0:00";
-    document.querySelectorAll(".episode-card").forEach(c => c.classList.toggle("is-selected", c.dataset.id === ep.id));
-    shell.scrollIntoView({behavior:"smooth",block:"center"});
+    document.querySelectorAll(".episode-card").forEach(c => {
+      const selected = c.dataset.id === ep.id;
+      c.classList.toggle("is-selected", selected);
+      if (selected) c.setAttribute("aria-current","true"); else c.removeAttribute("aria-current");
+      const b=c.querySelector(".episode-play");
+      if (b) b.textContent = selected ? "▶ Načítané" : "▶ Prehrať";
+    });
   };
 
   try {
-    const res = await fetch("/data/podcasts.json", {cache:"no-store"});
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
+    const candidates = ["../data/podcasts.json", "/data/podcasts.json"];
+    let data = null;
+    let lastError = null;
+    for (const url of candidates) {
+      try {
+        const res = await fetch(url, {cache:"no-store"});
+        if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+        data = await res.json();
+        break;
+      } catch (err) { lastError = err; }
+    }
+    if (!data) throw lastError || new Error("Podcast JSON sa nepodarilo načítať");
     const episodes = Array.isArray(data.episodes) ? data.episodes : [];
     if (!episodes.length) {
       list.innerHTML = '<p class="quiet">Epizódy zatiaľ pripravujem.</p>';
@@ -75,9 +91,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (btn) btn.addEventListener("click", () => loadEpisode(ep));
       list.appendChild(article);
     });
+
+    const featured = episodes.find(ep => ep.published && ep.audio && ep.featured)
+      || episodes.find(ep => ep.published && ep.audio);
+    if (featured) loadEpisode(featured);
   } catch (err) {
     console.error("Podcast data:", err);
-    list.innerHTML = '<p class="quiet">Zoznam epizód sa nepodarilo načítať. Skontrolujte, či stránku otvárate cez lokálny server alebo web.</p>';
+    list.innerHTML = '<p class="podcast-error"><strong>Zoznam epizód sa nepodarilo načítať.</strong><br>V Acode skúste náhľad cez lokálny server. Produkčná verzia používa rovnaký JSON s fallbackom na koreň webu.</p>';
   }
 
   toggle.addEventListener("click", async () => {
