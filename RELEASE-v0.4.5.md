@@ -33,3 +33,7 @@ Situácia → Prehliadka → Skúšanie a meranie → Vyhodnotenie → Náprava 
 ## Ďalší krok
 Po vizuálnej kontrole na mobile a desktope môže byť v0.4.5 posledným release vetvy 0.4.x.
 v0.5.0 je plánovaná ako produkčná vrstva: jednotné metadata, Open Graph, structured data, sitemap/robots audit, privacy/cookies a následné napojenie vyhľadávacích a analytických nástrojov.
+
+## Hotfix po vizuálnej kontrole
+- hero označenie „O projekte“ sa už neláme na dva riadky na mobile ani desktope,
+- podcastový workflow používa formuláciu „aspoň tri varianty“.

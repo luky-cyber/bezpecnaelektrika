@@ -370,3 +370,12 @@ html[data-theme="light"] .related-content{background:color-mix(in srgb,var(--c-a
   .visitor-paths{grid-template-columns:1fr}
   .visitor-path{padding:1.15rem}
 }
+
+
+/* v0.4.5 hotfix — keep page hero kicker on one line */
+.page-hero .hero-kicker{
+  white-space:nowrap;
+  flex-wrap:nowrap;
+  width:max-content;
+  max-width:100%;
+}
