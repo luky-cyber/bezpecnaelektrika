@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (featured) loadEpisode(featured);
   } catch (err) {
     console.error("Podcast data:", err);
-    list.innerHTML = '<p class="podcast-error"><strong>Zoznam epizód sa nepodarilo načítať.</strong><br>V Acode skúste náhľad cez lokálny server. Produkčná verzia používa rovnaký JSON s fallbackom na koreň webu.</p>';
+    list.innerHTML = '<p class="podcast-error"><strong>Zoznam epizód sa momentálne nepodarilo načítať.</strong><br>Skúste stránku obnoviť neskôr.</p>';
   }
 
   toggle.addEventListener("click", async () => {

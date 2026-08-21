@@ -380,16 +380,21 @@ html[data-theme="light"] .related-content{background:color-mix(in srgb,var(--c-a
   max-width:100%;
 }
 
-/* v0.4.5 hotfix — O projekte v jednom riadku */
-.page-hero .hero-kicker {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: .55rem;
-  width: max-content;
-  max-width: 100%;
-}
 
-.page-hero .hero-kicker span {
-  white-space: nowrap;
+/* ==========================================================================
+   v0.5.0 — production polish
+   ========================================================================== */
+.page-hero .hero-kicker{
+  display:inline-flex;
+  align-items:center;
+  flex-wrap:nowrap;
+  width:max-content;
+  max-width:100%;
+  white-space:nowrap;
 }
+.page-hero .hero-kicker > span{white-space:nowrap}
+sub{font-size:.72em;line-height:0;vertical-align:-.22em}
+.site-footer .container{gap:.8rem 1.2rem;flex-wrap:wrap}
+.news-prose ul:not(.news-sources){padding-left:1.25rem}
+.news-prose ul:not(.news-sources) li{margin:.45rem 0;color:var(--c-muted)}
+.news-prose code{font-size:.92em}

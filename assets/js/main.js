@@ -1,73 +1,118 @@
 document.documentElement.classList.add("js-ready");
-(()=>{const q=(s,c=document)=>c.querySelector(s),qa=(s,c=document)=>[...c.querySelectorAll(s)];const btn=q('[data-menu-button]'),nav=q('[data-nav]');if(btn&&nav){btn.addEventListener('click',()=>{const open=nav.classList.toggle('open');btn.setAttribute('aria-expanded',String(open))});qa('a',nav).forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');btn.setAttribute('aria-expanded','false')}))}
-qa('.faq-question').forEach(b=>b.addEventListener('click',()=>{const item=b.closest('.faq-item'),open=item.classList.toggle('open');b.setAttribute('aria-expanded',String(open))}));
-const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!reduced&&'IntersectionObserver'in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});qa('.reveal').forEach(el=>io.observe(el))}else qa('.reveal').forEach(el=>el.classList.add('visible'));
-const sections=qa('main section[id]'),links=qa('.nav a[href^="#"]');if('IntersectionObserver'in window){const nio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-30% 0px -60% 0px'});sections.forEach(s=>nio.observe(s))}
-const top=q('[data-top]');if(top){addEventListener('scroll',()=>top.classList.toggle('show',scrollY>700),{passive:true});top.addEventListener('click',()=>scrollTo({top:0,behavior:reduced?'auto':'smooth'}))}
-})();
 
+document.addEventListener("DOMContentLoaded", () => {
+  const q = (selector, context = document) => context.querySelector(selector);
+  const qa = (selector, context = document) => [...context.querySelectorAll(selector)];
+  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
-document.addEventListener("DOMContentLoaded",()=>{
-  const b=document.querySelector(".nav-toggle");
-  const n=document.querySelector("#main-nav");
-  if(!b||!n) return;
-  const close=()=>{n.classList.remove("open");b.setAttribute("aria-expanded","false");b.setAttribute("aria-label","Otvoriť menu");};
-  b.addEventListener("click",(e)=>{
-    e.preventDefault();
-    const open=!n.classList.contains("open");
-    n.classList.toggle("open",open);
-    b.setAttribute("aria-expanded",String(open));
-    b.setAttribute("aria-label",open?"Zavrieť menu":"Otvoriť menu");
-  });
-  n.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));
-  document.addEventListener("keydown",e=>{if(e.key==="Escape") close();});
-});
-
-document.addEventListener("DOMContentLoaded",()=>{
-  const b=document.querySelector(".nav-toggle"), n=document.querySelector("#main-nav");
-  if(!b||!n) return;
-  document.addEventListener("click",(e)=>{
-    if(n.classList.contains("open") && !n.contains(e.target) && !b.contains(e.target)){
-      n.classList.remove("open");
-      b.setAttribute("aria-expanded","false");
-      b.setAttribute("aria-label","Otvoriť menu");
-    }
-  });
-});
-
-/* v0.3.8 */
-document.addEventListener("DOMContentLoaded",()=>{
-  const html=document.documentElement;
-  const themeBtn=document.querySelector(".theme-toggle");
-  const stored=localStorage.getItem("be-theme");
-  const systemPrefersLight=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches;
-  const apply=(mode)=>{
-    const resolved=mode==="light"?"light":"dark";
-    html.dataset.theme=resolved;
-    if(themeBtn){
-      themeBtn.setAttribute("aria-label",resolved==="dark"?"Prepnúť na svetlý režim":"Prepnúť na tmavý režim");
-      themeBtn.title=resolved==="dark"?"Svetlý režim":"Tmavý režim";
-      const icon=themeBtn.querySelector(".theme-icon");
-      if(icon) icon.textContent=resolved==="dark"?"☀":"☾";
-    }
+  // Mobile / responsive navigation.
+  const navToggle = q(".nav-toggle");
+  const mainNav = q("#main-nav");
+  const closeNav = () => {
+    if (!mainNav || !navToggle) return;
+    mainNav.classList.remove("open");
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "Otvoriť menu");
   };
-  apply(stored==="light"||stored==="dark" ? stored : (systemPrefersLight?"light":"dark"));
-  if(themeBtn) themeBtn.addEventListener("click",()=>{
-    const next=html.dataset.theme==="dark"?"light":"dark";
-    localStorage.setItem("be-theme",next); apply(next);
+
+  if (navToggle && mainNav) {
+    navToggle.addEventListener("click", (event) => {
+      event.preventDefault();
+      const open = !mainNav.classList.contains("open");
+      mainNav.classList.toggle("open", open);
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.setAttribute("aria-label", open ? "Zavrieť menu" : "Otvoriť menu");
+    });
+
+    qa("a", mainNav).forEach((link) => link.addEventListener("click", closeNav));
+
+    document.addEventListener("click", (event) => {
+      if (mainNav.classList.contains("open") && !mainNav.contains(event.target) && !navToggle.contains(event.target)) {
+        closeNav();
+      }
+    });
+  }
+
+  // Supplemental desktop navigation.
+  const more = q(".nav-more");
+  const moreToggle = q(".more-toggle");
+  const closeMore = () => {
+    if (!more || !moreToggle) return;
+    more.classList.remove("open");
+    moreToggle.setAttribute("aria-expanded", "false");
+  };
+
+  if (more && moreToggle) {
+    moreToggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const open = more.classList.toggle("open");
+      moreToggle.setAttribute("aria-expanded", String(open));
+    });
+    document.addEventListener("click", (event) => {
+      if (more.classList.contains("open") && !more.contains(event.target)) closeMore();
+    });
+  }
+
+  // Theme preference. Stored locally only for UI consistency.
+  const html = document.documentElement;
+  const themeToggle = q(".theme-toggle");
+  const storedTheme = localStorage.getItem("be-theme");
+  const systemPrefersLight = window.matchMedia?.("(prefers-color-scheme: light)").matches ?? false;
+
+  const applyTheme = (mode) => {
+    const resolved = mode === "light" ? "light" : "dark";
+    html.dataset.theme = resolved;
+    if (!themeToggle) return;
+    themeToggle.setAttribute("aria-label", resolved === "dark" ? "Prepnúť na svetlý režim" : "Prepnúť na tmavý režim");
+    themeToggle.title = resolved === "dark" ? "Svetlý režim" : "Tmavý režim";
+    const icon = q(".theme-icon", themeToggle);
+    if (icon) icon.textContent = resolved === "dark" ? "☀" : "☾";
+  };
+
+  applyTheme(storedTheme === "light" || storedTheme === "dark" ? storedTheme : (systemPrefersLight ? "light" : "dark"));
+  themeToggle?.addEventListener("click", () => {
+    const next = html.dataset.theme === "dark" ? "light" : "dark";
+    localStorage.setItem("be-theme", next);
+    applyTheme(next);
   });
 
-  const more=document.querySelector(".nav-more");
-  const moreBtn=document.querySelector(".more-toggle");
-  if(more&&moreBtn){
-    moreBtn.addEventListener("click",(e)=>{
-      e.stopPropagation();
-      const open=more.classList.toggle("open");
-      moreBtn.setAttribute("aria-expanded",String(open));
+  // FAQ buttons retained for older FAQ markup; native <details> needs no JS.
+  qa(".faq-question").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = button.closest(".faq-item");
+      if (!item) return;
+      const open = item.classList.toggle("open");
+      button.setAttribute("aria-expanded", String(open));
     });
-    document.addEventListener("click",(e)=>{
-      if(more.classList.contains("open")&&!more.contains(e.target)){more.classList.remove("open");moreBtn.setAttribute("aria-expanded","false");}
-    });
-    document.addEventListener("keydown",(e)=>{if(e.key==="Escape"){more.classList.remove("open");moreBtn.setAttribute("aria-expanded","false");}});
+  });
+
+  // Reveal animations.
+  const revealItems = qa(".reveal");
+  if (!reducedMotion && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12 });
+    revealItems.forEach((item) => observer.observe(item));
+  } else {
+    revealItems.forEach((item) => item.classList.add("visible"));
   }
+
+  // Back to top.
+  const backToTop = q("[data-top]");
+  if (backToTop) {
+    const updateTopButton = () => backToTop.classList.toggle("show", window.scrollY > 700);
+    window.addEventListener("scroll", updateTopButton, { passive: true });
+    updateTopButton();
+    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" }));
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    closeNav();
+    closeMore();
+  });
 });

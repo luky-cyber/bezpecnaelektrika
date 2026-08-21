@@ -56,3 +56,6 @@ Final cleanup vetvy 0.4.x: menej vývojových placeholderov, zjednotená identit
 
 ## v0.4.5
 Posledný obsahový/UX polish vetvy 0.4.x: jasnejšie používateľské cesty, prepojenejší Glosár a interná šablóna pre budúce anonymizované prípadové štúdie.
+
+## v0.5.0
+Produkčná vrstva: jednotné metadata a structured data, technická typografia, privacy bez zbytočného cookie banneru, rozšírené odborné Novinky a technický cleanup.
