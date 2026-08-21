@@ -59,3 +59,6 @@ Posledný obsahový/UX polish vetvy 0.4.x: jasnejšie používateľské cesty, p
 
 ## v0.5.0
 Produkčná vrstva: jednotné metadata a structured data, technická typografia, privacy bez zbytočného cookie banneru, rozšírené odborné Novinky a technický cleanup.
+
+## v0.5.1
+Jemná konverzná vrstva, voliteľná GA4 analytika s consentom a aktualizovaná ochrana súkromia.

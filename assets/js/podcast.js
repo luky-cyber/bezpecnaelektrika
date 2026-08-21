@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const playerId = document.querySelector("#player-id");
   const disclosure = document.querySelector("#player-disclosure");
   const download = document.querySelector("#player-download");
+  let trackedEpisodeId = null;
 
   const fmt = (s) => {
     if (!Number.isFinite(s)) return "0:00";
@@ -106,7 +107,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       try { await audio.play(); } catch(e) { console.error(e); }
     } else audio.pause();
   });
-  audio.addEventListener("play", () => { toggle.textContent = "❚❚"; toggle.setAttribute("aria-label","Pozastaviť"); });
+  audio.addEventListener("play", () => {
+    toggle.textContent = "❚❚";
+    toggle.setAttribute("aria-label","Pozastaviť");
+    const episodeId = playerId?.textContent || "BE";
+    if (trackedEpisodeId !== episodeId) {
+      trackedEpisodeId = episodeId;
+      window.beTrack?.("podcast_play", { episode_id: episodeId, page_path: location.pathname });
+    }
+  });
   audio.addEventListener("pause", () => { toggle.textContent = "▶"; toggle.setAttribute("aria-label","Prehrať"); });
   audio.addEventListener("loadedmetadata", () => { duration.textContent = fmt(audio.duration); });
   audio.addEventListener("timeupdate", () => {
