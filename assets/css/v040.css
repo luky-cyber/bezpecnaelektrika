@@ -379,3 +379,17 @@ html[data-theme="light"] .related-content{background:color-mix(in srgb,var(--c-a
   width:max-content;
   max-width:100%;
 }
+
+/* v0.4.5 hotfix — O projekte v jednom riadku */
+.page-hero .hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: .55rem;
+  width: max-content;
+  max-width: 100%;
+}
+
+.page-hero .hero-kicker span {
+  white-space: nowrap;
+}
