@@ -1,4 +1,4 @@
-# Bezpečná elektrika v0.3.1
+# Bezpečná elektrika v0.5.2
 
 Release-candidate static website for GitHub Pages / `bezpecnaelektrika.sk`.
 
@@ -62,3 +62,7 @@ Produkčná vrstva: jednotné metadata a structured data, technická typografia,
 
 ## v0.5.1
 Jemná konverzná vrstva, voliteľná GA4 analytika s consentom a aktualizovaná ochrana súkromia.
+
+
+## v0.5.2
+Obsahové spevnenie vetvy 0.5.x: publikovaný podcast BE-002 „Merať, nie hádať“, rozšírená stránka Meranie v praxi o vzťah prehliadky, skúšania, merania a odborného vyhodnotenia, doplnené interné prepojenia a zachovaný produkčný footer spacing fix z v0.5.1.
