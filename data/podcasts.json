@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "audioBase": "https://audio.bezpecnaelektrika.sk/podcast",
   "episodes": [
     {
@@ -25,6 +25,20 @@
       "category": "Meranie",
       "summary": "Elektroinštalácia môže fungovať a na pohľad vyzerať v poriadku. Prečo sa prehliadka, skúšanie, meranie a odborné vyhodnotenie navzájom dopĺňajú.",
       "audio": "https://audio.bezpecnaelektrika.sk/podcast/2026/be-002-merat-nie-hadat.mp3",
+      "published": true,
+      "featured": false,
+      "popular": false,
+      "aiAudio": "Gemini Notebook"
+    },
+    {
+      "id": "BE-003",
+      "title": "Nameraná hodnota ešte nie je výsledok",
+      "slug": "namerana-hodnota-este-nie-je-vysledok",
+      "date": "2026-08-24",
+      "duration": "7:06",
+      "category": "Meranie",
+      "summary": "Presné číslo na displeji je iba údaj. Prečo odborný výsledok vzniká až spojením merania, kontextu a vyhodnotenia konkrétnej elektroinštalácie.",
+      "audio": "https://audio.bezpecnaelektrika.sk/podcast/2026/be-003-namerana-hodnota-este-nie-je-vysledok.mp3",
       "published": true,
       "featured": true,
       "popular": false,

@@ -35,6 +35,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const loadEpisode = (ep) => {
     if (!ep.audio || !ep.published) return;
     audio.pause();
+    // Pri zmene epizódy sa nový diel nespúšťa automaticky.
+    // Vizuálny stav prehrávača musí zodpovedať reálnemu stavu audia.
+    toggle.textContent = "▶";
+    toggle.setAttribute("aria-label", "Prehrať");
+    trackedEpisodeId = null;
     audio.src = ep.audio;
     audio.load();
     title.textContent = ep.title;

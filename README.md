@@ -1,4 +1,4 @@
-# Bezpečná elektrika v0.5.2
+# Bezpečná elektrika v0.5.7
 
 Release-candidate static website for GitHub Pages / `bezpecnaelektrika.sk`.
 
@@ -65,4 +65,22 @@ Jemná konverzná vrstva, voliteľná GA4 analytika s consentom a aktualizovaná
 
 
 ## v0.5.2
-Obsahové spevnenie vetvy 0.5.x: publikovaný podcast BE-002 „Merať, nie hádať“, rozšírená stránka Meranie v praxi o vzťah prehliadky, skúšania, merania a odborného vyhodnotenia, doplnené interné prepojenia a zachovaný produkčný footer spacing fix z v0.5.1.
+Podcast BE-002 „Merať, nie hádať“, rozšírené Meranie v praxi a prepojenie prehliadky, skúšania, merania a odborného vyhodnotenia.
+
+## v0.5.3
+AI/Search a budúca servisná vrstva: podcast RSS, robots/llms doplnky, entity-oriented JSON-LD, sociálna identita, rozšírená stránka Revízie, UTM/analytics infraštruktúra, release validator a oprava stavu podcast playera pri zmene epizódy.
+
+## v0.5.4
+Quality & consistency release: zjednotený footer, stabilné Facebook/Instagram identity, social tracking, verejný metodický version cleanup a rozšírené predrelease kontroly.
+
+
+## v0.5.5
+Poradňa & Answer Engine: 8 samostatných odpovedí na konkrétne otázky, konzistentný „Stručne“ formát, hranice tvrdení, interné prelinkovanie, `dateModified`, `knowsAbout` cleanup a jednotný status projektu.
+
+
+## v0.5.6
+Knowledge Base Foundation: 8 samostatných odborných stránok pre RCD, RCCB/RCBO, Zs, PE/PEN, TN systémy, izolačný odpor, uzemnenie a LPS; hub-and-spoke prelinkovanie, zdroje/proveniencia, dátumy a konzistentná hranica medzi definíciou, meraním a odborným záverom.
+
+
+## v0.5.7
+Podcast BE-003 „Nameraná hodnota ešte nie je výsledok“: publikovanie tretej epizódy z Cloudflare R2, aktualizácia RSS, PodcastEpisode JSON-LD a homepage latest-content karty.

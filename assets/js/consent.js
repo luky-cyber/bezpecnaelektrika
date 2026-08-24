@@ -180,5 +180,16 @@
         page_path: location.pathname
       });
     });
+
+    // Measure outbound interest in official project profiles only after consent.
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest('a[href*="instagram.com/bezpecnaelektrika"], a[href*="facebook.com/61591729689209"]');
+      if (!link) return;
+      const platform = link.href.includes("instagram.com") ? "instagram" : "facebook";
+      window.beTrack?.("social_click", {
+        platform,
+        page_path: location.pathname
+      });
+    });
   });
 })();

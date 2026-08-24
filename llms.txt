@@ -1,0 +1,21 @@
+# Bezpečná elektrika
+
+> Odborný slovenský projekt o bezpečnosti elektroinštalácií, meraní, revíziách a zrozumiteľnom vysvetľovaní technických súvislostí. Revízne služby sú zatiaľ v príprave.
+
+## Hlavné stránky
+- https://bezpecnaelektrika.sk/revizie/ — pripravované revízne služby, priebeh revízie a FAQ
+- https://bezpecnaelektrika.sk/meranie/ — meranie v praxi a používané/pripravované prístroje
+- https://bezpecnaelektrika.sk/glosar/ — odborný glosár
+- https://bezpecnaelektrika.sk/poradna/ — praktické otázky a odpovede
+- https://bezpecnaelektrika.sk/novinky/ — odborné novinky a normové zmeny
+- https://bezpecnaelektrika.sk/podcast/ — podcast Bezpečná elektrika do uší
+- https://bezpecnaelektrika.sk/podcast/feed.xml — RSS podcastu
+- https://bezpecnaelektrika.sk/metodika/ — zdroje a metodika
+- https://bezpecnaelektrika.sk/o-projekte/ — autor a projekt
+
+## Autor
+Ing. Lukáš Likavčan, PhD.
+https://likavcan.cz/lukas/#lukas-likavcan
+
+## Redakčný princíp
+Merať. Dokumentovať. Vysvetľovať. Odborný obsah má edukatívny charakter a nenahrádza odborné posúdenie konkrétneho zariadenia, dokumentáciu ani aplikovateľné technické normy.

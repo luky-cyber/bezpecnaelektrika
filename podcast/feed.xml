@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Bezpečná elektrika do uší</title>
+<link>https://bezpecnaelektrika.sk/podcast/</link>
+<description>Podcast projektu Bezpečná elektrika o bezpečnosti elektroinštalácií, meraní, revíziách a technických súvislostiach. Edukatívny obsah nenahrádza odborné posúdenie konkrétneho zariadenia.</description>
+<language>sk</language>
+<atom:link href="https://bezpecnaelektrika.sk/podcast/feed.xml" rel="self" type="application/rss+xml"/>
+<itunes:author>Ing. Lukáš Likavčan, PhD. / Bezpečná elektrika</itunes:author>
+<itunes:explicit>false</itunes:explicit>
+<itunes:image href="https://bezpecnaelektrika.sk/assets/img/og-bezpecna-elektrika.jpg"/>
+<item>
+<title>BE-003 – Nameraná hodnota ešte nie je výsledok</title>
+<link>https://bezpecnaelektrika.sk/podcast/</link>
+<guid isPermaLink="false">bezpecnaelektrika-be-003</guid>
+<pubDate>Mon, 24 Aug 2026 14:45:00 +0200</pubDate>
+<description>Presné číslo na displeji je iba údaj. Prečo odborný výsledok vzniká až spojením merania, kontextu a vyhodnotenia konkrétnej elektroinštalácie.</description>
+<enclosure url="https://audio.bezpecnaelektrika.sk/podcast/2026/be-003-namerana-hodnota-este-nie-je-vysledok.mp3" length="5109546" type="audio/mpeg"/>
+<itunes:duration>7:06</itunes:duration>
+<itunes:episode>3</itunes:episode>
+</item>
+<item>
+<title>BE-002 – Merať, nie hádať: prečo pohľad na elektroinštaláciu nestačí</title>
+<link>https://bezpecnaelektrika.sk/podcast/</link>
+<guid isPermaLink="false">bezpecnaelektrika-be-002</guid>
+<pubDate>Sun, 23 Aug 2026 09:00:00 +0200</pubDate>
+<description>Elektroinštalácia môže fungovať a na pohľad vyzerať v poriadku. Prečo sa prehliadka, skúšanie, meranie a odborné vyhodnotenie navzájom dopĺňajú.</description>
+<enclosure url="https://audio.bezpecnaelektrika.sk/podcast/2026/be-002-merat-nie-hadat.mp3" length="5401866" type="audio/mpeg"/>
+<itunes:duration>7:30</itunes:duration>
+<itunes:episode>2</itunes:episode>
+</item>
+<item>
+<title>BE-001 – Prečo nestačí, že elektrina funguje?</title>
+<link>https://bezpecnaelektrika.sk/podcast/</link>
+<guid isPermaLink="false">bezpecnaelektrika-be-001</guid>
+<pubDate>Thu, 20 Aug 2026 09:00:00 +0200</pubDate>
+<description>Funkčnosť nie je dôkazom bezpečnosti. Prečo nestačí, že lampa svieti, a čo pri posudzovaní technického stavu rozhoduje.</description>
+<enclosure url="https://audio.bezpecnaelektrika.sk/podcast/2026/be-001-preco-nestaci-ze-elektrina-funguje.mp3" length="2625228" type="audio/mpeg"/>
+<itunes:duration>8:42</itunes:duration>
+<itunes:episode>1</itunes:episode>
+</item>
+</channel>
+</rss>
