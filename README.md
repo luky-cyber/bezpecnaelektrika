@@ -1,4 +1,4 @@
-# Bezpečná elektrika v0.5.7
+# Bezpečná elektrika v0.5.10
 
 Release-candidate static website for GitHub Pages / `bezpecnaelektrika.sk`.
 
@@ -6,7 +6,7 @@ Release-candidate static website for GitHub Pages / `bezpecnaelektrika.sk`.
 - Responsive desktop, iPhone/iPad and Android layout
 - Sticky mobile-friendly navigation
 - Reduced-motion support and keyboard focus states
-- PWA manifest + Apple/Android icons
+- Apple/Android icons; web nie je zámerne prezentovaný ako inštalovateľná PWA
 - Custom Open Graph image
 - SEO canonical/meta and entity-oriented JSON-LD
 - Canonical link to Lukáš Likavčan, PhD. identity on `likavcan.cz`
@@ -84,3 +84,16 @@ Knowledge Base Foundation: 8 samostatných odborných stránok pre RCD, RCCB/RCB
 
 ## v0.5.7
 Podcast BE-003 „Nameraná hodnota ešte nie je výsledok“: publikovanie tretej epizódy z Cloudflare R2, aktualizácia RSS, PodcastEpisode JSON-LD a homepage latest-content karty.
+
+
+## v0.5.8
+AI/Search + Identity + UX/Performance polish: OAI-SearchBot allow / GPTBot disallow, prepojenie autora s likavcan.cz v kontakte, mäkké CTA na hlbších stránkach, interné prelinkovanie, homepage/status deduplikácia, opravy Poradne a Metodiky, `dateModified` cleanup a odstránenie produkčných CSS `@import`.
+
+
+## v0.5.9 – Odborná autorita a vlastné vizuály I
+
+Prehĺbené RCD a Zs, prvé vlastné technické SVG diagramy, dve nové odpovede Poradne, viditeľné autorstvo a prvá časť vlastného OG vizuálneho systému. Podrobnosti: `RELEASE-v0.5.9.md`.
+
+## v0.5.10 – Odborná autorita a vlastné vizuály II
+
+Prehĺbené LPS, diagramy Zs ≠ Zline, RCCB vs RCBO a TN-C → TN-C-S, nová Poradňa o opakovanom vypínaní RCD, rozšírená proveniencia a ďalšie vlastné OG vizuály. Podrobnosti: `RELEASE-v0.5.10.md`. Finálny pre-deploy polish dorovnáva OG metadata, interné prelinkovanie, dátumy, header logo a stavovú kartu MI 3102 BT.
