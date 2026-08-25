@@ -1,4 +1,4 @@
-# Bezpečná elektrika v0.5.10
+# Bezpečná elektrika v0.5.12
 
 Release-candidate static website for GitHub Pages / `bezpecnaelektrika.sk`.
 
@@ -97,3 +97,12 @@ Prehĺbené RCD a Zs, prvé vlastné technické SVG diagramy, dve nové odpovede
 ## v0.5.10 – Odborná autorita a vlastné vizuály II
 
 Prehĺbené LPS, diagramy Zs ≠ Zline, RCCB vs RCBO a TN-C → TN-C-S, nová Poradňa o opakovanom vypínaní RCD, rozšírená proveniencia a ďalšie vlastné OG vizuály. Podrobnosti: `RELEASE-v0.5.10.md`. Finálny pre-deploy polish dorovnáva OG metadata, interné prelinkovanie, dátumy, header logo a stavovú kartu MI 3102 BT.
+
+
+## v0.5.11 – Vyhľadávanie a orientácia v obsahu
+
+Stabilné permalinky na sekcie, obsah „Na tejto stránke“, Mapa obsahu `/obsah/`, statický full-text Search bez externej závislosti, normalizácia slovenčiny a technických zápisov, Search na 404, ručne kurátorované „Pokračovať v téme“ a privacy-safe analytické udalosti bez odosielania raw query. Podrobnosti: `RELEASE-v0.5.11.md`.
+
+## v0.5.12 – Novinky: autor, čas, dôveryhodnosť
+
+Redakčná transparentnosť sekcie „Čo nové v elektro“: jednoznačné publication metadata, viditeľný autor, jednotné titulky, relevantné 16:9 lead/OG obrázky, metodika Noviniek, konzistentná Person identita a pripravený News sitemap workflow pre budúce skutočne čerstvé `NewsArticle`. Google News je možný distribučný kanál, nie publikačný cieľ. Podrobnosti: `RELEASE-v0.5.12.md`.

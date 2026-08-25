@@ -4,10 +4,19 @@ document.addEventListener("DOMContentLoaded",()=>{
   const entries=[...document.querySelectorAll(".dictionary-entry")];
   const empty=document.querySelector("#glossary-empty");
   if(!input||!entries.length)return;
+  const normalize=(value="")=>String(value)
+    .toLocaleLowerCase("sk")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[ľĺ]/g,"l")
+    .replace(/ŕ/g,"r")
+    .replace(/[–—_\-/]+/g," ")
+    .replace(/\s+/g," ")
+    .trim();
   let filter="all";
   const apply=()=>{
-    const q=input.value.trim().toLocaleLowerCase("sk");let shown=0;
-    entries.forEach(e=>{const okCat=filter==="all"||e.dataset.category===filter;const hay=(e.dataset.search||e.textContent).toLocaleLowerCase("sk");const okQ=!q||hay.includes(q);const show=okCat&&okQ;e.hidden=!show;if(show)shown++;});
+    const q=normalize(input.value);let shown=0;
+    entries.forEach(e=>{const okCat=filter==="all"||e.dataset.category===filter;const hay=normalize(e.dataset.search||e.textContent);const okQ=!q||hay.includes(q);const show=okCat&&okQ;e.hidden=!show;if(show)shown++;});
     if(empty)empty.hidden=shown!==0;
   };
   const openHash=()=>{

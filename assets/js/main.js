@@ -116,3 +116,48 @@ document.addEventListener("DOMContentLoaded", () => {
     closeMore();
   });
 });
+
+// v0.5.11 — stable permalinks and copy-link feedback.
+document.addEventListener("DOMContentLoaded", () => {
+  let toast = document.querySelector(".copy-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.className = "copy-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    document.body.append(toast);
+  }
+  let toastTimer = null;
+  const notify = (message) => {
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 1800);
+  };
+  const copyText = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (_) {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.append(area);
+      area.select();
+      document.execCommand("copy");
+      area.remove();
+    }
+  };
+  document.addEventListener("click", async (event) => {
+    const sectionButton = event.target.closest("[data-copy-anchor]");
+    const pageButton = event.target.closest("[data-copy-page]");
+    if (!sectionButton && !pageButton) return;
+    const url = new URL(location.href);
+    url.search = "";
+    if (sectionButton) url.hash = sectionButton.dataset.copyAnchor || "";
+    else url.hash = "";
+    await copyText(url.href);
+    notify(sectionButton ? "Odkaz na sekciu skopírovaný" : "Odkaz skopírovaný");
+  });
+});
