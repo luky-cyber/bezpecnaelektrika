@@ -97,7 +97,6 @@ try:
     else:
         if ep.get('duration')!='7:06': errors.append('BE-003 duration must be 7:06')
         if ep.get('audio')!='https://audio.bezpecnaelektrika.sk/podcast/2026/be-003-namerana-hodnota-este-nie-je-vysledok.mp3': errors.append('BE-003 audio URL mismatch')
-        if not ep.get('featured'): errors.append('BE-003 must be featured')
 except Exception as e:
     errors.append(f'BE-003 podcast data check failed: {e}')
 feed_txt=(ROOT/'podcast/feed.xml').read_text(encoding='utf-8')
@@ -106,6 +105,21 @@ for needle in ['bezpecnaelektrika-be-003','length="5109546"','<itunes:duration>7
 podcast_html=(ROOT/'podcast/index.html').read_text(encoding='utf-8')
 if 'https://bezpecnaelektrika.sk/podcast/#be-003' not in podcast_html:
     errors.append('Missing BE-003 PodcastEpisode JSON-LD')
+
+# Current podcast release BE-004 checks
+try:
+    ep4=eps.get('BE-004')
+    if not ep4: errors.append('Missing BE-004 in data/podcasts.json')
+    else:
+        if ep4.get('duration')!='7:42': errors.append('BE-004 duration must be 7:42')
+        if ep4.get('audio')!='https://audio.bezpecnaelektrika.sk/podcast/2026/be-004-revizna-sprava-nie-je-len-papier.mp3': errors.append('BE-004 audio URL mismatch')
+        if not ep4.get('featured'): errors.append('BE-004 must be featured')
+except Exception as e:
+    errors.append(f'BE-004 podcast data check failed: {e}')
+for needle in ['bezpecnaelektrika-be-004','length="7395402"','<itunes:duration>7:42</itunes:duration>']:
+    if needle not in feed_txt: errors.append(f'Missing BE-004 RSS field: {needle}')
+if 'https://bezpecnaelektrika.sk/podcast/#be-004' not in podcast_html:
+    errors.append('Missing BE-004 PodcastEpisode JSON-LD')
 
 
 

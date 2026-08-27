@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-08-26",
+  "generated": "2026-08-27",
   "records": [
     {
       "id": "hub-poradna",
@@ -872,8 +872,8 @@
           "text": "Vyberte epizódu"
         }
       ],
-      "text": "Bezpečná elektrika do uší Bezpečná elektrika do uší. Jedna téma, jednoduchá analógia, technický princíp, praktický význam a krátke „čo si zapamätať“. Epizódy prehrávam priamo z audio.bezpecnaelektrika.sk . Podcast BE Vyberte epizódu Vyberte publikovanú epizódu zo zoznamu nižšie. 0:00 0:00 Rýchlosť 1× 1,25× 1,5× 2× Hlasitosť Stiahnuť MP3 Zvuk môže byť vytvorený pomocou Gemini Notebook. Pred publikovaním kontrolujem odborný obsah aj transcript. Epizódy Publikované a pripravované epizódy. Načítavam zoznam epizód… BE-003 nadväzuje na Meranie v praxi a Knowledge Base. Po vypočutí môžete pokračovať témami Meranie v praxi alebo impedancia poruchovej slučky Zs → Ako podcast vzniká a aké má limity Gemini Notebook používam na vytvorenie audio rozhovoru z odborne pripravených podkladov. Pre jednu tému pripravíme aspoň tri varianty, skontrolujeme transcript a publikujeme najvhodnejší. Dôležité: podcast má edukatívny charakter a nenahrádza odbornú prehliadku, meranie, projektovú dokumentáciu, technické normy ani individuálne odborné posúdenie konkrétnej elektroinštalácie. Generatívny nástroj môže formuláciu zjednodušiť alebo vytvoriť nepresnosť.",
-      "updated": ""
+      "text": "Bezpečná elektrika do uší Bezpečná elektrika do uší. Jedna téma, jednoduchá analógia, technický princíp, praktický význam a krátke „čo si zapamätať“. Epizódy prehrávam priamo z audio.bezpecnaelektrika.sk . Podcast BE Vyberte epizódu Vyberte publikovanú epizódu zo zoznamu nižšie. 0:00 0:00 Rýchlosť 1× 1,25× 1,5× 2× Hlasitosť Stiahnuť MP3 Zvuk môže byť vytvorený pomocou Gemini Notebook. Pred publikovaním kontrolujem odborný obsah aj transcript. Epizódy Publikované a pripravované epizódy. Načítavam zoznam epizód… BE-004 nadväzuje na tému revíznej správy v Poradni. Po vypočutí môžete pokračovať témou Čo obsahuje revízna správa? alebo prehľadom Revízie → Ako podcast vzniká a aké má limity Gemini Notebook používam na vytvorenie audio rozhovoru z odborne pripravených podkladov. Pre jednu tému pripravíme aspoň tri varianty, skontrolujeme transcript a publikujeme najvhodnejší. Dôležité: podcast má edukatívny charakter a nenahrádza odbornú prehliadku, meranie, projektovú dokumentáciu, technické normy ani individuálne odborné posúdenie konkrétnej elektroinštalácie. Generatívny nástroj môže formuláciu zjednodušiť alebo vytvoriť nepresnosť.",
+      "updated": "2026-08-27"
     },
     {
       "id": "poradna-rozdiel-kontrola-elektrikar-a-revizia",

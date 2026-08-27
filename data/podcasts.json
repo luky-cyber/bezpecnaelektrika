@@ -40,6 +40,20 @@
       "summary": "Presné číslo na displeji je iba údaj. Prečo odborný výsledok vzniká až spojením merania, kontextu a vyhodnotenia konkrétnej elektroinštalácie.",
       "audio": "https://audio.bezpecnaelektrika.sk/podcast/2026/be-003-namerana-hodnota-este-nie-je-vysledok.mp3",
       "published": true,
+      "featured": false,
+      "popular": false,
+      "aiAudio": "Gemini Notebook"
+    },
+    {
+      "id": "BE-004",
+      "title": "Revízna správa nie je len papier",
+      "slug": "revizna-sprava-nie-je-len-papier",
+      "date": "2026-08-27",
+      "duration": "7:42",
+      "category": "Revízie",
+      "summary": "Revízna správa nie je len zbierka čísel. Čo dokumentuje, prečo potrebuje kontext a prečo samotná revízia nie je automaticky opravou elektroinštalácie.",
+      "audio": "https://audio.bezpecnaelektrika.sk/podcast/2026/be-004-revizna-sprava-nie-je-len-papier.mp3",
+      "published": true,
       "featured": true,
       "popular": false,
       "aiAudio": "Gemini Notebook"
