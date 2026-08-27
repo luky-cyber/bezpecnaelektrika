@@ -1,6 +1,6 @@
-# Bezpečná elektrika v0.5.12
+# Bezpečná elektrika v0.6.0
 
-Release-candidate static website for GitHub Pages / `bezpecnaelektrika.sk`.
+Static website for GitHub Pages / `bezpecnaelektrika.sk`, release v0.6.0 „Revízie na prvom mieste“.
 
 ## What is included
 - Responsive desktop, iPhone/iPad and Android layout
@@ -106,3 +106,26 @@ Stabilné permalinky na sekcie, obsah „Na tejto stránke“, Mapa obsahu `/obs
 ## v0.5.12 – Novinky: autor, čas, dôveryhodnosť
 
 Redakčná transparentnosť sekcie „Čo nové v elektro“: jednoznačné publication metadata, viditeľný autor, jednotné titulky, relevantné 16:9 lead/OG obrázky, metodika Noviniek, konzistentná Person identita a pripravený News sitemap workflow pre budúce skutočne čerstvé `NewsArticle`. Google News je možný distribučný kanál, nie publikačný cieľ. Podrobnosti: `RELEASE-v0.5.12.md`.
+
+## v0.5.13 – Odborné súvislosti a praktické otázky
+Nová Poradňa o hliníkovej elektroinštalácii, spevnenie PE/PEN provenance, konceptuálna HTML/CSS mapa RCD–RCCB–RCBO, klikateľné parent eyebrow odkazy, jemnejší homepage headline, foto-based homepage social preview a deterministický CSS build. Merania a MI 3102 BT zostávajú mimo tohto release. Podrobnosti: `RELEASE-v0.5.13.md`.
+
+
+## v0.6.0 prototype A3 – customer-first test
+Testovací build presúva zákaznícku situáciu pred odbornú tému: explicitne pomenúva pripravované revízne služby, dáva kontakt priamo do hero, prerába vstup Poradne podľa situácií a technické skratky LPS/RCD vysvetľuje krátkym popoverom pred voliteľným prechodom do Glosára. Nejde o produkčný release ani Commercial Switch. Podrobnosti: `PROTOTYPE-v0.6.0-A3.md`.
+
+
+## v0.6.0 prototype A4 – compression pass
+A4 zachováva customer-first smer A3, ale redukuje homepage na šesť hlavných blokov, spája priebeh s výstupom, intervaly s otázkou „kedy“, posúva cenu vyššie a výrazne zjednodušuje `/revizie/`. Hlavná navigácia je zákaznícka; Glosár a Meranie sú pod jasným vstupom „Odborný obsah“. Nejde o produkčný release ani Commercial Switch. Podrobnosti: `PROTOTYPE-v0.6.0-A4.md`.
+
+
+## v0.6.0 prototype A5 – customer-language pass
+A5 je posledný prototyp pred slepým používateľským testom. Zachováva architektúru A4, ale odstraňuje z homepage skorú technickú terminológiu, skracuje zákaznícku cestu, zjednocuje cenu a kontakt, upravuje Poradňu a O mne a dopĺňa accessibility guardraily. Nejde o produkčný release ani Commercial Switch. Podrobnosti: `PROTOTYPE-v0.6.0-A5.md`.
+
+
+## v0.6.0-rc1 – Revízie na prvom mieste
+Release candidate po ľudskom testovaní A5. Zachováva jednoduchú customer-first architektúru, spevňuje dôveryhodnosť, očakávania pri náleze nedostatku, consent-first customer-journey analytiku a produkčné regresné guardraily. Nejde o Commercial Switch. Podrobnosti: `RELEASE-v0.6.0-rc1.md`.
+
+
+## v0.6.0 – Revízie na prvom mieste
+Finálny service-first release po prototypoch A–A5 a RC1. Homepage, Revízie, Poradňa a O mne vedú zákazníka od konkrétnej situácie k priebehu, cene a kontaktu; odborný obsah zostáva v sekundárnej vrstve. Final-fix pass spevňuje pravdivosť pri MI 3102 BT, structured data, light-theme kontrast, obrázkové rozmery/výkon a analytické placementy. Komerčné služby stále nie sú spustené. Podrobnosti: `RELEASE-v0.6.0.md`.

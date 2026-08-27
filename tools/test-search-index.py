@@ -45,7 +45,8 @@ tests={
  'RCD':'/glosar/rcd-prudovy-chranic/','prudovy chranic':'/glosar/rcd-prudovy-chranic/','prúdový chránič':'/glosar/rcd-prudovy-chranic/',
  'vypina chranic':'/poradna/prudovy-chranic-opakovane-vypina/','Zs':'/glosar/impedancia-poruchovej-slucky-zs/','poruchova slucka':'/glosar/impedancia-poruchovej-slucky-zs/','Zline':'/glosar/impedancia-poruchovej-slucky-zs/',
  'TN C':'/glosar/tn-c-tn-s-tn-c-s/','TN-C-S':'/glosar/tn-c-tn-s-tn-c-s/','PEN':'/glosar/pe-pen-ochranne-vodice/','LPS':'/glosar/lps-ochrana-pred-bleskom/','bleskozvod':'/glosar/lps-ochrana-pred-bleskom/',
- 'kupa domu':'/poradna/revizia-pri-kupe-starsieho-domu-alebo-bytu/','revizna sprava':'/poradna/co-obsahuje-revizna-sprava/','rozvadzac':'/poradna/elektrikar-prerobil-rozvadzac-co-nasleduje/','izolacny odpor':'/glosar/izolacny-odpor/','cena':'/revizie/','telefon':'/#kontakt'
+ 'kupa domu':'/poradna/revizia-pri-kupe-starsieho-domu-alebo-bytu/','revizna sprava':'/poradna/co-obsahuje-revizna-sprava/','rozvadzac':'/poradna/elektrikar-prerobil-rozvadzac-co-nasleduje/','izolacny odpor':'/glosar/izolacny-odpor/','cena':'/revizie/','telefon':'/#kontakt',
+ 'hlinik':'/poradna/hlinikova-elektroinstalacia/','hlinikova elektroinstalacia':'/poradna/hlinikova-elektroinstalacia/','hlinikove rozvody':'/poradna/hlinikova-elektroinstalacia/','prechod al cu':'/poradna/hlinikova-elektroinstalacia/','spoj al cu':'/poradna/hlinikova-elektroinstalacia/'
 }
 errors=[]
 for q,expected in tests.items():
@@ -65,9 +66,15 @@ for q,expected in deep_tests.items():
  print(f'{q:22} -> {target if r else None} ({s})')
  if target!=expected: errors.append(f'{q!r}: expected target {expected}, got {target}')
 
-s,target,r=top('hlinik')
-print(f'{"hlinik":22} -> {target if r else None} ({s})')
-if r: errors.append(f"'hlinik' must not invent a dedicated result, got {r['url']}")
+# v0.6.0 A5 customer-intent routing.
+for query in ["revizia domu", "revizia bytu", "cena revizie", "ako casto revizia", "revizia bleskozvodu"]:
+    s,target,r=top(query)
+    if not r or r.get("url")!="/revizie/":
+        errors.append(f"{query!r} should route to /revizie/")
+contact=next((r for r in records if r.get("id")=="hub-kontakt"),None)
+if not contact or contact.get("title")!="Kontakt k pripravovaným revíznym službám":
+    errors.append("Customer-facing contact search title is missing")
+
 if errors:
  print('SEARCH SMOKE TEST FAILED')
  for e in errors:print('-',e)

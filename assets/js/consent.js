@@ -181,6 +181,47 @@
       });
     });
 
+    // Customer-journey events use only fixed categories and page paths; no email/message contents are sent.
+    document.addEventListener("click", (event) => {
+      const serviceLink = event.target.closest("[data-service-interest]");
+      if (serviceLink) {
+        window.beTrack?.("service_interest_click", {
+          placement: serviceLink.dataset.serviceInterest || "other",
+          page_path: location.pathname
+        });
+      }
+
+      const priceLink = event.target.closest('a[href="/revizie/#cena"], a[href="#cena"]');
+      if (priceLink) {
+        window.beTrack?.("price_interest_click", { page_path: location.pathname });
+      }
+
+      const situationLink = event.target.closest("[data-service-situation]");
+      if (situationLink) {
+        window.beTrack?.("service_situation_click", {
+          situation: situationLink.dataset.serviceSituation || "other",
+          page_path: location.pathname
+        });
+      }
+
+      const expertLink = event.target.closest(".expert-strip a");
+      if (expertLink) {
+        const expertTargets = {
+          "/glosar/": "glossary",
+          "/meranie/": "measurement",
+          "/novinky/": "news",
+          "/metodika/": "methodology"
+        };
+        const targetArea = expertTargets[expertLink.getAttribute("href")];
+        if (targetArea) {
+          window.beTrack?.("expert_content_click", {
+            target_area: targetArea,
+            page_path: location.pathname
+          });
+        }
+      }
+    });
+
     // Measure outbound interest in official project profiles only after consent.
     document.addEventListener("click", (event) => {
       const link = event.target.closest('a[href*="instagram.com/bezpecnaelektrika"], a[href*="facebook.com/61591729689209"]');

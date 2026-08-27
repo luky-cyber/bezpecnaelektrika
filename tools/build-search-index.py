@@ -25,7 +25,7 @@ CURATED = {
     "/metodika/": {"aliases": ["metodika", "zdroje"], "relatedTerms": ["normy", "ai", "overovanie"]},
     "/o-projekte/": {"aliases": ["o projekte", "autor", "lukas likavcan"], "relatedTerms": ["bezpecna elektrika", "e2a"]},
     "/revizie/": {
-        "aliases": ["revizia", "elektrorevizia", "revizie", "e2a", "vychodzia revizia", "pravidelna revizia", "cena", "cennik", "objednat"],
+        "aliases": ["revizia", "elektrorevizia", "revizie", "e2a", "vychodzia revizia", "pravidelna revizia", "revizia domu", "revizia bytu", "cena revizie", "ako casto revizia", "revizia bleskozvodu", "cena", "cennik", "objednat"],
         "relatedTerms": ["kontrola elektroinstalacie", "revízny technik", "rodinny dom", "byt", "rozvadzac", "revizna sprava"],
         "summary": "Pripravované revízie v rozsahu E2A. Skúška je úspešne absolvovaná, čakám na osvedčenie a komerčné služby zatiaľ neposkytujem."
     },
@@ -60,6 +60,10 @@ CURATED = {
     "/glosar/izolacny-odpor/": {
         "aliases": ["izolacny odpor", "riso"],
         "relatedTerms": ["izolacia", "meranie izolacie", "megaohm"]
+    },
+    "/poradna/hlinikova-elektroinstalacia/": {
+        "aliases": ["hlinik", "hlinikova elektroinstalacia", "hlinikove rozvody"],
+        "relatedTerms": ["stara elektroinstalacia", "al cu", "al/cu", "prechod al cu", "spoj al cu", "hlinik med", "med", "cu", "svorka", "spoj"]
     },
     "/poradna/prudovy-chranic-opakovane-vypina/": {
         "aliases": ["vypina chranic", "chranic vypina", "rcd vypina"],
@@ -206,9 +210,9 @@ for p in sorted(ROOT.rglob("*.html")):
 
 # One helpful anchored record for contact. It is an existing section of the homepage, not a new content page.
 records.append({
-    "id":"hub-kontakt","url":"/#kontakt","title":"Kontakt k projektu","type":"hub",
+    "id":"hub-kontakt","url":"/#kontakt","title":"Kontakt k pripravovaným revíznym službám","type":"hub",
     "summary":"Kontakt na projekt Bezpečná elektrika. Revízne služby sú zatiaľ v príprave.",
-    "aliases":["email","kontakt"],"relatedTerms":["adresa","telefon"],"headings":[],"text":"kontakt projekt bezpecna elektrika", "updated":"2026-08-25"
+    "aliases":["email","kontakt"],"relatedTerms":["adresa","telefon"],"headings":[],"text":"kontakt pripravovane revizne sluzby bezpecna elektrika", "updated":"2026-08-25"
 })
 
 records.sort(key=lambda r:(r["type"],r["title"].lower()))

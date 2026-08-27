@@ -7,11 +7,11 @@ from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[1]
-required=['index.html','CNAME','robots.txt','sitemap.xml','assets/js/main.js','assets/js/consent.js','assets/js/search.js','data/search-index.json','tools/build-search-index.py','tools/build-news-sitemap.py','obsah/index.html','hladat/index.html','RELEASE-v0.5.12.md']
+required=['index.html','CNAME','robots.txt','sitemap.xml','assets/js/main.js','assets/js/consent.js','assets/js/search.js','data/search-index.json','tools/build-search-index.py','tools/build-news-sitemap.py','tools/build-css.py','obsah/index.html','hladat/index.html','RELEASE-v0.5.12.md','RELEASE-v0.5.13.md','RELEASE-v0.6.0-rc1.md','RELEASE-v0.6.0.md','tools/validate-v060.py']
 errors=[]
 readme=(ROOT/'README.md').read_text(encoding='utf-8') if (ROOT/'README.md').is_file() else ''
-if not readme.startswith('# Bezpečná elektrika v0.5.12'):
-    errors.append('README must identify v0.5.12')
+if not readme.startswith('# Bezpečná elektrika v0.6.0'):
+    errors.append('README must identify v0.6.0')
 for f in required:
     if not (ROOT/f).is_file(): errors.append(f'Missing root file: {f}')
 for child in ROOT.iterdir():
@@ -237,7 +237,7 @@ if 'BE-DIAG-02' not in zs_txt: errors.append('Missing BE-DIAG-02 on Zs page')
 
 for rel in ['assets/img/og/og-home-v1.jpg','assets/img/og/og-revizie-v1.jpg','assets/img/og/og-poradna-v1.jpg']:
     if not (ROOT/rel).is_file(): errors.append(f'Missing v0.5.9 OG image: {rel}')
-for rel,img in [('index.html','og-home-v1.jpg'),('revizie/index.html','og-revizie-v1.jpg'),('poradna/index.html','og-poradna-v1.jpg')]:
+for rel,img in [('index.html','og-home-photo-v2.jpg'),('revizie/index.html','og-revizie-v1.jpg'),('poradna/index.html','og-poradna-v1.jpg')]:
     if img not in (ROOT/rel).read_text(encoding='utf-8'): errors.append(f'Missing custom OG assignment in {rel}: {img}')
 
 if not (ROOT/'docs/ANALYTICS-BASELINE-v0.5.8.md').is_file(): errors.append('Missing v0.5.8 baseline checklist')
@@ -253,7 +253,7 @@ try:
       'https://bezpecnaelektrika.sk/poradna/revizia-pri-kupe-starsieho-domu-alebo-bytu/',
       'https://bezpecnaelektrika.sk/poradna/elektrikar-prerobil-rozvadzac-co-nasleduje/'
     ]:
-      if lm.get(url)!='2026-08-25': errors.append(f'Wrong sitemap lastmod for v0.5.9 URL: {url}')
+      if not lm.get(url) or lm.get(url)<'2026-08-25': errors.append(f'Sitemap lastmod regressed for v0.5.9 URL: {url}')
 except Exception as e:
     errors.append(f'v0.5.9 sitemap lastmod check failed: {e}')
 
@@ -319,7 +319,7 @@ try:
       'https://bezpecnaelektrika.sk/glosar/tn-c-tn-s-tn-c-s/',
       'https://bezpecnaelektrika.sk/poradna/prudovy-chranic-opakovane-vypina/'
     ]:
-      if lm3.get(url)!='2026-08-25': errors.append(f'Wrong sitemap lastmod for v0.5.10 URL: {url}')
+      if not lm3.get(url) or lm3.get(url)<'2026-08-25': errors.append(f'Sitemap lastmod regressed for v0.5.10 URL: {url}')
 except Exception as e:
     errors.append(f'v0.5.10 sitemap lastmod check failed: {e}')
 
@@ -677,12 +677,108 @@ if news_sitemap.is_file():
     except Exception as e: errors.append(f'Invalid news-sitemap.xml: {e}')
 elif 'news-sitemap.xml' in robots: errors.append('robots.txt must not advertise a missing news-sitemap.xml')
 
+
+# v0.5.13 Expert context & practical questions
+hlinik_rel='poradna/hlinikova-elektroinstalacia/index.html'
+hlinik_path=ROOT/hlinik_rel
+if not hlinik_path.is_file():
+    errors.append('Missing v0.5.13 aluminium Poradna page')
+else:
+    htxt=hlinik_path.read_text(encoding='utf-8')
+    for needle in ['Je hliníková elektroinštalácia problém?','Stručne:','Samotná prítomnosť hliníkových vodičov nestačí','id="prechod-al-cu"','class="source-provenance"','href="/poradna/"']:
+        if needle not in htxt: errors.append(f'Missing v0.5.13 aluminium-page invariant: {needle}')
+    internal={u.split('#',1)[0] for u in re.findall(r'href=["\'](/[^"\']+)["\']',htxt) if not u.startswith('/poradna/hlinikova-elektroinstalacia/')}
+    if len(internal)<3: errors.append('Aluminium Poradna must link to at least 3 other internal pages')
+
+# There are now exactly 12 standalone Poradna answers.
+poradna_pages=list((ROOT/'poradna').glob('*/index.html'))
+if len(poradna_pages)!=12: errors.append(f'Expected 12 Poradna detail pages, found {len(poradna_pages)}')
+
+# Parent eyebrow links are a deterministic navigation pattern on KB and Poradna details.
+for hp in (ROOT/'glosar').glob('*/index.html'):
+    txt=hp.read_text(encoding='utf-8')
+    if '<a class="eyebrow-parent" href="/glosar/">Glosár</a> · odborné vysvetlenie' not in txt:
+        errors.append(f'Missing linked Glosar eyebrow in {hp.relative_to(ROOT)}')
+for hp in (ROOT/'poradna').glob('*/index.html'):
+    txt=hp.read_text(encoding='utf-8')
+    if '<a class="eyebrow-parent" href="/poradna/">Poradňa</a> · praktická odpoveď' not in txt:
+        errors.append(f'Missing linked Poradna eyebrow in {hp.relative_to(ROOT)}')
+
+# PE/PEN source provenance must have structured source items, without hard-coding a normative list.
+pe_txt=(ROOT/'glosar/pe-pen-ochranne-vodice/index.html').read_text(encoding='utf-8')
+pe_sec=re.search(r'<section[^>]+class=["\'][^"\']*source-provenance[^"\']*["\'][^>]+id=["\']odborny-zaklad["\'].*?</section>',pe_txt,re.S|re.I)
+if not pe_sec: errors.append('PE/PEN must use structured source provenance')
+else:
+    if pe_sec.group(0).count('class="source-item"')<3: errors.append('PE/PEN provenance should contain at least 3 structured source items')
+    for href in re.findall(r'href=["\'](https?://[^"\']+)["\']',pe_sec.group(0)):
+        if not href.startswith('https://'): errors.append(f'PE/PEN provenance source must use HTTPS: {href}')
+
+# RCD concept map explains a selected subset, not a complete taxonomy.
+rcd_txt=(ROOT/'glosar/rcd-prudovy-chranic/index.html').read_text(encoding='utf-8')
+for needle in ['id="rcd-rccb-rcbo"','class="rcd-relation-map"','RCD je zastrešujúci pojem','nejde o úplnú klasifikáciu','href="/glosar/rccb-vs-rcbo/"']:
+    if needle not in rcd_txt: errors.append(f'Missing RCD relation-map invariant: {needle}')
+rccb_txt=(ROOT/'glosar/rccb-vs-rcbo/index.html').read_text(encoding='utf-8')
+if '/glosar/rcd-prudovy-chranic/#rcd-rccb-rcbo' not in rccb_txt: errors.append('RCCB/RCBO page must link back to the RCD relation map')
+
+# Homepage polish must remain homepage-specific; other page heroes keep the global scale.
+home_txt=(ROOT/'index.html').read_text(encoding='utf-8')
+if 'class="page-hero page-hero--home"' not in home_txt: errors.append('Homepage must use page-hero--home modifier')
+if 'og-home-photo-v2.jpg' not in home_txt: errors.append('Homepage must use photo-based v0.5.13 social preview')
+home_og=ROOT/'assets/img/og/og-home-photo-v2.jpg'
+if not home_og.is_file(): errors.append('Missing homepage photo social asset')
+elif jpeg_dimensions(home_og)!=(1200,630): errors.append('Homepage photo social asset must be 1200x630')
+if '.page-hero--home h1' not in style_txt: errors.append('Missing homepage-specific hero H1 CSS')
+
+# Production CSS must be a deterministic bundle of source modules.
+try:
+    cssproc=subprocess.run([sys.executable,str(ROOT/'tools/build-css.py'),'--check'],cwd=ROOT,text=True,capture_output=True,timeout=20)
+    if cssproc.returncode!=0: errors.append('CSS build check failed: '+cssproc.stdout.replace('\n',' | '))
+except Exception as e:
+    errors.append(f'Could not run CSS build check: {e}')
+
+# Search index and sitemap must expose the new answer.
+try:
+    sdata=json.loads((ROOT/'data/search-index.json').read_text(encoding='utf-8'))
+    rec=next((r for r in sdata.get('records',[]) if r.get('url')=='/poradna/hlinikova-elektroinstalacia/'),None)
+    if not rec: errors.append('Aluminium Poradna missing from search index')
+    elif 'hlinik' not in rec.get('aliases',[]): errors.append('Aluminium Poradna missing hlinik search alias')
+    if rec and any(x in rec.get('aliases',[]) for x in ['al','cu','stara elektroinstalacia']): errors.append('Aluminium Poradna aliases must not overstate short/material-adjacent terms')
+    pe_rec=next((r for r in sdata.get('records',[]) if r.get('url')=='/glosar/pe-pen-ochranne-vodice/'),None)
+    if pe_rec and 'nulak' in pe_rec.get('aliases',[]): errors.append('nulak must remain a related discovery term, not a PEN alias')
+except Exception as e:
+    errors.append(f'Could not validate aluminium search record: {e}')
+if 'https://bezpecnaelektrika.sk/poradna/hlinikova-elektroinstalacia/' not in sitemap_urls:
+    errors.append('Aluminium Poradna missing from sitemap.xml')
+
 # Automated search smoke test mirrors the public scoring contract.
 try:
     proc=subprocess.run([sys.executable,str(ROOT/'tools/test-search-index.py')],cwd=ROOT,text=True,capture_output=True,timeout=20)
     if proc.returncode!=0: errors.append('Search smoke test failed: '+proc.stdout.replace('\n',' | '))
 except Exception as e:
     errors.append(f'Could not run search smoke test: {e}')
+
+
+
+# v0.6.0 service-first production guardrails
+home_txt=(ROOT/'index.html').read_text(encoding='utf-8')
+rev_txt=(ROOT/'revizie/index.html').read_text(encoding='utf-8')
+privacy_txt=(ROOT/'ochrana-sukromia/index.html').read_text(encoding='utf-8')
+consent_txt=(ROOT/'assets/js/consent.js').read_text(encoding='utf-8')
+try:
+    from bs4 import BeautifulSoup as _BS
+    _hs=_BS(home_txt,'html.parser'); _main=_hs.find('main')
+    if len(_main.find_all('section',recursive=False))!=6: errors.append('v0.6.0 service-first homepage must keep 6 top-level sections')
+    if (_hs.find('h1') or {}).get_text(' ',strip=True)!='Revízie elektrických zariadení a inštalácií': errors.append('v0.6.0 homepage H1 must state the service directly')
+    if _main and re.search(r'\b(?:LPS|RCD|Zs|PEN|RCBO|RCCB)\b',_main.get_text(' ',strip=True)): errors.append('Technical acronyms must not leak into the homepage customer path')
+except Exception as e: errors.append(f'Could not inspect v0.6.0 homepage structure: {e}')
+for needle in ['service-trust-inline','Opýtať sa na revíziu']:
+    if needle not in home_txt or needle not in rev_txt: errors.append(f'Missing v0.6.0 customer/trust invariant: {needle}')
+if 'komerčné služby zatiaľ neposkytujem' not in home_txt.lower() or 'komerčné služby zatiaľ neposkytujem' not in rev_txt.lower(): errors.append('Missing v0.6.0 pre-commercial status wording')
+for forbidden in ['Objednať revíziu','"@type":"LocalBusiness"','"@type":"Electrician"','"@type":"Service"','"@type":"Offer"','areaServed']:
+    if forbidden in home_txt+rev_txt: errors.append(f'Forbidden pre-commercial v0.6.0 element: {forbidden}')
+if 'Čo ak sa pri revízii nájde problém?' not in rev_txt: errors.append('Missing expectation-setting FAQ about detected problems')
+for event_name in ['service_interest_click','price_interest_click','service_situation_click','expert_content_click']:
+    if event_name not in consent_txt or event_name not in privacy_txt: errors.append(f'Missing consent/privacy coverage for customer journey event: {event_name}')
 
 if errors:
     print('RELEASE CHECK FAILED')

@@ -112,8 +112,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
+    const navWasOpen = mainNav?.classList.contains("open") ?? false;
+    const moreWasOpen = more?.classList.contains("open") ?? false;
     closeNav();
     closeMore();
+    if (moreWasOpen) moreToggle?.focus();
+    else if (navWasOpen) navToggle?.focus();
   });
 });
 
@@ -159,5 +163,56 @@ document.addEventListener("DOMContentLoaded", () => {
     else url.hash = "";
     await copyText(url.href);
     notify(sectionButton ? "Odkaz na sekciu skopírovaný" : "Odkaz skopírovaný");
+  });
+});
+
+
+// v0.6.0 prototype A3 — inline term explanations without forcing navigation away.
+document.addEventListener("DOMContentLoaded", () => {
+  const popovers = [...document.querySelectorAll("[data-term-popover]")];
+  if (!popovers.length) return;
+
+  const close = (item) => {
+    const trigger = item.querySelector(".term-popover__trigger");
+    const bubble = item.querySelector(".term-popover__bubble");
+    if (!trigger || !bubble) return;
+    item.classList.remove("is-open");
+    trigger.setAttribute("aria-expanded", "false");
+    bubble.setAttribute("aria-hidden", "true");
+    bubble.querySelectorAll("a,button").forEach((el) => el.setAttribute("tabindex", "-1"));
+  };
+  const open = (item) => {
+    popovers.forEach((other) => { if (other !== item) close(other); });
+    const trigger = item.querySelector(".term-popover__trigger");
+    const bubble = item.querySelector(".term-popover__bubble");
+    if (!trigger || !bubble) return;
+    item.classList.add("is-open");
+    trigger.setAttribute("aria-expanded", "true");
+    bubble.setAttribute("aria-hidden", "false");
+    bubble.querySelectorAll("a,button").forEach((el) => el.removeAttribute("tabindex"));
+  };
+
+  popovers.forEach((item) => {
+    close(item);
+    const trigger = item.querySelector(".term-popover__trigger");
+    trigger?.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      item.classList.contains("is-open") ? close(item) : open(item);
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    popovers.forEach((item) => { if (!item.contains(event.target)) close(item); });
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    popovers.forEach((item) => {
+      const wasOpen = item.classList.contains("is-open");
+      const trigger = item.querySelector(".term-popover__trigger");
+      const focusWasInside = item.contains(document.activeElement);
+      close(item);
+      if (wasOpen && focusWasInside) trigger?.focus();
+    });
   });
 });

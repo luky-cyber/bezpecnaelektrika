@@ -247,7 +247,7 @@ details{border:1px solid var(--border);border-radius:14px;padding:0 16px;margin:
 /* v0.3.8 — desktop navigation, theme switch and glossary links */
 html[data-theme="light"]{
   --bg:#f5f8fa;--bg-soft:#edf3f6;--panel:#ffffff;--panel-2:#f2f7f8;
-  --text:#152129;--muted:#526875;--subtle:#71838d;--border:rgba(37,77,91,.16);
+  --text:#152129;--muted:#526875;--subtle:#607480;--border:rgba(37,77,91,.16);
   --shadow:0 18px 50px rgba(38,68,78,.11);
 }
 html[data-theme="light"] body{background:radial-gradient(circle at 70% -10%,rgba(39,175,167,.09),transparent 28%),var(--bg)}
