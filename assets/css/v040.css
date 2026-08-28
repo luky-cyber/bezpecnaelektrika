@@ -703,3 +703,80 @@ html.search-open{overflow:hidden}.site-search-overlay{position:fixed;inset:0;z-i
 /* v0.6.0 — final service-status metadata */
 .service-status-meta{display:block;color:var(--subtle);font-size:.78rem;font-weight:750;letter-spacing:.01em}
 .glossary-equipment-note{margin:0 0 1rem}
+
+/* ===== v0.6.0 desktop hero + social preview fix ===== */
+/* The homepage hero must have two direct grid children on desktop:
+   copy/status on the left, visual on the right. The HTML structure is
+   validated separately; these rules cap the visual height on wide screens. */
+@media(min-width:1100px){
+  [data-prototype="service-home-a5"] .page-hero-grid{
+    grid-template-columns:minmax(0,1.05fr) minmax(380px,.8fr);
+    gap:clamp(2.75rem,5vw,4.75rem);
+    align-items:start;
+  }
+  [data-prototype="service-home-a5"] .service-hero-visual{
+    min-height:0;
+    height:clamp(470px,58vh,620px);
+    align-self:start;
+  }
+  [data-prototype="service-home-a5"] .service-hero-visual img{
+    width:100%;
+    height:100%;
+    min-height:0;
+    object-fit:cover;
+    object-position:center;
+  }
+}
+
+/* ===== v0.6.x responsive polish audit ===== */
+/* Homepage: switch to a single column earlier on tablet widths. */
+@media(max-width:840px){
+  [data-prototype="service-home-a5"] .page-hero-grid{
+    grid-template-columns:1fr;
+    gap:2rem;
+  }
+  [data-prototype="service-home-a5"] .service-hero-visual{
+    width:100%;
+    min-height:0;
+  }
+}
+
+/* Revisions landing page: keep the service hero decisive, but less monumental
+   on conventional desktop monitors so the next customer content arrives sooner. */
+@media(min-width:1100px){
+  [data-prototype="service-revisions-a5"]{
+    padding:clamp(3.4rem,5.3vw,5rem) 0 clamp(2.6rem,4.2vw,3.6rem);
+  }
+  [data-prototype="service-revisions-a5"] .page-hero-grid{
+    grid-template-columns:minmax(0,1.45fr) minmax(220px,.55fr);
+    gap:clamp(2.5rem,4vw,4rem);
+  }
+  [data-prototype="service-revisions-a5"] h1{
+    font-size:clamp(3.5rem,4.7vw,5.2rem);
+    max-width:13ch;
+  }
+}
+
+/* Poradna term bubbles: at tablet widths use viewport anchoring so hidden or
+   open bubbles at the right edge cannot create horizontal page overflow. */
+@media(min-width:621px) and (max-width:820px){
+  .term-popover__bubble{
+    position:fixed;
+    left:1rem;
+    right:1rem;
+    bottom:1rem;
+    width:auto;
+    transform:translateY(.35rem);
+  }
+  .term-popover.is-open .term-popover__bubble{
+    transform:translateY(0);
+  }
+}
+
+/* True ultra-wide CSS viewports (typically 4K at 100% scaling): increase the
+   reading canvas gently without stretching standard desktop or 2K layouts. */
+@media(min-width:3000px){
+  html{font-size:18px}
+  :root{--max:1440px}
+}
+

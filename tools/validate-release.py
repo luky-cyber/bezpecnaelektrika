@@ -251,7 +251,7 @@ if 'BE-DIAG-02' not in zs_txt: errors.append('Missing BE-DIAG-02 on Zs page')
 
 for rel in ['assets/img/og/og-home-v1.jpg','assets/img/og/og-revizie-v1.jpg','assets/img/og/og-poradna-v1.jpg']:
     if not (ROOT/rel).is_file(): errors.append(f'Missing v0.5.9 OG image: {rel}')
-for rel,img in [('index.html','og-home-photo-v2.jpg'),('revizie/index.html','og-revizie-v1.jpg'),('poradna/index.html','og-poradna-v1.jpg')]:
+for rel,img in [('index.html','og-home-revizie-v3.jpg'),('revizie/index.html','og-revizie-v1.jpg'),('poradna/index.html','og-poradna-v1.jpg')]:
     if img not in (ROOT/rel).read_text(encoding='utf-8'): errors.append(f'Missing custom OG assignment in {rel}: {img}')
 
 if not (ROOT/'docs/ANALYTICS-BASELINE-v0.5.8.md').is_file(): errors.append('Missing v0.5.8 baseline checklist')
@@ -737,11 +737,41 @@ if '/glosar/rcd-prudovy-chranic/#rcd-rccb-rcbo' not in rccb_txt: errors.append('
 # Homepage polish must remain homepage-specific; other page heroes keep the global scale.
 home_txt=(ROOT/'index.html').read_text(encoding='utf-8')
 if 'class="page-hero page-hero--home"' not in home_txt: errors.append('Homepage must use page-hero--home modifier')
-if 'og-home-photo-v2.jpg' not in home_txt: errors.append('Homepage must use photo-based v0.5.13 social preview')
-home_og=ROOT/'assets/img/og/og-home-photo-v2.jpg'
-if not home_og.is_file(): errors.append('Missing homepage photo social asset')
-elif jpeg_dimensions(home_og)!=(1200,630): errors.append('Homepage photo social asset must be 1200x630')
+if 'og-home-revizie-v3.jpg' not in home_txt: errors.append('Homepage must use branded Revízie social preview')
+home_og=ROOT/'assets/img/og/og-home-revizie-v3.jpg'
+if not home_og.is_file(): errors.append('Missing homepage branded social asset')
+elif jpeg_dimensions(home_og)!=(1200,630): errors.append('Homepage branded social asset must be 1200x630')
+for needle in [
+    'content="Bezpečná elektrika – Revízie" property="og:title"',
+    'content="Pripravované revízie elektroinštalácií pre domy, byty a vybrané administratívne priestory." property="og:description"',
+    'content="image/jpeg" property="og:image:type"',
+    'content="Bezpečná elektrika – Revízie" name="twitter:title"',
+    'content="Bezpečná elektrika – Revízie" name="twitter:image:alt"',
+]:
+    if needle not in home_txt: errors.append(f'Missing homepage social preview field: {needle}')
+# Hero grid regression: the copy/status and visual must be siblings, not nested.
+hero_match=re.search(r'<div class="container page-hero-grid">(.*?)</div>\s*</section>',home_txt,re.S)
+if not hero_match:
+    errors.append('Could not inspect homepage hero grid structure')
+else:
+    hero=hero_match.group(1)
+    visual_pos=hero.find('<div class="hero-visual-v04 service-hero-visual reveal">')
+    if visual_pos<0: errors.append('Missing homepage hero visual')
+    elif '</div></div><div class="hero-visual-v04 service-hero-visual reveal">' not in home_txt:
+        errors.append('Homepage hero visual must be a sibling of the copy/status block')
 if '.page-hero--home h1' not in style_txt: errors.append('Missing homepage-specific hero H1 CSS')
+if '[data-prototype="service-home-a5"] .service-hero-visual' not in style_txt: errors.append('Missing desktop hero visual height cap CSS')
+
+
+# v0.6.x responsive polish from the full-width visual audit.
+for needle,msg in [
+    ('@media(max-width:840px)', 'Missing homepage tablet breakpoint'),
+    ('[data-prototype="service-revisions-a5"] h1', 'Missing compact Revisions desktop hero'),
+    ('@media(min-width:621px) and (max-width:820px)', 'Missing tablet-safe term popover breakpoint'),
+    ('@media(min-width:3000px)', 'Missing ultra-wide viewport refinement'),
+    (':root{--max:1440px}', 'Missing ultra-wide container cap'),
+]:
+    if needle not in style_txt: errors.append(msg)
 
 # Production CSS must be a deterministic bundle of source modules.
 try:
