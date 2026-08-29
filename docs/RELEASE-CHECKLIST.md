@@ -40,3 +40,15 @@
 - [ ] FAQ JSON-LD na `/revizie/` zodpovedá viditeľnému FAQ.
 - [ ] Article/Podcast publisher používa Person alebo je vynechaný; `Project` sa nepoužíva ako publisher.
 - [ ] Otestovať reálny mobil: hero/fold, Cena, Poradňa, Kontakt, Odborný obsah, light theme a focus/Escape.
+
+
+## v0.6.2
+- [ ] `python tools/build-css.py --check`, `python tools/test-search-index.py`, `python tools/validate-release.py`, `python tools/validate-v060.py` a `python tools/validate-v062.py` prejdú bez chyby.
+- [ ] Homepage hero pri 390, 768, 1600, 1920, 2560 a 3840 px zobrazuje celý zdrojový obrázok bez cropu; viditeľná je hlava aj merací prístroj.
+- [ ] `/revizie/` má vyváženejší brand mark bez zväčšenia celého hero bloku.
+- [ ] Search overlay aj `/hladat/`: po zadaní dotazu Enter otvorí prvý výsledok; `/` a Ctrl/Cmd+K zostávajú skratky na otvorenie mimo textového poľa a Esc zatvára overlay.
+- [ ] Poradňa `co-pripravit-pred-reviziou` používa pôvodnú canonical URL, má aktualizovaný obsah a `dateModified`/sitemap `lastmod` 2026-08-28.
+- [ ] Nová poradenská úprava nepridáva aktívnu službu, cenu, lokalitu, telefón ani LocalBusiness/Electrician/Service/Offer schema.
+- [ ] `/novinky/` nemá horizontálny overflow pri 320 px; `.news-card` sa môže zmenšiť a `.news-meta` sa môže zalomiť.
+- [ ] Term popover v Poradni nevytvára horizontálny overflow pri 768, 1024 ani 1100 px.
+- [ ] Light-theme `--c-subtle` a `--c-accent` spĺňajú aspoň 4,5:1 voči `--c-bg`, `--c-surface`, `--c-surface-2` a `--c-surface-3` pre malý text.

@@ -767,7 +767,7 @@ if '[data-prototype="service-home-a5"] .service-hero-visual' not in style_txt: e
 for needle,msg in [
     ('@media(max-width:840px)', 'Missing homepage tablet breakpoint'),
     ('[data-prototype="service-revisions-a5"] h1', 'Missing compact Revisions desktop hero'),
-    ('@media(min-width:621px) and (max-width:820px)', 'Missing tablet-safe term popover breakpoint'),
+    ('@media(min-width:621px) and (max-width:1100px)', 'Missing tablet/small-desktop-safe term popover breakpoint'),
     ('@media(min-width:3000px)', 'Missing ultra-wide viewport refinement'),
     (':root{--max:1440px}', 'Missing ultra-wide container cap'),
 ]:

@@ -46,6 +46,7 @@ tests={
  'vypina chranic':'/poradna/prudovy-chranic-opakovane-vypina/','Zs':'/glosar/impedancia-poruchovej-slucky-zs/','poruchova slucka':'/glosar/impedancia-poruchovej-slucky-zs/','Zline':'/glosar/impedancia-poruchovej-slucky-zs/',
  'TN C':'/glosar/tn-c-tn-s-tn-c-s/','TN-C-S':'/glosar/tn-c-tn-s-tn-c-s/','PEN':'/glosar/pe-pen-ochranne-vodice/','LPS':'/glosar/lps-ochrana-pred-bleskom/','bleskozvod':'/glosar/lps-ochrana-pred-bleskom/',
  'kupa domu':'/poradna/revizia-pri-kupe-starsieho-domu-alebo-bytu/','revizna sprava':'/poradna/co-obsahuje-revizna-sprava/','rozvadzac':'/poradna/elektrikar-prerobil-rozvadzac-co-nasleduje/','izolacny odpor':'/glosar/izolacny-odpor/','cena':'/revizie/','telefon':'/#kontakt',
+ 'co treba k revizii':'/poradna/co-pripravit-pred-reviziou/','priprava na reviziu':'/poradna/co-pripravit-pred-reviziou/',
  'hlinik':'/poradna/hlinikova-elektroinstalacia/','hlinikova elektroinstalacia':'/poradna/hlinikova-elektroinstalacia/','hlinikove rozvody':'/poradna/hlinikova-elektroinstalacia/','prechod al cu':'/poradna/hlinikova-elektroinstalacia/','spoj al cu':'/poradna/hlinikova-elektroinstalacia/'
 }
 errors=[]

@@ -85,6 +85,10 @@ CURATED = {
         "aliases": ["co obsahuje revizna sprava", "revizna sprava"],
         "relatedTerms": ["dokumentacia", "vysledok revizie"]
     },
+    "/poradna/co-pripravit-pred-reviziou/": {
+        "aliases": ["co pripravit pred reviziou", "co treba k revizii", "priprava na reviziu", "dokumenty k revizii"],
+        "relatedTerms": ["projektova dokumentacia", "predchadzajuca revizna sprava", "pristup k rozvadzacu", "zmeny elektroinstalacie"]
+    },
     "/meranie/": {
         "aliases": ["meranie", "elektricke meranie", "merania"],
         "relatedTerms": ["izolacny odpor", "riso", "kontinuita", "unikajuci prud", "zs", "rcd"]

@@ -258,6 +258,15 @@
     }
   };
 
+  const openFirstResult = async (input, results, live, tracking = null) => {
+    if (!input || !results) return false;
+    await runSearch(input, results, live, tracking);
+    const first = results.querySelector("a.search-result");
+    if (!first) return false;
+    first.click();
+    return true;
+  };
+
   const buildOverlay = () => {
     if (overlay) return overlay;
     overlay = document.createElement("div");
@@ -272,7 +281,7 @@
         </div>
         <label class="site-search-label" for="site-search-overlay-input">Hľadať na Bezpečnej elektrike</label>
         <input id="site-search-overlay-input" class="site-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="RCD, TN-C, poruchová slučka, revízna správa…">
-        <p class="site-search-help">Tip: stlačte <kbd>/</kbd> pre vyhľadávanie, <kbd>Esc</kbd> pre zatvorenie.</p>
+        <p class="site-search-help">Na otvorenie: <kbd>Ctrl</kbd>+<kbd>K</kbd> alebo <kbd>/</kbd> · <kbd>Enter</kbd> otvorí prvý výsledok · <kbd>Esc</kbd> zatvorí.</p>
         <div class="site-search-live sr-only" aria-live="polite"></div>
         <div class="site-search-results"></div>
         <div class="site-search-footer"><a href="/obsah/">Mapa obsahu →</a><a href="/hladat/">Otvoriť samostatné vyhľadávanie →</a></div>
@@ -291,7 +300,11 @@
       if (event.target.closest("[data-search-close]")) closeOverlay();
     });
     overlay.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowDown" && currentResultLinks.length) {
+      if (event.key === "Enter" && event.target === overlayInput) {
+        event.preventDefault();
+        clearTimeout(timer);
+        openFirstResult(overlayInput, overlayResults, overlayLive, Object.assign(overlayTracking, { enabled: true }));
+      } else if (event.key === "ArrowDown" && currentResultLinks.length) {
         event.preventDefault();
         activeResultIndex = Math.min(activeResultIndex + 1, currentResultLinks.length - 1);
         currentResultLinks[activeResultIndex].focus();
@@ -345,6 +358,12 @@
         if (input.value.trim()) url.searchParams.set("q", input.value.trim()); else url.searchParams.delete("q");
         history.replaceState(null, "", url);
       }
+    });
+    input.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter") return;
+      event.preventDefault();
+      clearTimeout(timer);
+      openFirstResult(input, results, live, tracking);
     });
     const params = new URLSearchParams(location.search);
     let initial = params.get("q") || "";
