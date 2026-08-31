@@ -183,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   const open = (item) => {
     popovers.forEach((other) => { if (other !== item) close(other); });
+    item.classList.remove("is-dismissed");
     const trigger = item.querySelector(".term-popover__trigger");
     const bubble = item.querySelector(".term-popover__bubble");
     if (!trigger || !bubble) return;
@@ -200,6 +201,14 @@ document.addEventListener("DOMContentLoaded", () => {
       event.stopPropagation();
       item.classList.contains("is-open") ? close(item) : open(item);
     });
+    item.querySelector(".term-popover__close")?.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      item.classList.add("is-dismissed");
+      close(item);
+      trigger?.focus();
+    });
+    item.addEventListener("mouseleave", () => item.classList.remove("is-dismissed"));
   });
 
   document.addEventListener("click", (event) => {

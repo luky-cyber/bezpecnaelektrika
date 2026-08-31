@@ -42,7 +42,8 @@ main=hs.find('main')
 # Customer-first architecture and pre-commercial truthfulness.
 if not main or len(main.find_all('section',recursive=False))!=6: errors.append('Homepage must keep six top-level customer-first sections')
 if main and len(main.get_text(' ',strip=True).split())>500: errors.append('Homepage customer copy exceeded 500 words')
-if (hs.find('h1') or {}).get_text(' ',strip=True)!='Revízie elektrických zariadení a inštalácií': errors.append('Homepage service-first H1 changed')
+if (hs.find('h1') or {}).get_text(' ',strip=True)!='Viac než revízie elektrických zariadení': errors.append('Homepage approved differentiated H1 changed')
+if 'Pripravované revízne služby' not in home or 'Opýtať sa na revíziu' not in home: errors.append('Homepage must remain service-first after brand differentiation')
 if main and re.search(r'\b(?:LPS|RCD|Zs|PEN|RCBO|RCCB)\b',main.get_text(' ',strip=True)): errors.append('Technical acronym leaked into homepage customer path')
 if 'service-intent-no' in home: errors.append('Alternative situation cards must not be numbered 01–04')
 for rel,txt in [('home',home),('revisions',rev)]:

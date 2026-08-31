@@ -107,12 +107,13 @@
     const dialog = document.createElement("dialog");
     dialog.id = "consent-settings";
     dialog.className = "consent-dialog";
+    dialog.setAttribute("aria-labelledby", "consent-settings-title");
     dialog.innerHTML = `
       <form method="dialog" class="consent-dialog__panel">
         <div class="consent-dialog__head">
           <div>
             <span class="eyebrow">Súkromie</span>
-            <h2>Nastavenia analytiky</h2>
+            <h2 id="consent-settings-title">Nastavenia analytiky</h2>
           </div>
           <button type="button" class="consent-close" aria-label="Zavrieť nastavenia">×</button>
         </div>

@@ -812,7 +812,9 @@ try:
     from bs4 import BeautifulSoup as _BS
     _hs=_BS(home_txt,'html.parser'); _main=_hs.find('main')
     if len(_main.find_all('section',recursive=False))!=6: errors.append('v0.6.0 service-first homepage must keep 6 top-level sections')
-    if (_hs.find('h1') or {}).get_text(' ',strip=True)!='Revízie elektrických zariadení a inštalácií': errors.append('v0.6.0 homepage H1 must state the service directly')
+    _h1=(_hs.find('h1') or {}).get_text(' ',strip=True)
+    if _h1!='Viac než revízie elektrických zariadení': errors.append('Homepage H1 must keep the approved brand/service differentiation')
+    if 'Bezpečná elektrika' not in home_txt or 'Pripravované revízne služby' not in home_txt: errors.append('Homepage must remain explicitly service-led despite broader brand H1')
     if _main and re.search(r'\b(?:LPS|RCD|Zs|PEN|RCBO|RCCB)\b',_main.get_text(' ',strip=True)): errors.append('Technical acronyms must not leak into the homepage customer path')
 except Exception as e: errors.append(f'Could not inspect v0.6.0 homepage structure: {e}')
 for needle in ['service-trust-inline','Opýtať sa na revíziu']:

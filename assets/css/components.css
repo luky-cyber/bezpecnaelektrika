@@ -427,3 +427,10 @@ html[data-theme="light"] .pill,
 html[data-theme="light"] .tag{color:#215d59}
 html[data-theme="light"] .note-box{color:#584a2d}
 html[data-theme="light"] .player-download{background:rgba(255,255,255,.55)}
+
+/* ===== v0.6.3 post-release UX hardening ===== */
+/* Legacy accent-driven labels need the same AA-safe light-theme accent as v0.4+ components. */
+html[data-theme="light"]{--accent:#137672}
+
+/* Home is an explicit first-class item in the complete main navigation on desktop and mobile. */
+.nav-home-link{display:block}
