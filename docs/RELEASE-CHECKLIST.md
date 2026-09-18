@@ -52,3 +52,25 @@
 - [ ] `/novinky/` nemá horizontálny overflow pri 320 px; `.news-card` sa môže zmenšiť a `.news-meta` sa môže zalomiť.
 - [ ] Term popover v Poradni nevytvára horizontálny overflow pri 768, 1024 ani 1100 px.
 - [ ] Light-theme `--c-subtle` a `--c-accent` spĺňajú aspoň 4,5:1 voči `--c-bg`, `--c-surface`, `--c-surface-2` a `--c-surface-3` pre malý text.
+
+## v0.6.4
+- [ ] `python tools/build-css.py --check`, `python tools/test-search-index.py`, `python tools/validate-release.py`, `python tools/validate-v060.py`, `python tools/validate-v062.py`, `python tools/validate-v063.py` a `python tools/validate-v064.py` prejdú bez chyby.
+- [ ] Search negatívne testy `xyzqwerty`, `ako xyzqwerty`, `preco xyzqwerty`, `co xyzqwerty` vrátia 0 výsledkov; RCD/Zs/LPS/customer-intent regresie zostanú OK.
+- [ ] Consent v jednej karte: povoliť → odmietnuť → znovu povoliť; UI, uložená voľba a GA stav sa zhodujú. Po reload s `necessary` sa Google tag nenačíta.
+- [ ] `/hladat/?q=RCD` pri analytickom súhlase neposiela raw `RCD` cez `page_location`, `search_term` ani interný `page_referrer`; očakávané je `q=(redacted)` alebo bez parametra.
+- [ ] Pri zablokovanom `localStorage` zostáva obsah viditeľný, prepínač témy funguje v rámci stránky a consent default je bez analytiky.
+- [ ] Podcastová karta hovorí `Vybrať epizódu`; hlavné Play tlačidlo prehráva. Simulovaná audio chyba zobrazí viditeľné hlásenie a odkaz Stiahnuť MP3 zostáva dostupný.
+- [ ] Viditeľný profesionálny link používa `https://likavcan.cz/lukas/`; Person JSON-LD `@id` zostáva `https://likavcan.cz/lukas/#lukas-likavcan`.
+- [ ] Na produkcii `/version.json` hlási `v0.6.4`; `/docs/`, `/tools/` a repo Markdown dokumentácia nie sú súčasťou publikovaného GitHub Pages buildu.
+- [ ] Sitemap a obsahové `dateModified` sa nemenia iba kvôli tomuto technickému release.
+
+
+## v0.6.8 RC2
+- [ ] `python tools/validate-podcasts.py` prejde pre všetky publikované epizódy.
+- [ ] `python tools/validate-commercial-dry-run.py` prejde: full-state dry-run, 0 predkomerčných protirečení, všetky unresolved business rozhodnutia viditeľné.
+- [ ] `.nojekyll` neexistuje; `_config.yml` vylučuje `config/`, `.build/`, `tools/`, `docs/`.
+- [ ] `python tools/validate-v068.py` + celý historický chain prejde.
+- [ ] Produkčný HTML povrch neobsahuje dry-run banner, sticky CTA, schema candidate ani Commercial Switch schema/phone/areaServed.
+- [ ] Footer každej stránky ukazuje rovnaký release ako `/version.json`; očakávaná hodnota sa berie z `config/release.json`.
+- [ ] Lokálne otvoriť `.build/commercial-dry-run/` iba na testovanie: homepage + `/revizie/`, sticky CTA, mobile reflow, unresolved panel.
+- [ ] Po deployi spustiť `python tools/validate-production-v068.py --expect-release <release>` a dokončiť `docs/PRODUCTION-ACCEPTANCE-v0.6.8.md`.

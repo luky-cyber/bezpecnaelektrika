@@ -55,16 +55,17 @@ for p in html_pages:
     elif 'active' in (home.get('class') or []) or home.has_attr('aria-current'):
         errors.append(f'Non-home Home link must not be current: {p.relative_to(ROOT)}')
 
-if len(nav_pages)!=35:
-    errors.append(f'Expected 35 main-nav pages, found {len(nav_pages)}')
+# Forward-compatible: later releases may add pages; the v0.6.3 guardrail is that no existing/new main-nav page loses Home.
+if len(nav_pages)<35:
+    errors.append(f'Expected at least 35 main-nav pages, found {len(nav_pages)}')
 if '.nav-home-link{display:block}' not in components:
     errors.append('Home link must be visible in the complete desktop/mobile main nav')
 
 # 3) Poradna term popovers have explicit accessible close controls and JS support.
 poradna=BeautifulSoup(text('poradna/index.html'),'html.parser')
 popovers=poradna.select('[data-term-popover]')
-if len(popovers)!=2:
-    errors.append(f'Expected 2 Poradna term popovers, found {len(popovers)}')
+if popovers:
+    errors.append(f'Poradna customer decision grid must not expose acronym popovers in RC7, found {len(popovers)}')
 for pop in popovers:
     close=pop.select_one('button.term-popover__close')
     if not close or not close.get('aria-label'):
@@ -109,12 +110,12 @@ for needle in [
 # 6) Homepage is visibly distinct from /revizie/ while remaining service-first.
 home_soup=BeautifulSoup(text('index.html'),'html.parser')
 home_h1=(home_soup.find('h1') or {}).get_text(' ',strip=True)
-if home_h1!='Viac než revízie elektrických zariadení': errors.append('Homepage differentiation H1 missing or changed')
+if home_h1!='Revízie elektrických zariadení a inštalácií': errors.append('Homepage direct service H1 missing or changed')
 brand=home_soup.select_one('.home-brand-intro__name')
 brand_logo=home_soup.select_one('.home-brand-intro__logo')
 if not brand or brand.get_text(' ',strip=True)!='Bezpečná elektrika': errors.append('Homepage brand lockup name missing')
 if not brand_logo or brand_logo.get('src')!='/assets/img/bezpecna-elektrika-logo-header.webp': errors.append('Homepage brand lockup logo missing')
-if 'Pripravované revízne služby' not in text('index.html') or 'Opýtať sa na revíziu' not in text('index.html'): errors.append('Homepage must retain service-first lead and CTA')
+if 'Pripravované služby revízneho technika' not in text('index.html') or 'Napísať mi e-mail' not in text('index.html'): errors.append('Homepage must retain RC7 service-first precommercial lead and CTA')
 for needle in ['.home-brand-intro{','.home-brand-intro__logo{','.contact-utility{','.contact-utility__qr{']:
     if needle not in v040: errors.append(f'Missing homepage/contact CSS guardrail: {needle}')
 
@@ -192,10 +193,15 @@ if '.profile-link-cta{' not in v040:
 about=BeautifulSoup(text('o-projekte/index.html'),'html.parser')
 if not about.select_one('a.profile-link-cta[href="https://likavcan.cz/lukas/"]'):
     errors.append('O mne professional profile CTA class missing')
-if '"dateModified":"2026-08-31"' not in text('index.html'):
-    errors.append('Homepage dateModified must reflect final v0.6.3 content change date')
-if '<loc>https://bezpecnaelektrika.sk/</loc>\n    <lastmod>2026-08-31</lastmod>' not in text('sitemap.xml'):
-    errors.append('Homepage sitemap lastmod must reflect final v0.6.3 content change date')
+# v0.6.3 established 2026-09-14 as the homepage content-date floor. Later
+# releases may legitimately move it forward when visible homepage content changes.
+import re as _re
+_home_date = _re.search(r'"dateModified":"(\d{4}-\d{2}-\d{2})"', text('index.html'))
+if not _home_date or _home_date.group(1) < '2026-09-14':
+    errors.append('Homepage dateModified must not regress before the final v0.6.3 content change date')
+_sitemap_home = _re.search(r'<loc>https://bezpecnaelektrika.sk/</loc>\s*<lastmod>(\d{4}-\d{2}-\d{2})</lastmod>', text('sitemap.xml'))
+if not _sitemap_home or _sitemap_home.group(1) < '2026-09-14':
+    errors.append('Homepage sitemap lastmod must not regress before the final v0.6.3 content change date')
 
 
 # v0.6.3 RC5 — certificate status, O mne contact and named vCard.
@@ -230,7 +236,7 @@ _runtime_html='\n'.join(p.read_text(encoding='utf-8') for p in ROOT.rglob('*.htm
 for _old in ['Osvedčenie: čakám','čakám na osvedčenie','čakám na vydanie osvedčenia']:
     if _old in _runtime_html:
         errors.append(f'Stale certificate waiting text remains in runtime HTML: {_old}')
-if 'osvedčenie bolo vydané' not in text('index.html') or 'osvedčenie bolo vydané' not in text('revizie/index.html'):
+if 'mám vydané osvedčenie' not in text('index.html') or 'mám vydané osvedčenie' not in text('revizie/index.html'):
     errors.append('Homepage/Revisions issued-certificate wording missing')
 if '.about-contact-compact{' not in v040:
     errors.append('O mne compact contact CSS missing')

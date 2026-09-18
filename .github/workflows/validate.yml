@@ -1,0 +1,39 @@
+name: Validate release source
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-validation.txt
+      - name: Install validator dependencies
+        run: pip install --requirement requirements-validation.txt
+      - name: Run source acceptance
+        env:
+          PYTHONUTF8: "1"
+        run: |
+          python tools/build-css.py --check
+          python tools/test-search-index.py
+          python tools/validate-release.py
+          python tools/validate-v060.py
+          python tools/validate-v062.py
+          python tools/validate-v063.py
+          python tools/validate-v064.py
+          python tools/validate-v065.py
+          python tools/validate-v066.py
+          python tools/validate-v067.py
+          python tools/validate-v068.py
+          python tools/validate-podcasts.py
+          python tools/validate-commercial-dry-run.py

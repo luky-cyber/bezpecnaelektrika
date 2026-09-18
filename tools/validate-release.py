@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import json, re, sys
+import json, os, re, sys
 from datetime import datetime, timezone, timedelta
 from html.parser import HTMLParser
 from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[1]
-required=['index.html','CNAME','robots.txt','sitemap.xml','assets/js/main.js','assets/js/consent.js','assets/js/search.js','data/search-index.json','tools/build-search-index.py','tools/build-news-sitemap.py','tools/build-css.py','obsah/index.html','hladat/index.html','RELEASE-v0.5.12.md','RELEASE-v0.5.13.md','RELEASE-v0.6.0-rc1.md','RELEASE-v0.6.0.md','tools/validate-v060.py']
+required=['index.html','CNAME','robots.txt','sitemap.xml','version.json','_config.yml','assets/js/main.js','assets/js/consent.js','assets/js/search.js','data/search-index.json','tools/build-search-index.py','tools/build-news-sitemap.py','tools/build-css.py','obsah/index.html','hladat/index.html','RELEASE-v0.5.12.md','RELEASE-v0.5.13.md','RELEASE-v0.6.0-rc1.md','RELEASE-v0.6.0.md','RELEASE-v0.6.4.md','RELEASE-v0.6.5.md','RELEASE-v0.6.6.md','RELEASE-v0.6.7.md','tools/validate-v060.py','tools/validate-v064.py','tools/validate-v065.py','tools/validate-v066.py','tools/validate-v067.py','tools/audit-content-graph.py','docs/CONTENT-GRAPH-REPORT-v0.6.7.md','tools/validate-production-v066.py','tools/validate-production-v068.py','RELEASE-v0.6.8.md','tools/validate-v068.py','tools/sync-release-identity.py','tools/build-commercial-dry-run.py','tools/validate-commercial-dry-run.py','tools/validate-podcasts.py','config/release.json','config/commercial-state.json','COMMERCIAL-GO-LIVE.md','docs/COMMERCIAL-SWITCH-v0.7.0.md','docs/PRODUCTION-ACCEPTANCE-v0.6.8.md','podcast/be-005-test-prudoveho-chranica/index.html','assets/img/osvedcenie-e2a-lukas-likavcan-verejna-kopia.webp','assets/img/osvedcenie-e2a-lukas-likavcan-verejna-kopia-preview.webp']
 errors=[]
 readme=(ROOT/'README.md').read_text(encoding='utf-8') if (ROOT/'README.md').is_file() else ''
-if not readme.startswith('# Bezpečná elektrika v0.6.0'):
-    errors.append('README must identify v0.6.0')
+if not re.match(r'^# Bezpečná elektrika v0\.\d+\.\d+', readme):
+    errors.append('README must identify the current Bezpečná elektrika release')
 for f in required:
     if not (ROOT/f).is_file(): errors.append(f'Missing root file: {f}')
 for child in ROOT.iterdir():
@@ -86,7 +86,7 @@ for slug in knowledge_slugs:
         for needle in ['Stručne:','dateModified']:
             if needle not in txt: errors.append(f'Missing {needle} in knowledge-base page: {slug}')
         if not any(x in txt for x in ['Zdroje a proveniencia','Odborný a normatívny základ']): errors.append(f'Missing source/provenance section in knowledge-base page: {slug}')
-        if not any(x in txt for x in ['Čo z výsledku nevyplýva','Čo výsledok neznamená','Čo z toho nevyplýva','Čo z výsledku nemožno automaticky vyvodiť']): errors.append(f'Missing interpretation-boundary section in knowledge-base page: {slug}')
+        if not any(x in txt for x in ['Čo z výsledku nevyplýva','Čo výsledok neznamená','Čo z toho nevyplýva','Čo z výsledku nemožno automaticky vyvodiť','Čo TEST neoverí','Ako výsledok čítať','Ako čítať výsledok kontroly']): errors.append(f'Missing interpretation-boundary section in knowledge-base page: {slug}')
 
 # v0.5.7 podcast BE-003 checks
 try:
@@ -103,7 +103,7 @@ feed_txt=(ROOT/'podcast/feed.xml').read_text(encoding='utf-8')
 for needle in ['bezpecnaelektrika-be-003','length="5109546"','<itunes:duration>7:06</itunes:duration>']:
     if needle not in feed_txt: errors.append(f'Missing BE-003 RSS field: {needle}')
 podcast_html=(ROOT/'podcast/index.html').read_text(encoding='utf-8')
-if 'https://bezpecnaelektrika.sk/podcast/#be-003' not in podcast_html:
+if 'https://bezpecnaelektrika.sk/podcast/be-003-namerana-hodnota-este-nie-je-vysledok/#episode' not in podcast_html:
     errors.append('Missing BE-003 PodcastEpisode JSON-LD')
 
 # Current podcast release BE-004 checks
@@ -113,14 +113,21 @@ try:
     else:
         if ep4.get('duration')!='7:42': errors.append('BE-004 duration must be 7:42')
         if ep4.get('audio')!='https://audio.bezpecnaelektrika.sk/podcast/2026/be-004-revizna-sprava-nie-je-len-papier.mp3': errors.append('BE-004 audio URL mismatch')
-        if not ep4.get('featured'): errors.append('BE-004 must be featured')
+        # BE-004 remains published; the featured slot may move to a newer episode.
 except Exception as e:
     errors.append(f'BE-004 podcast data check failed: {e}')
 for needle in ['bezpecnaelektrika-be-004','length="7395402"','<itunes:duration>7:42</itunes:duration>']:
     if needle not in feed_txt: errors.append(f'Missing BE-004 RSS field: {needle}')
-if 'https://bezpecnaelektrika.sk/podcast/#be-004' not in podcast_html:
+if 'https://bezpecnaelektrika.sk/podcast/be-004-revizna-sprava-nie-je-len-papier/#episode' not in podcast_html:
     errors.append('Missing BE-004 PodcastEpisode JSON-LD')
 
+# Current podcast integrity is validated generically so future BE-006+ episodes do not require release-validator rewrites.
+try:
+    import subprocess
+    r=subprocess.run([sys.executable,str(ROOT/'tools/validate-podcasts.py')],cwd=ROOT,capture_output=True,text=True,encoding='utf-8')
+    if r.returncode: errors.append('Generic podcast integrity validator failed: '+r.stdout[-900:]+r.stderr[-300:])
+except Exception as e:
+    errors.append(f'Generic podcast integrity invocation failed: {e}')
 
 
 # v0.5.8 AI/Search + Identity + UX/Performance checks
@@ -178,8 +185,8 @@ for hp in ROOT.rglob('*.html'):
 # Relevant edited pages should expose dateModified on their WebPage entity.
 for rel in ['index.html','revizie/index.html','poradna/index.html','meranie/index.html','glosar/index.html','novinky/index.html','metodika/index.html','o-projekte/index.html']:
     txt=(ROOT/rel).read_text(encoding='utf-8')
-    if '"@type":"WebPage"' not in txt or '"dateModified":' not in txt:
-        errors.append(f'Missing WebPage dateModified in {rel}')
+    if not ('"@type":"WebPage"' in txt or (rel == 'o-projekte/index.html' and '"@type":"ProfilePage"' in txt)) or '"dateModified":' not in txt:
+        errors.append(f'Missing page-level dateModified in {rel}')
 
 # Contextual CTA coverage requested by external audits.
 for rel in ['o-projekte/index.html','meranie/index.html','glosar/index.html','novinky/index.html','metodika/index.html']:
@@ -220,8 +227,14 @@ for rel in [
     'glosar/impedancia-poruchovej-slucky-zs/index.html'
 ]:
     txt=(ROOT/rel).read_text(encoding='utf-8')
-    for needle in ['article-byline','Odborný a normatívny základ','Od čoho výsledok závisí','Typické chyby interpretácie']:
+    for needle in ['article-byline','Odborný a normatívny základ']:
         if needle not in txt: errors.append(f'Missing v0.5.9 authority element in {rel}: {needle}')
+    if rel.endswith('rcd-prudovy-chranic/index.html'):
+        for needle in ['Tlačidlo TEST na RCD','Čo TEST neoverí']:
+            if needle not in txt: errors.append(f'Missing concise RCD interpretation element in {rel}: {needle}')
+    else:
+        for needle in ['id="od-coho-zavisi"','id="ako-citat-vysledok"','Zs ≠ Zline']:
+            if needle not in txt: errors.append(f'Missing current Zs interpretation guardrail in {rel}: {needle}')
     if 'https://likavcan.cz/lukas/' not in txt: errors.append(f'Missing visible author profile in {rel}')
 
 for rel in [
@@ -285,7 +298,7 @@ for p in ROOT.rglob('*.html'):
 
 # v0.5.10 Authority & Visual Evidence II checks
 lps_txt=(ROOT/'glosar/lps-ochrana-pred-bleskom/index.html').read_text(encoding='utf-8')
-for needle in ['Od čoho posúdenie závisí','Trieda LPS: prečo ju nemožno určiť podľa typu domu','Odborný a normatívny základ','IEC 62305-2:2024','IEC 62305-3:2024','IEC 62305-4:2024']:
+for needle in ['id="od-coho-zavisi"','Trieda LPS sa neurčuje podľa typu domu','Odborný a normatívny základ','IEC 62305-2:2024','IEC 62305-3:2024','IEC 62305-4:2024']:
     if needle not in lps_txt: errors.append(f'Missing v0.5.10 LPS authority element: {needle}')
 if 'Rodinný dom teda automaticky neznamená LPS III ani inú konkrétnu triedu.' not in lps_txt:
     errors.append('LPS page must preserve explicit boundary against building-type class shortcuts')
@@ -308,8 +321,8 @@ new_advice=ROOT/'poradna/prudovy-chranic-opakovane-vypina/index.html'
 if not new_advice.is_file(): errors.append('Missing v0.5.10 Poradna page: prudovy-chranic-opakovane-vypina')
 else:
     txt=new_advice.read_text(encoding='utf-8')
-    for needle in ['Stručne:','Prečo nestačí stlačiť TEST','Čo z vypínania nevyplýva','Odborný a normatívny základ']:
-        if needle not in txt: errors.append(f'Missing v0.5.10 RCD advice element: {needle}')
+    for needle in ['Stručne:','Čo povie tlačidlo TEST','zámerne nereprodukujte','Odborné zdroje']:
+        if needle not in txt: errors.append(f'Missing concise RCD advice element: {needle}')
     if '/glosar/rcd-prudovy-chranic/' not in txt: errors.append('RCD advice must link to RCD knowledge page')
 
 for rel in ['glosar/rccb-vs-rcbo/index.html','glosar/tn-c-tn-s-tn-c-s/index.html','glosar/uzemnenie/index.html','glosar/izolacny-odpor/index.html']:
@@ -399,6 +412,7 @@ if '/poradna/elektrikar-prerobil-rozvadzac-co-nasleduje/' not in (ROOT/'revizie/
 
 # v0.5.11 Search & content orientation checks
 import subprocess, unicodedata
+UTF8_ENV={**os.environ, "PYTHONUTF8":"1"}
 
 for rel in ['RELEASE-v0.5.11.md','obsah/index.html','hladat/index.html','data/search-index.json','tools/build-search-index.py','tools/test-search-index.py','assets/js/search.js']:
     if not (ROOT/rel).is_file(): errors.append(f'Missing v0.5.11 file: {rel}')
@@ -511,8 +525,8 @@ for event in ['search_used','search_no_results','search_result_click']:
 if re.search(r'beTrack\?\.\([^\n]+query\s*:',search_js,re.I):
     errors.append('Search analytics must not send raw query text')
 privacy=(ROOT/'ochrana-sukromia/index.html').read_text(encoding='utf-8')
-if 'Text zadaného vyhľadávacieho dopytu do Google Analytics neposielame.' not in privacy:
-    errors.append('Privacy page must explain that raw search queries are not sent to GA4')
+if 'text zadaný do interného vyhľadávania' not in privacy.lower():
+    errors.append('Privacy page must explain that internal search text is not sent to analytics')
 if '.normalize("NFD")' not in (ROOT/'assets/js/glossary.js').read_text(encoding='utf-8'):
     errors.append('Glossary search must normalize Slovak diacritics')
 
@@ -656,8 +670,8 @@ for url,date in [('/novinky/2026/stn-en-iec-62305-3-2026/','2026-02-01'),('/novi
     if not re.search(r'href=["\']'+re.escape(url)+r'["\']',hub_news,re.I) or f'datetime="{date}"' not in hub_news: errors.append(f'Novinky hub missing event date {date} for {url}')
 
 metodika_txt=(ROOT/'metodika/index.html').read_text(encoding='utf-8')
-for needle in ['Ako vznikajú Novinky','Dátum udalosti alebo vydania normy nie je dátumom publikovania článku','NewsArticle sa použije iba pri skutočne čerstvej, časovo citlivej udalosti','kontakt@bezpecnaelektrika.sk']:
-    if needle not in metodika_txt: errors.append(f'Missing v0.5.12 methodology rule: {needle}')
+for needle in ['Ako vzniká „Čo nové v elektro“','overiteľná zmena','dátum, ku ktorému boli informácie overené','kontakt@bezpecnaelektrika.sk']:
+    if needle not in metodika_txt: errors.append(f'Missing concise methodology rule: {needle}')
 workflow=(ROOT/'docs/CONTENT-WORKFLOW.md').read_text(encoding='utf-8')
 for needle in ['Google News je možný distribučný kanál, nie publikačný cieľ','Europe/Bratislava','XML sitemap `<lastmod>` je samostatný crawl signál','dateModified','NewsArticle']:
     if needle not in workflow: errors.append(f'Missing v0.5.12 workflow rule: {needle}')
@@ -699,14 +713,14 @@ if not hlinik_path.is_file():
     errors.append('Missing v0.5.13 aluminium Poradna page')
 else:
     htxt=hlinik_path.read_text(encoding='utf-8')
-    for needle in ['Je hliníková elektroinštalácia problém?','Stručne:','Samotná prítomnosť hliníkových vodičov nestačí','id="prechod-al-cu"','class="source-provenance"','href="/poradna/"']:
+    for needle in ['Je hliníková elektroinštalácia problém?','Stručne:','Hliník v elektroinštalácii ešte neznamená','id="prechod-al-cu"','class="source-provenance"','href="/poradna/"']:
         if needle not in htxt: errors.append(f'Missing v0.5.13 aluminium-page invariant: {needle}')
     internal={u.split('#',1)[0] for u in re.findall(r'href=["\'](/[^"\']+)["\']',htxt) if not u.startswith('/poradna/hlinikova-elektroinstalacia/')}
     if len(internal)<3: errors.append('Aluminium Poradna must link to at least 3 other internal pages')
 
 # There are now exactly 12 standalone Poradna answers.
 poradna_pages=list((ROOT/'poradna').glob('*/index.html'))
-if len(poradna_pages)!=12: errors.append(f'Expected 12 Poradna detail pages, found {len(poradna_pages)}')
+if len(poradna_pages)!=13: errors.append(f'Expected 13 Poradna detail pages, found {len(poradna_pages)}')
 
 # Parent eyebrow links are a deterministic navigation pattern on KB and Poradna details.
 for hp in (ROOT/'glosar').glob('*/index.html'):
@@ -755,9 +769,9 @@ if not hero_match:
     errors.append('Could not inspect homepage hero grid structure')
 else:
     hero=hero_match.group(1)
-    visual_pos=hero.find('<div class="hero-visual-v04 service-hero-visual reveal">')
+    visual_pos=hero.find('<div class="hero-visual-v04 service-hero-visual">')
     if visual_pos<0: errors.append('Missing homepage hero visual')
-    elif '</div></div><div class="hero-visual-v04 service-hero-visual reveal">' not in home_txt:
+    elif '</div><div class="hero-visual-v04 service-hero-visual">' not in home_txt:
         errors.append('Homepage hero visual must be a sibling of the copy/status block')
 if '.page-hero--home h1' not in style_txt: errors.append('Missing homepage-specific hero H1 CSS')
 if '[data-prototype="service-home-a5"] .service-hero-visual' not in style_txt: errors.append('Missing desktop hero visual height cap CSS')
@@ -775,7 +789,7 @@ for needle,msg in [
 
 # Production CSS must be a deterministic bundle of source modules.
 try:
-    cssproc=subprocess.run([sys.executable,str(ROOT/'tools/build-css.py'),'--check'],cwd=ROOT,text=True,capture_output=True,timeout=20)
+    cssproc=subprocess.run([sys.executable,str(ROOT/'tools/build-css.py'),'--check'],cwd=ROOT,text=True,capture_output=True,timeout=20,env=UTF8_ENV)
     if cssproc.returncode!=0: errors.append('CSS build check failed: '+cssproc.stdout.replace('\n',' | '))
 except Exception as e:
     errors.append(f'Could not run CSS build check: {e}')
@@ -796,7 +810,7 @@ if 'https://bezpecnaelektrika.sk/poradna/hlinikova-elektroinstalacia/' not in si
 
 # Automated search smoke test mirrors the public scoring contract.
 try:
-    proc=subprocess.run([sys.executable,str(ROOT/'tools/test-search-index.py')],cwd=ROOT,text=True,capture_output=True,timeout=20)
+    proc=subprocess.run([sys.executable,str(ROOT/'tools/test-search-index.py')],cwd=ROOT,text=True,capture_output=True,timeout=20,env=UTF8_ENV)
     if proc.returncode!=0: errors.append('Search smoke test failed: '+proc.stdout.replace('\n',' | '))
 except Exception as e:
     errors.append(f'Could not run search smoke test: {e}')
@@ -811,20 +825,22 @@ consent_txt=(ROOT/'assets/js/consent.js').read_text(encoding='utf-8')
 try:
     from bs4 import BeautifulSoup as _BS
     _hs=_BS(home_txt,'html.parser'); _main=_hs.find('main')
-    if len(_main.find_all('section',recursive=False))!=6: errors.append('v0.6.0 service-first homepage must keep 6 top-level sections')
+    if len(_main.find_all('section',recursive=False))!=7: errors.append('RC14 homepage must keep 7 top-level sections after semantic Contact split')
     _h1=(_hs.find('h1') or {}).get_text(' ',strip=True)
-    if _h1!='Viac než revízie elektrických zariadení': errors.append('Homepage H1 must keep the approved brand/service differentiation')
-    if 'Bezpečná elektrika' not in home_txt or 'Pripravované revízne služby' not in home_txt: errors.append('Homepage must remain explicitly service-led despite broader brand H1')
+    if _h1!='Revízie elektrických zariadení a inštalácií': errors.append('Homepage H1 must state the service directly')
+    if 'Bezpečná elektrika' not in home_txt or 'Pripravované služby revízneho technika' not in home_txt: errors.append('Homepage must remain explicitly service-led and precommercial')
     if _main and re.search(r'\b(?:LPS|RCD|Zs|PEN|RCBO|RCCB)\b',_main.get_text(' ',strip=True)): errors.append('Technical acronyms must not leak into the homepage customer path')
 except Exception as e: errors.append(f'Could not inspect v0.6.0 homepage structure: {e}')
-for needle in ['service-trust-inline','Opýtať sa na revíziu']:
+for needle in ['service-trust-inline','Napísať mi e-mail']:
     if needle not in home_txt or needle not in rev_txt: errors.append(f'Missing v0.6.0 customer/trust invariant: {needle}')
-if 'komerčné služby zatiaľ neposkytujem' not in home_txt.lower() or 'komerčné služby zatiaľ neposkytujem' not in rev_txt.lower(): errors.append('Missing v0.6.0 pre-commercial status wording')
+if 'zákazky zatiaľ neprijímam' not in home_txt.lower() or 'zákazky zatiaľ neprijímam' not in rev_txt.lower(): errors.append('Missing explicit RC7 pre-commercial status wording')
 for forbidden in ['Objednať revíziu','"@type":"LocalBusiness"','"@type":"Electrician"','"@type":"Service"','"@type":"Offer"','areaServed']:
     if forbidden in home_txt+rev_txt: errors.append(f'Forbidden pre-commercial v0.6.0 element: {forbidden}')
 if 'Čo ak sa pri revízii nájde problém?' not in rev_txt: errors.append('Missing expectation-setting FAQ about detected problems')
 for event_name in ['service_interest_click','price_interest_click','service_situation_click','expert_content_click']:
-    if event_name not in consent_txt or event_name not in privacy_txt: errors.append(f'Missing consent/privacy coverage for customer journey event: {event_name}')
+    if event_name not in consent_txt: errors.append(f'Missing consent analytics event: {event_name}')
+if 'Google Analytics 4' not in privacy_txt or 'text zadaný do interného vyhľadávania' not in privacy_txt:
+    errors.append('Concise privacy analytics disclosure missing')
 
 if errors:
     print('RELEASE CHECK FAILED')

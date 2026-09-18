@@ -10,7 +10,7 @@ Dátum: 31. 08. 2026
 - Dialóg Nastavenia analytiky má explicitný accessible name cez `aria-labelledby`.
 - Homepage je nad foldom jasne odlíšená od `/revizie/`: brand lockup s logom a H1 `Viac než revízie elektrických zariadení` zachováva revízie ako primárny CTA cieľ a zároveň komunikuje odborný obsah webu.
 - Homepage kontakt ponúka stiahnuteľnú vCard s rozpoznateľným názvom súboru a kompaktný QR kód v rovnakom princípe ako likavcan.cz; QR smeruje na `/bezpecna-elektrika-lukas-likavcan.vcf` a neobsahuje Commercial Switch údaje.
-- vCard používa rovnaký UTF-8 profil ako priložená karta z likavcan.cz: vCard 3.0, CRLF, bez BOM, `CHARSET=utf-8` a bez `QUOTED-PRINTABLE`. Kompatibilita s Classic Outlookom zostáva predmetom manuálneho testu; ak zlyhá, ďalší krok bude samostatný Outlook import fallback, nie ďalšie miešanie kódovaní v hlavnej vCard.
+- vCard používa rovnaký UTF-8 profil ako priložená karta z likavcan.cz: vCard 3.0, CRLF, bez BOM, `CHARSET=utf-8` a bez `QUOTED-PRINTABLE`. Kompatibilita vCard bola manuálne overená vo viacerých verziách Outlooku; slovenská diakritika sa zobrazuje korektne.
 - Keďže sa významne mení homepage copy, homepage `dateModified` a sitemap `lastmod` sú aktualizované na 2026-08-31.
 
 - Hubové H1 mimo homepage a `/revizie/` sú na desktopoch zmenšené, aby nepôsobili monumentálnejšie než hlavný homepage nadpis.

@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 5,
   "audioBase": "https://audio.bezpecnaelektrika.sk/podcast",
   "episodes": [
     {
@@ -14,7 +14,10 @@
       "published": true,
       "featured": false,
       "popular": false,
-      "aiAudio": "Gemini Notebook"
+      "aiAudio": "Gemini Notebook",
+      "page": "/podcast/be-001-preco-nestaci-ze-elektrina-funguje/",
+      "editorialCorrections": true,
+      "correctionsNote": "Epizóda obsahuje popularizačné technické zjednodušenia. Pred prehratím si pozrite redakčné odborné spresnenia na stránke epizódy."
     },
     {
       "id": "BE-002",
@@ -28,7 +31,10 @@
       "published": true,
       "featured": false,
       "popular": false,
-      "aiAudio": "Gemini Notebook"
+      "aiAudio": "Gemini Notebook",
+      "page": "/podcast/be-002-merat-nie-hadat/",
+      "editorialCorrections": true,
+      "correctionsNote": "Epizóda obsahuje popularizačné technické zjednodušenia. Pred prehratím si pozrite redakčné odborné spresnenia na stránke epizódy."
     },
     {
       "id": "BE-003",
@@ -42,7 +48,10 @@
       "published": true,
       "featured": false,
       "popular": false,
-      "aiAudio": "Gemini Notebook"
+      "aiAudio": "Gemini Notebook",
+      "page": "/podcast/be-003-namerana-hodnota-este-nie-je-vysledok/",
+      "editorialCorrections": true,
+      "correctionsNote": "Epizóda obsahuje popularizačné technické zjednodušenia. Pred prehratím si pozrite redakčné odborné spresnenia na stránke epizódy."
     },
     {
       "id": "BE-004",
@@ -54,9 +63,25 @@
       "summary": "Revízna správa nie je len zbierka čísel. Čo dokumentuje, prečo potrebuje kontext a prečo samotná revízia nie je automaticky opravou elektroinštalácie.",
       "audio": "https://audio.bezpecnaelektrika.sk/podcast/2026/be-004-revizna-sprava-nie-je-len-papier.mp3",
       "published": true,
+      "featured": false,
+      "popular": false,
+      "aiAudio": "Gemini Notebook",
+      "page": "/podcast/be-004-revizna-sprava-nie-je-len-papier/"
+    },
+    {
+      "id": "BE-005",
+      "title": "TEST na prúdovom chrániči: čo overí a čo nie",
+      "slug": "test-prudoveho-chranica",
+      "date": "2026-09-12",
+      "duration": "5:17",
+      "category": "Bezpečnosť",
+      "summary": "Čo skutočne overí tlačidlo TEST na prúdovom chrániči, čo z jedného cvaknutia nemožno vyvodiť a prečo funkčný TEST nenahrádza odborné overenie elektroinštalácie.",
+      "audio": "https://audio.bezpecnaelektrika.sk/podcast/2026/BE-005-test-prudoveho-chranica.mp3",
+      "published": true,
       "featured": true,
       "popular": false,
-      "aiAudio": "Gemini Notebook"
+      "aiAudio": "Gemini Notebook",
+      "page": "/podcast/be-005-test-prudoveho-chranica/"
     }
   ]
 }

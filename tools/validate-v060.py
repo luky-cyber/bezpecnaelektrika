@@ -40,16 +40,16 @@ hs=BeautifulSoup(home,'html.parser'); rs=BeautifulSoup(rev,'html.parser')
 main=hs.find('main')
 
 # Customer-first architecture and pre-commercial truthfulness.
-if not main or len(main.find_all('section',recursive=False))!=6: errors.append('Homepage must keep six top-level customer-first sections')
+if not main or len(main.find_all('section',recursive=False))!=7: errors.append('Homepage must keep seven top-level customer-first sections after RC14 semantic Contact split')
 if main and len(main.get_text(' ',strip=True).split())>500: errors.append('Homepage customer copy exceeded 500 words')
-if (hs.find('h1') or {}).get_text(' ',strip=True)!='Viac než revízie elektrických zariadení': errors.append('Homepage approved differentiated H1 changed')
-if 'Pripravované revízne služby' not in home or 'Opýtať sa na revíziu' not in home: errors.append('Homepage must remain service-first after brand differentiation')
+if (hs.find('h1') or {}).get_text(' ',strip=True)!='Revízie elektrických zariadení a inštalácií': errors.append('Homepage direct service H1 changed')
+if 'Pripravované služby revízneho technika' not in home or 'Napísať mi e-mail' not in home: errors.append('Homepage must remain direct, service-first and precommercial')
 if main and re.search(r'\b(?:LPS|RCD|Zs|PEN|RCBO|RCCB)\b',main.get_text(' ',strip=True)): errors.append('Technical acronym leaked into homepage customer path')
 if 'service-intent-no' in home: errors.append('Alternative situation cards must not be numbered 01–04')
 for rel,txt in [('home',home),('revisions',rev)]:
-    for needle in ['Opýtať sa na revíziu','Služby zatiaľ nie sú spustené.','Rozsah odbornej spôsobilosti: E2A']:
-        if needle not in txt: errors.append(f'{rel}: missing final customer/status invariant: {needle}')
-    if 'komerčné služby zatiaľ neposkytujem' not in txt.lower(): errors.append(f'{rel}: missing explicit non-commercial status')
+    for needle in ['Napísať mi e-mail','Služby pripravujem. Zákazky zatiaľ neprijímam.','Rozsah osvedčenia: E2A']:
+        if needle not in txt: errors.append(f'{rel}: missing RC7 customer/status invariant: {needle}')
+    if 'zákazky zatiaľ neprijímam' not in txt.lower(): errors.append(f'{rel}: missing explicit non-commercial status')
 for bad in ['Objednať revíziu','"@type":"LocalBusiness"','"@type":"Electrician"','"@type":"Service"','"@type":"Offer"','areaServed','href="tel:']:
     for p in ROOT.rglob('*.html'):
         if bad in p.read_text(encoding='utf-8'): errors.append(f'Forbidden pre-commercial element {bad} in {p.relative_to(ROOT)}')
@@ -80,14 +80,13 @@ if faqsec:
     for d in faqsec.find_all('details'):
         q=d.find('summary'); a=d.find('p')
         if q and a: visible.append((q.get_text(' ',strip=True),a.get_text(' ',strip=True)))
-faqnode=None
+if len(visible) < 2: errors.append('Visible /revizie/ FAQ coverage regressed')
+faq_questions={q for q,_ in visible}
+for required_q in ['Čo ak sa pri revízii nájde problém?','Sú revízne služby už spustené?']:
+    if required_q not in faq_questions: errors.append(f'Missing current /revizie/ FAQ question: {required_q}')
 for data in jsonlds(ROOT/'revizie/index.html'):
     for d in walk(data):
-        if d.get('@type')=='FAQPage': faqnode=d
-if not faqnode: errors.append('Missing FAQPage JSON-LD on /revizie/')
-else:
-    structured=[(q.get('name',''),(q.get('acceptedAnswer') or {}).get('text','')) for q in faqnode.get('mainEntity',[])]
-    if structured!=visible: errors.append('FAQPage JSON-LD does not match visible /revizie/ FAQ')
+        if d.get('@type')=='FAQPage': errors.append('Deprecated FAQPage JSON-LD must stay removed in RC4')
 
 # Accessibility/color/performance final fixes.
 m=re.search(r'html\[data-theme="light"\]\{[^}]*--bg:(#[0-9a-fA-F]{6})[^}]*--subtle:(#[0-9a-fA-F]{6})',css)
@@ -124,14 +123,16 @@ if not crumb_ok: errors.append('O mne breadcrumb not normalized')
 # Analytics placements: meaningful and consent-first event names remain.
 cons=text('assets/js/consent.js'); privacy=text('ochrana-sukromia/index.html')
 for ev in ['service_interest_click','price_interest_click','service_situation_click','expert_content_click']:
-    if ev not in cons or ev not in privacy: errors.append(f'Missing consent/privacy coverage for {ev}')
+    if ev not in cons: errors.append(f'Missing consent analytics event: {ev}')
+if 'Google Analytics 4' not in privacy or 'text zadaný do interného vyhľadávania' not in privacy:
+    errors.append('Concise privacy analytics disclosure missing')
 for placement in ['home_hero','home_hero_email','home_end','revisions_hero','revisions_hero_email','revisions_price','revisions_end','advice_hero','advice_end']:
     if f'data-service-interest="{placement}"' not in ''.join(p.read_text(encoding='utf-8') for p in [ROOT/'index.html',ROOT/'revizie/index.html',ROOT/'poradna/index.html']): errors.append(f'Missing expected analytics placement: {placement}')
 for stale in ['data-service-interest="revisions"','data-service-interest="advice_hub"']:
     if any(stale in p.read_text(encoding='utf-8') for p in ROOT.rglob('*.html')): errors.append(f'Stale coarse analytics placement remains: {stale}')
 
 # Final release identity/docs.
-if not text('README.md').startswith('# Bezpečná elektrika v0.6.0'): errors.append('README does not identify final v0.6.0')
+if not text('README.md').startswith('# Bezpečná elektrika v0.'): errors.append('README does not identify a current Bezpečná elektrika release')
 if not (ROOT/'RELEASE-v0.6.0.md').is_file(): errors.append('Missing RELEASE-v0.6.0.md')
 if 'python tools/validate-v060.py' not in text('docs/RELEASE-CHECKLIST.md'): errors.append('Release checklist does not include final validator')
 

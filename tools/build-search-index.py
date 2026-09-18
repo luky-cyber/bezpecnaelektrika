@@ -3,10 +3,17 @@ from __future__ import annotations
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
-import json, re, unicodedata
+import argparse, json, re, unicodedata
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "data" / "search-index.json"
+DEFAULT_ROOT = Path(__file__).resolve().parents[1]
+AP = argparse.ArgumentParser()
+AP.add_argument("--root", type=Path, default=DEFAULT_ROOT, help="Site root to index (default: repository root)")
+AP.add_argument("--output", type=Path, default=None, help="Output JSON path (default: <root>/data/search-index.json)")
+AP.add_argument("--include-noindex", action="store_true", help="Include noindex HTML; intended only for isolated dry-run builds")
+AP.add_argument("--commercial-simulation", action="store_true", help="Use commercial-simulation curated summaries/contact copy")
+ARGS = AP.parse_args()
+ROOT = ARGS.root.resolve()
+OUT = ARGS.output.resolve() if ARGS.output else ROOT / "data" / "search-index.json"
 
 EXCLUDE_PATHS = {
     "/hladat/", "/obsah/", "/ochrana-sukromia/"
@@ -22,12 +29,16 @@ CURATED = {
     "/glosar/": {"aliases": ["glosar", "slovnik", "pojmy"], "relatedTerms": ["knowledge base", "technicke pojmy"]},
     "/podcast/": {"aliases": ["podcast", "bezpecna elektrika do usi"], "relatedTerms": ["be-001", "be-002", "be-003"]},
     "/novinky/": {"aliases": ["novinky", "co nove v elektro"], "relatedTerms": ["normy", "stn", "iec"]},
+    "/podcast/be-001-preco-nestaci-ze-elektrina-funguje/": {"aliases": ["be-001", "preco nestaci ze elektrina funguje"], "relatedTerms": ["ochranny vodic", "rcd", "istic", "zs", "poruchova slucka"]},
+    "/podcast/be-002-merat-nie-hadat/": {"aliases": ["be-002", "merat nie hadat"], "relatedTerms": ["izolacny odpor", "meranie", "dokumentacia", "prehliadka"]},
+    "/podcast/be-003-namerana-hodnota-este-nie-je-vysledok/": {"aliases": ["be-003", "namerana hodnota este nie je vysledok"], "relatedTerms": ["zs", "zline", "rcd", "test", "odborny zaver"]},
+    "/podcast/be-004-revizna-sprava-nie-je-len-papier/": {"aliases": ["be-004", "revizna sprava nie je len papier"], "relatedTerms": ["revizna sprava", "rozsah overenia", "dokumentacia", "oprava"]},
     "/metodika/": {"aliases": ["metodika", "zdroje"], "relatedTerms": ["normy", "ai", "overovanie"]},
-    "/o-projekte/": {"aliases": ["o projekte", "autor", "lukas likavcan"], "relatedTerms": ["bezpecna elektrika", "e2a"]},
+    "/o-projekte/": {"aliases": ["o projekte", "autor", "lukas likavcan", "osvedcenie", "odborna sposobilost"], "relatedTerms": ["bezpecna elektrika", "e2a", "revizny technik"]},
     "/revizie/": {
         "aliases": ["revizia", "elektrorevizia", "revizie", "e2a", "vychodzia revizia", "pravidelna revizia", "revizia domu", "revizia bytu", "cena revizie", "ako casto revizia", "revizia bleskozvodu", "cena", "cennik", "objednat"],
         "relatedTerms": ["kontrola elektroinstalacie", "revízny technik", "rodinny dom", "byt", "rozvadzac", "revizna sprava"],
-        "summary": "Pripravované revízie v rozsahu E2A. Skúška je úspešne absolvovaná, čakám na osvedčenie a komerčné služby zatiaľ neposkytujem."
+        "summary": "Pripravované revízie v rozsahu E2A. Skúška je úspešne absolvovaná, osvedčenie je vydané a komerčné služby zatiaľ neposkytujem."
     },
     "/glosar/rcd-prudovy-chranic/": {
         "aliases": ["rcd", "prudovy chranic", "chranic"],
@@ -82,8 +93,12 @@ CURATED = {
         "relatedTerms": ["byt", "dom", "rozvadzac"]
     },
     "/poradna/co-obsahuje-revizna-sprava/": {
-        "aliases": ["co obsahuje revizna sprava", "revizna sprava"],
+        "aliases": ["co obsahuje revizna sprava", "obsah reviznej spravy", "revizna sprava"],
         "relatedTerms": ["dokumentacia", "vysledok revizie"]
+    },
+    "/poradna/ako-citat-reviznu-spravu/": {
+        "aliases": ["ako citat reviznu spravu", "ako citat spravu", "citanie reviznej spravy"],
+        "relatedTerms": ["revizna sprava", "rozsah overenia", "zistenia", "odborny zaver"]
     },
     "/poradna/co-pripravit-pred-reviziou/": {
         "aliases": ["co pripravit pred reviziou", "co treba k revizii", "priprava na reviziu", "dokumenty k revizii"],
@@ -109,7 +124,7 @@ def normalize(value: str) -> str:
 
 class PageParser(HTMLParser):
     SKIP_TAGS = {"script","style","noscript","nav","footer","button"}
-    SKIP_CLASSES = {"conversion-inline","consent-banner","mobile-bottom-nav","site-footer","advice-contact-cta"}
+    SKIP_CLASSES = {"conversion-inline","consent-banner","mobile-bottom-nav","site-footer","advice-contact-cta","commercial-dry-run-decisions","commercial-dry-run-inline","commercial-dry-run-sticky","commercial-dry-run-banner","podcast-transcript"}
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.stack=[]; self.skip_depth=0; self.in_main=False; self.main_depth=0
@@ -163,7 +178,7 @@ def page_type(path: str) -> str:
     if path.startswith("/poradna/") and path != "/poradna/": return "poradna"
     if path.startswith("/glosar/") and path != "/glosar/": return "kb"
     if path.startswith("/novinky/2026/"): return "novinka"
-    if path == "/podcast/": return "podcast"
+    if path.startswith("/podcast/"): return "podcast"
     if path == "/meranie/": return "meranie"
     if path == "/metodika/": return "metodika"
     return "hub"
@@ -179,6 +194,9 @@ def truncate(text: str, limit=180) -> str:
     cut=text[:limit].rsplit(" ",1)[0]
     return cut.rstrip(".,;:") + "…"
 
+if ARGS.commercial_simulation:
+    CURATED["/revizie/"]["summary"] = "Revízie v rozsahu E2/A. Skúška je úspešne absolvovaná, osvedčenie je vydané a revízne služby sú v tomto dry-rune simulované ako dostupné."
+
 records=[]
 for p in sorted(ROOT.rglob("*.html")):
     rel=p.relative_to(ROOT).as_posix()
@@ -187,7 +205,7 @@ for p in sorted(ROOT.rglob("*.html")):
     if not parser.canonical: continue
     path=urlparse(parser.canonical).path or "/"
     if path in EXCLUDE_PATHS: continue
-    if "noindex" in raw.lower(): continue
+    if "noindex" in raw.lower() and not ARGS.include_noindex: continue
     title=" ".join(parser.h1).strip()
     if not title:
         m=re.search(r"<title>(.*?)</title>",raw,re.S|re.I); title=re.sub(r"<.*?>","",m.group(1)).strip() if m else path
@@ -213,14 +231,17 @@ for p in sorted(ROOT.rglob("*.html")):
     })
 
 # One helpful anchored record for contact. It is an existing section of the homepage, not a new content page.
+contact_title = "Kontakt k revíznym službám" if ARGS.commercial_simulation else "Kontakt k pripravovaným revíznym službám"
+contact_summary = "Kontakt na projekt Bezpečná elektrika. Revízne služby sú v tomto dry-rune simulované ako dostupné." if ARGS.commercial_simulation else "Kontakt na projekt Bezpečná elektrika. Revízne služby sú zatiaľ v príprave."
+contact_text = "kontakt revizne sluzby bezpecna elektrika" if ARGS.commercial_simulation else "kontakt pripravovane revizne sluzby bezpecna elektrika"
 records.append({
-    "id":"hub-kontakt","url":"/#kontakt","title":"Kontakt k pripravovaným revíznym službám","type":"hub",
-    "summary":"Kontakt na projekt Bezpečná elektrika. Revízne služby sú zatiaľ v príprave.",
-    "aliases":["email","kontakt"],"relatedTerms":["adresa","telefon"],"headings":[],"text":"kontakt pripravovane revizne sluzby bezpecna elektrika", "updated":"2026-08-25"
+    "id":"hub-kontakt","url":"/#kontakt","title":contact_title,"type":"hub",
+    "summary":contact_summary,
+    "aliases":["email","kontakt"],"relatedTerms":["adresa","telefon"],"headings":[],"text":contact_text, "updated":"2026-08-25"
 })
 
 records.sort(key=lambda r:(r["type"],r["title"].lower()))
 payload={"version":1,"generated":max((r.get("updated") or "" for r in records),default="2026-08-25"),"records":records}
 OUT.parent.mkdir(parents=True,exist_ok=True)
 OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-print(f"SEARCH INDEX OK · {len(records)} records · {OUT.relative_to(ROOT)}")
+print(f"SEARCH INDEX OK · {len(records)} records · {OUT.relative_to(ROOT) if ROOT in OUT.parents else OUT}")

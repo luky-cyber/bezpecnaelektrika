@@ -1,0 +1,9 @@
+{
+  "project": "Bezpečná elektrika",
+  "version": "0.6.8",
+  "release": "v0.6.8-rc15",
+  "channel": "release-candidate",
+  "date": "2026-09-18",
+  "fingerprint": "be-v0.6.8-rc15-credential-cold-start-fit",
+  "commercialState": "precommercial"
+}

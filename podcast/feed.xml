@@ -10,8 +10,18 @@
 <itunes:explicit>false</itunes:explicit>
 <itunes:image href="https://bezpecnaelektrika.sk/assets/img/og-bezpecna-elektrika.jpg"/>
 <item>
+<title>BE-005 – TEST na prúdovom chrániči: čo overí a čo nie</title>
+<link>https://bezpecnaelektrika.sk/podcast/be-005-test-prudoveho-chranica/</link>
+<guid isPermaLink="false">bezpecnaelektrika-be-005</guid>
+<pubDate>Sat, 12 Sep 2026 21:45:00 +0200</pubDate>
+<description>Čo skutočne overí tlačidlo TEST na prúdovom chrániči, čo z jedného cvaknutia nemožno vyvodiť a prečo funkčný TEST nenahrádza odborné overenie elektroinštalácie.</description>
+<enclosure url="https://audio.bezpecnaelektrika.sk/podcast/2026/BE-005-test-prudoveho-chranica.mp3" length="5078829" type="audio/mpeg"/>
+<itunes:duration>5:17</itunes:duration>
+<itunes:episode>5</itunes:episode>
+</item>
+<item>
 <title>BE-004 – Revízna správa nie je len papier</title>
-<link>https://bezpecnaelektrika.sk/podcast/</link>
+<link>https://bezpecnaelektrika.sk/podcast/be-004-revizna-sprava-nie-je-len-papier/</link>
 <guid isPermaLink="false">bezpecnaelektrika-be-004</guid>
 <pubDate>Thu, 27 Aug 2026 17:30:00 +0200</pubDate>
 <description>Revízna správa nie je len zbierka čísel. Čo dokumentuje, prečo potrebuje kontext a prečo samotná revízia nie je automaticky opravou elektroinštalácie.</description>
@@ -21,30 +31,30 @@
 </item>
 <item>
 <title>BE-003 – Nameraná hodnota ešte nie je výsledok</title>
-<link>https://bezpecnaelektrika.sk/podcast/</link>
+<link>https://bezpecnaelektrika.sk/podcast/be-003-namerana-hodnota-este-nie-je-vysledok/</link>
 <guid isPermaLink="false">bezpecnaelektrika-be-003</guid>
 <pubDate>Mon, 24 Aug 2026 14:45:00 +0200</pubDate>
-<description>Presné číslo na displeji je iba údaj. Prečo odborný výsledok vzniká až spojením merania, kontextu a vyhodnotenia konkrétnej elektroinštalácie.</description>
+<description>Presné číslo na displeji je iba údaj. Prečo odborný výsledok vzniká až spojením merania, kontextu a vyhodnotenia konkrétnej elektroinštalácie. Epizóda obsahuje redakčné odborné spresnenia; pred bezpečnostne relevantným použitím si pozrite https://bezpecnaelektrika.sk/podcast/be-003-namerana-hodnota-este-nie-je-vysledok/#odborne-spresnenia.</description>
 <enclosure url="https://audio.bezpecnaelektrika.sk/podcast/2026/be-003-namerana-hodnota-este-nie-je-vysledok.mp3" length="5109546" type="audio/mpeg"/>
 <itunes:duration>7:06</itunes:duration>
 <itunes:episode>3</itunes:episode>
 </item>
 <item>
 <title>BE-002 – Merať, nie hádať: prečo pohľad na elektroinštaláciu nestačí</title>
-<link>https://bezpecnaelektrika.sk/podcast/</link>
+<link>https://bezpecnaelektrika.sk/podcast/be-002-merat-nie-hadat/</link>
 <guid isPermaLink="false">bezpecnaelektrika-be-002</guid>
 <pubDate>Sun, 23 Aug 2026 09:00:00 +0200</pubDate>
-<description>Elektroinštalácia môže fungovať a na pohľad vyzerať v poriadku. Prečo sa prehliadka, skúšanie, meranie a odborné vyhodnotenie navzájom dopĺňajú.</description>
+<description>Elektroinštalácia môže fungovať a na pohľad vyzerať v poriadku. Prečo sa prehliadka, skúšanie, meranie a odborné vyhodnotenie navzájom dopĺňajú. Epizóda obsahuje redakčné odborné spresnenia; pred bezpečnostne relevantným použitím si pozrite https://bezpecnaelektrika.sk/podcast/be-002-merat-nie-hadat/#odborne-spresnenia.</description>
 <enclosure url="https://audio.bezpecnaelektrika.sk/podcast/2026/be-002-merat-nie-hadat.mp3" length="5401866" type="audio/mpeg"/>
 <itunes:duration>7:30</itunes:duration>
 <itunes:episode>2</itunes:episode>
 </item>
 <item>
 <title>BE-001 – Prečo nestačí, že elektrina funguje?</title>
-<link>https://bezpecnaelektrika.sk/podcast/</link>
+<link>https://bezpecnaelektrika.sk/podcast/be-001-preco-nestaci-ze-elektrina-funguje/</link>
 <guid isPermaLink="false">bezpecnaelektrika-be-001</guid>
 <pubDate>Thu, 20 Aug 2026 09:00:00 +0200</pubDate>
-<description>Funkčnosť nie je dôkazom bezpečnosti. Prečo nestačí, že lampa svieti, a čo pri posudzovaní technického stavu rozhoduje.</description>
+<description>Funkčnosť nie je dôkazom bezpečnosti. Prečo nestačí, že lampa svieti, a čo pri posudzovaní technického stavu rozhoduje. Epizóda obsahuje redakčné odborné spresnenia; pred bezpečnostne relevantným použitím si pozrite https://bezpecnaelektrika.sk/podcast/be-001-preco-nestaci-ze-elektrina-funguje/#odborne-spresnenia.</description>
 <enclosure url="https://audio.bezpecnaelektrika.sk/podcast/2026/be-001-preco-nestaci-ze-elektrina-funguje.mp3" length="2625228" type="audio/mpeg"/>
 <itunes:duration>8:42</itunes:duration>
 <itunes:episode>1</itunes:episode>
