@@ -1,0 +1,16 @@
+{
+  "state": "precommercial",
+  "goLiveAllowed": false,
+  "publicCommercialServices": false,
+  "switchTarget": "v0.7.0",
+  "guardrail": "Fail closed: production remains pre-commercial until GO/NO-GO is explicitly PASS.",
+  "requiredDecisions": {
+    "businessLegalSetup": "blocked",
+    "serviceScope": "blocked",
+    "serviceArea": "blocked",
+    "pricingModel": "blocked",
+    "commercialContactPath": "blocked",
+    "capacity": "blocked",
+    "insuranceApplicability": "blocked"
+  }
+}

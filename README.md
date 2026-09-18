@@ -1,6 +1,6 @@
-# Bezpečná elektrika v0.6.0
+# Bezpečná elektrika v0.6.8-rc15
 
-Static website for GitHub Pages / `bezpecnaelektrika.sk`, release v0.6.0 „Revízie na prvom mieste“.
+Static website for GitHub Pages / `bezpecnaelektrika.sk`, current release candidate v0.6.8-rc15 „Credential viewer cold-start fit hardening“.
 
 ## What is included
 - Responsive desktop, iPhone/iPad and Android layout
@@ -10,12 +10,13 @@ Static website for GitHub Pages / `bezpecnaelektrika.sk`, release v0.6.0 „Rev�
 - Custom Open Graph image
 - SEO canonical/meta and entity-oriented JSON-LD
 - Canonical link to Lukáš Likavčan, PhD. identity on `likavcan.cz`
-- Project status transparency: E2A exam passed; certificate pending; business not yet launched
+- Project status transparency: E2A exam passed; certificate issued; commercial services not yet launched
+- Public redacted first-page copy of the E2/A certificate on `/o-projekte/`, with a watermark and no embedded source metadata
 - Practical content: warning signs, revision intervals, LPS overview, employer section, insurance context, myths, FAQ
 - Official-source links and visible update date
-- Future-ready `/poradna/`, `/podcast/`, `/o-projekte/`
-- Social-content placeholders without inventing fake posts
-- Podcast placeholders without inventing listening statistics
+- Service-first `/poradna/`, `/podcast/`, `/o-projekte/` with pre-commercial guardrails
+- Five published podcast episodes with standalone reviewed transcripts and editorial technical corrections
+- Social links and podcast metadata without inventing engagement/listening statistics
 
 ## Before publishing
 1. Preview locally with Live Server.
@@ -27,6 +28,13 @@ Static website for GitHub Pages / `bezpecnaelektrika.sk`, release v0.6.0 „Rev�
 ## Important content note
 Technical/legal text is an informational overview and includes links to official public sources. It is not a substitute for current standards, project documentation or professional assessment of a specific installation.
 
+## v0.6.8 – Commercial readiness & release identity
+RC14 keeps production strictly pre-commercial and retains the RC10–RC13 design/navigation work plus all earlier safety, privacy and accessibility guardrails. It closes release-documentation drift, aligns remaining close controls with the 44 px touch-target standard and makes the homepage Contact destination a standalone semantic section. Commercial Switch remains fail-closed and production acceptance remains a separate post-deploy step. Details: `RELEASE-v0.6.8.md`.
+
+
+
+## v0.6.6 – Production hardening & accessibility
+Technický hardening bez nového odborného obsahu: odložené načítanie plnej kópie osvedčenia, odolnejší a prístupnejší viewer pri zoome/reflow, deterministický návrat focusu v consent nastaveniach, kompaktnejší consent na mobile a nový source/production validačný workflow. Produkčné body (headers, cache, crawler/WAF, MP3 Range, CWV) sa definitívne overujú až po deployi. Podrobnosti: `RELEASE-v0.6.6.md`.
 
 ## Novinky v0.3.1
 - sekcia **AI ako druhý pár očí**
@@ -129,3 +137,34 @@ Release candidate po ľudskom testovaní A5. Zachováva jednoduchú customer-fir
 
 ## v0.6.0 – Revízie na prvom mieste
 Finálny service-first release po prototypoch A–A5 a RC1. Homepage, Revízie, Poradňa a O mne vedú zákazníka od konkrétnej situácie k priebehu, cene a kontaktu; odborný obsah zostáva v sekundárnej vrstve. Final-fix pass spevňuje pravdivosť pri MI 3102 BT, structured data, light-theme kontrast, obrázkové rozmery/výkon a analytické placementy. Komerčné služby stále nie sú spustené. Podrobnosti: `RELEASE-v0.6.0.md`.
+
+## v0.6.1 – Desktop, responsive & social polish
+Produkčný responsive/social polish po service-first redizajne.
+
+## v0.6.2 – UX + discovery polish
+Celý homepage portrét bez cropu, Enter v searchi, rozšírená Poradňa, responsive a light-theme hardening.
+
+## v0.6.3 – Post-release UX hardening
+Domov v navigácii, čitateľnejší light accent, bezpečnejšie popovery, odlíšený homepage hero, vCard/QR a stav `osvedčenie vydané`. Podrobnosti: `RELEASE-v0.6.3.md`.
+
+## v0.6.4 – Stability & consent hardening
+Consent regrant, bezpečný fallback bez `localStorage`, negatívne search testy, GA search privacy defense-in-depth, podcast error/selection semantics, mobilný popover/hamburger/QR polish, odstránenie copy-link UI pri zachovaní deep linkov, stručný sync `llms.txt`, deployment surface guardrail a verejný build fingerprint. Komerčné služby zostávajú nespustené. Podrobnosti: `RELEASE-v0.6.4.md`.
+
+
+
+## v0.6.5 – Odborná spôsobilosť a overený odborný obsah
+
+- Verejná redigovaná kópia osvedčenia E2/A + viewer fit/100 %.
+- Samostatné stránky BE-001 až BE-004 s audio-overenými transcriptmi a odbornými spresneniami.
+- PodcastEpisode/AudioObject schema, RSS, sitemap, search index a mapa obsahu synchronizované.
+Verejná redigovaná 1. strana osvedčenia E2/A na stránke O mne, viewer fit/100 %, štyri samostatné podcastové stránky s audio-overenými transcriptmi, odbornými spresneniami a strojovo čitateľným podcast/credential kontextom. Commercial Switch je naďalej vypnutý. Podrobnosti: `RELEASE-v0.6.5.md`.
+
+
+
+
+## v0.6.8 – Commercial readiness & release identity
+Viditeľná release identita vo footeri z jedného zdroja pravdy, fail-closed predkomerčný manifest, izolovaný **full-state** commercial dry-run a GO/NO-GO checklist pre budúci v0.7.0 Commercial Switch. RC2 navyše v dry-rune transformuje predkomerčné statusové texty naprieč celým webom, zobrazuje neuzavreté obchodné rozhodnutia, kontroluje nulové protirečenia, oddeľuje podcastovú integritu do generického validátora a spevňuje publication/production checks. Verejná produkčná vrstva zostáva striktne pre-commercial. Paralelne pribúda BE-005 „TEST na prúdovom chrániči: čo overí a čo nie“ s audio-overeným transcriptom a odbornými spresneniami. Podrobnosti: `RELEASE-v0.6.8.md`.
+
+## v0.6.7 – Content graph & query gaps
+
+Lepšie využitie existujúceho odborného obsahu: content-graph audit a tooling, presnejšie search intent routing, kontextové prelinkovanie podcastov/Poradne/Glosára, selektívny Article.image pass, praktická Poradňa „Ako čítať revíznu správu?“ a väčší desktopový QR kontakt. Customer-first vrstva a predkomerčný stav zostávajú nezmenené. Podrobnosti: `RELEASE-v0.6.7.md`.

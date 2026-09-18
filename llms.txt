@@ -1,6 +1,6 @@
 # Bezpečná elektrika
 
-> Odborný slovenský projekt o bezpečnosti elektroinštalácií, meraní, revíziách a zrozumiteľnom vysvetľovaní technických súvislostí. Revízne služby sú zatiaľ v príprave.
+> Odborný slovenský projekt o bezpečnosti elektroinštalácií, meraní, revíziách a zrozumiteľnom vysvetľovaní technických súvislostí. Skúška revízneho technika v rozsahu E2A je absolvovaná a osvedčenie vydané. Komerčné revízne služby zatiaľ nie sú spustené. Na /o-projekte/ je zverejnená redigovaná verejná kópia 1. strany osvedčenia.
 
 ## Hlavné stránky
 - https://bezpecnaelektrika.sk/revizie/ — pripravované revízne služby, priebeh revízie a FAQ
@@ -8,7 +8,7 @@
 - https://bezpecnaelektrika.sk/glosar/ — odborný glosár
 - https://bezpecnaelektrika.sk/poradna/ — praktické otázky a odpovede
 - https://bezpecnaelektrika.sk/novinky/ — odborné novinky a normové zmeny
-- https://bezpecnaelektrika.sk/podcast/ — podcast Bezpečná elektrika do uší
+- https://bezpecnaelektrika.sk/podcast/ — podcast Bezpečná elektrika do uší; epizódy BE-001 až BE-005 majú samostatné stránky s redakčne skontrolovaným transcriptom a odbornými spresneniami
 - https://bezpecnaelektrika.sk/podcast/feed.xml — RSS podcastu
 - https://bezpecnaelektrika.sk/metodika/ — zdroje a metodika
 - https://bezpecnaelektrika.sk/o-projekte/ — autor a projekt

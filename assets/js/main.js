@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const q = (selector, context = document) => context.querySelector(selector);
   const qa = (selector, context = document) => [...context.querySelectorAll(selector)];
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+  const safeStorageGet = (key) => { try { return window.localStorage?.getItem(key) ?? null; } catch (_) { return null; } };
+  const safeStorageSet = (key, value) => { try { window.localStorage?.setItem(key, value); return true; } catch (_) { return false; } };
 
   // Mobile / responsive navigation.
   const navToggle = q(".nav-toggle");
@@ -15,6 +17,174 @@ document.addEventListener("DOMContentLoaded", () => {
     navToggle.setAttribute("aria-label", "Otvoriť menu");
   };
 
+  // One contextual navigation model for /revizie/: click/hash and scroll position
+  // drive the same active state. This mirrors the authorial navigation grammar
+  // used on Likavcan.cz without copying its information architecture.
+  const syncRevisionNavCurrent = () => {
+    if (!mainNav) return;
+    const path = window.location.pathname.replace(/\/index\.html$/, "/");
+    if (path !== "/revizie/") return;
+
+    const primaryLinks = qa(".nav-primary > a", mainNav);
+    const tracked = [
+      { key: "#kedy-a-ako-casto", section: q("#kedy-a-ako-casto") },
+      { key: "#cena", section: q("#cena") }
+    ].filter((item) => item.section);
+
+    const setCurrent = (hash = "") => {
+      const currentHref = hash ? `/revizie/${hash}` : "/revizie/";
+      primaryLinks.forEach((link) => {
+        const current = link.getAttribute("href") === currentHref;
+        link.classList.toggle("active", current);
+        if (current) link.setAttribute("aria-current", hash ? "location" : "page");
+        else link.removeAttribute("aria-current");
+      });
+    };
+
+    const trackedKeys = new Set(tracked.map((item) => item.key));
+    let frame = 0;
+    let navigationIntent = "";
+    let navigationIntentUntil = 0;
+
+    const startNavigationIntent = (hash) => {
+      if (!trackedKeys.has(hash)) return;
+      navigationIntent = hash;
+      navigationIntentUntil = performance.now() + 1800;
+      // Switch the selected item immediately. During smooth scrolling we keep
+      // this intent locked so an intermediate section cannot flash as active.
+      setCurrent(hash);
+    };
+
+    const updateFromScroll = () => {
+      frame = 0;
+      const headerBottom = q(".site-header")?.getBoundingClientRect().bottom || 0;
+      const trigger = Math.max(headerBottom + 24, Math.min(window.innerHeight * 0.30, 210));
+
+      if (navigationIntent) {
+        const target = tracked.find((item) => item.key === navigationIntent);
+        const rect = target?.section.getBoundingClientRect();
+        const targetReached = !!rect && rect.top <= trigger && rect.bottom > trigger;
+        if (!targetReached && performance.now() < navigationIntentUntil) {
+          setCurrent(navigationIntent);
+          return;
+        }
+        navigationIntent = "";
+        navigationIntentUntil = 0;
+      }
+
+      // Treat contextual items as milestones, not isolated rectangles. Once a
+      // tracked section reaches the reading line it stays current until the next
+      // tracked section reaches it. This avoids falling back to "Revízie" in
+      // the content gaps after Kedy revíziu and after Cena. It also behaves
+      // consistently in the mobile hamburger, where section heights differ.
+      let activeHash = "";
+      for (const item of tracked) {
+        const rect = item.section.getBoundingClientRect();
+        if (rect.top <= trigger) activeHash = item.key;
+        else break;
+      }
+      setCurrent(activeHash);
+    };
+    const schedule = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateFromScroll);
+    };
+
+    primaryLinks.forEach((link) => {
+      const href = link.getAttribute("href") || "";
+      const target = tracked.find((item) => href === `/revizie/${item.key}`);
+      if (target) link.addEventListener("click", () => startNavigationIntent(target.key));
+    });
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    window.addEventListener("hashchange", () => {
+      if (trackedKeys.has(window.location.hash)) startNavigationIntent(window.location.hash);
+      schedule();
+    });
+
+    if (trackedKeys.has(window.location.hash)) {
+      startNavigationIntent(window.location.hash);
+      schedule();
+    } else {
+      updateFromScroll();
+    }
+  };
+
+  syncRevisionNavCurrent();
+
+  // Homepage mobile dock: Contact is a real in-page destination, not the
+  // homepage default state. Keep Home current above the Contact heading and
+  // Contact current from that milestone to the end of the page.
+  const syncHomeMobileContactCurrent = () => {
+    const path = window.location.pathname.replace(/\/index\.html$/, "/");
+    if (path !== "/") return;
+
+    const mobileNav = q(".mobile-bottom-nav");
+    const contactSection = q("#kontakt");
+    if (!mobileNav || !contactSection) return;
+
+    const homeLink = q('a[href="/"]', mobileNav);
+    const contactLink = q('a[href="/#kontakt"]', mobileNav);
+    if (!homeLink || !contactLink) return;
+
+    let frame = 0;
+    let contactIntentUntil = 0;
+
+    const setCurrent = (contactCurrent) => {
+      homeLink.classList.toggle("active", !contactCurrent);
+      contactLink.classList.toggle("active", contactCurrent);
+      if (contactCurrent) {
+        contactLink.setAttribute("aria-current", "location");
+        homeLink.removeAttribute("aria-current");
+      } else {
+        homeLink.setAttribute("aria-current", "page");
+        contactLink.removeAttribute("aria-current");
+      }
+    };
+
+    const startContactIntent = () => {
+      contactIntentUntil = performance.now() + 1800;
+      setCurrent(true);
+    };
+
+    const updateFromScroll = () => {
+      frame = 0;
+      const headerBottom = q(".site-header")?.getBoundingClientRect().bottom || 0;
+      const trigger = Math.max(headerBottom + 24, Math.min(window.innerHeight * 0.30, 210));
+      const rect = contactSection.getBoundingClientRect();
+
+      if (contactIntentUntil) {
+        const reached = rect.top <= trigger;
+        if (!reached && performance.now() < contactIntentUntil) {
+          setCurrent(true);
+          return;
+        }
+        contactIntentUntil = 0;
+      }
+
+      setCurrent(rect.top <= trigger);
+    };
+
+    const schedule = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateFromScroll);
+    };
+
+    contactLink.addEventListener("click", startContactIntent);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    window.addEventListener("hashchange", () => {
+      if (window.location.hash === "#kontakt") startContactIntent();
+      schedule();
+    });
+
+    if (window.location.hash === "#kontakt") startContactIntent();
+    schedule();
+  };
+
+  syncHomeMobileContactCurrent();
+
   if (navToggle && mainNav) {
     navToggle.addEventListener("click", (event) => {
       event.preventDefault();
@@ -22,6 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mainNav.classList.toggle("open", open);
       navToggle.setAttribute("aria-expanded", String(open));
       navToggle.setAttribute("aria-label", open ? "Zavrieť menu" : "Otvoriť menu");
+      if (open) mainNav.querySelector("a")?.focus();
     });
 
     qa("a", mainNav).forEach((link) => link.addEventListener("click", closeNav));
@@ -56,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Theme preference. Stored locally only for UI consistency.
   const html = document.documentElement;
   const themeToggle = q(".theme-toggle");
-  const storedTheme = localStorage.getItem("be-theme");
+  const storedTheme = safeStorageGet("be-theme");
   const systemPrefersLight = window.matchMedia?.("(prefers-color-scheme: light)").matches ?? false;
 
   const applyTheme = (mode) => {
@@ -72,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(storedTheme === "light" || storedTheme === "dark" ? storedTheme : (systemPrefersLight ? "light" : "dark"));
   themeToggle?.addEventListener("click", () => {
     const next = html.dataset.theme === "dark" ? "light" : "dark";
-    localStorage.setItem("be-theme", next);
+    safeStorageSet("be-theme", next);
     applyTheme(next);
   });
 
@@ -121,51 +292,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// v0.5.11 — stable permalinks and copy-link feedback.
-document.addEventListener("DOMContentLoaded", () => {
-  let toast = document.querySelector(".copy-toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.className = "copy-toast";
-    toast.setAttribute("role", "status");
-    toast.setAttribute("aria-live", "polite");
-    document.body.append(toast);
-  }
-  let toastTimer = null;
-  const notify = (message) => {
-    toast.textContent = message;
-    toast.classList.add("is-visible");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 1800);
-  };
-  const copyText = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch (_) {
-      const area = document.createElement("textarea");
-      area.value = text;
-      area.setAttribute("readonly", "");
-      area.style.position = "fixed";
-      area.style.opacity = "0";
-      document.body.append(area);
-      area.select();
-      document.execCommand("copy");
-      area.remove();
-    }
-  };
-  document.addEventListener("click", async (event) => {
-    const sectionButton = event.target.closest("[data-copy-anchor]");
-    const pageButton = event.target.closest("[data-copy-page]");
-    if (!sectionButton && !pageButton) return;
-    const url = new URL(location.href);
-    url.search = "";
-    if (sectionButton) url.hash = sectionButton.dataset.copyAnchor || "";
-    else url.hash = "";
-    await copyText(url.href);
-    notify(sectionButton ? "Odkaz na sekciu skopírovaný" : "Odkaz skopírovaný");
-  });
-});
-
 
 // v0.6.0 prototype A3 — inline term explanations without forcing navigation away.
 document.addEventListener("DOMContentLoaded", () => {
@@ -210,6 +336,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     item.addEventListener("mouseleave", () => item.classList.remove("is-dismissed"));
   });
+
+  // On touch/coarse pointers, the first tap outside an open explanation only dismisses it.
+  // This prevents an accidental navigation when a link happens to sit under the dismissing tap.
+  document.addEventListener("click", (event) => {
+    const openItem = popovers.find((item) => item.classList.contains("is-open"));
+    if (!openItem) return;
+    if (openItem.contains(event.target)) return;
+    if (event.target.closest?.(".term-popover__trigger")) return;
+    const coarsePointer = window.matchMedia?.("(pointer: coarse)").matches || window.matchMedia?.("(hover: none)").matches;
+    if (!coarsePointer) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    close(openItem);
+  }, true);
 
   document.addEventListener("click", (event) => {
     popovers.forEach((item) => { if (!item.contains(event.target)) close(item); });

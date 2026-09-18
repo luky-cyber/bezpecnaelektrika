@@ -1,86 +1,209 @@
 (() => {
   const GA_ID = "G-5W84N9FL5X";
   const STORAGE_KEY = "be-consent-v1";
+  const POLICY_VERSION = "2026-09-13-v1";
+  const DECISION_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
+  let memoryChoice = null;
+  let analyticsScriptRequested = false;
+  let analyticsScriptLoaded = false;
+  let analyticsConfigured = false;
+  let settingsOpener = null;
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
 
+  const safeStorageGet = (key) => {
+    try {
+      return window.localStorage?.getItem(key) ?? null;
+    } catch (_) {
+      return key === STORAGE_KEY ? memoryChoice : null;
+    }
+  };
+
+  const safeStorageSet = (key, value) => {
+    if (key === STORAGE_KEY) memoryChoice = value;
+    try {
+      window.localStorage?.setItem(key, value);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const consentPayload = (analyticsStorage) => ({
+    analytics_storage: analyticsStorage,
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied"
+  });
+
   // Conservative defaults for EEA users. No Google network request is made
   // until analytics consent is explicitly granted.
   gtag("consent", "default", {
-    analytics_storage: "denied",
-    ad_storage: "denied",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
+    ...consentPayload("denied"),
     wait_for_update: 500
   });
 
-  let analyticsLoaded = false;
+  const isProjectUrl = (url) => {
+    const host = url.hostname.toLowerCase();
+    return host === "bezpecnaelektrika.sk" || host.endsWith(".bezpecnaelektrika.sk") || url.origin === location.origin;
+  };
 
-  function loadAnalytics() {
-    if (analyticsLoaded) return;
-    analyticsLoaded = true;
+  const sanitizeAnalyticsUrl = (rawUrl) => {
+    if (!rawUrl) return "";
+    try {
+      const url = new URL(rawUrl, location.href);
+      if (isProjectUrl(url) && url.pathname === "/hladat/" && url.searchParams.has("q")) {
+        url.searchParams.set("q", "(redacted)");
+      }
+      return url.href;
+    } catch (_) {
+      return "";
+    }
+  };
 
-    gtag("consent", "update", {
-      analytics_storage: "granted",
-      ad_storage: "denied",
-      ad_user_data: "denied",
-      ad_personalization: "denied"
-    });
+  const updateAnalyticsConsent = (granted) => {
+    gtag("consent", "update", consentPayload(granted ? "granted" : "denied"));
+  };
 
+  const clearAnalyticsCookies = () => {
+    try {
+      const names = document.cookie.split(";").map((part) => part.split("=", 1)[0].trim()).filter((name) => name === "_ga" || name.startsWith("_ga_"));
+      const domains = ["", "bezpecnaelektrika.sk", ".bezpecnaelektrika.sk"];
+      names.forEach((name) => {
+        domains.forEach((domain) => {
+          const domainPart = domain ? `; Domain=${domain}` : "";
+          document.cookie = `${name}=; Max-Age=0; Path=/${domainPart}; SameSite=Lax`;
+        });
+      });
+    } catch (_) {
+      // Cookie cleanup is best-effort; consent state remains denied even if the browser blocks cookie access.
+    }
+  };
+
+  const configureAnalytics = () => {
+    if (analyticsConfigured || getChoice() !== "analytics") return;
+    const pageLocation = sanitizeAnalyticsUrl(location.href) || location.href;
+    const pageReferrer = sanitizeAnalyticsUrl(document.referrer);
+    const config = { page_location: pageLocation };
+    if (pageReferrer) config.page_referrer = pageReferrer;
+    gtag("js", new Date());
+    gtag("config", GA_ID, config);
+    analyticsConfigured = true;
+  };
+
+  const ensureAnalyticsLoaded = () => {
+    if (analyticsScriptLoaded) {
+      configureAnalytics();
+      return;
+    }
+    if (analyticsScriptRequested) return;
+    analyticsScriptRequested = true;
     const script = document.createElement("script");
     script.async = true;
     script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA_ID);
     script.onload = () => {
-      gtag("js", new Date());
-      gtag("config", GA_ID);
+      analyticsScriptLoaded = true;
+      configureAnalytics();
+    };
+    script.onerror = () => {
+      analyticsScriptRequested = false;
+      analyticsScriptLoaded = false;
     };
     document.head.appendChild(script);
-  }
+  };
+
+  const grantAnalytics = () => {
+    // Always send a fresh update. This is intentionally separate from the
+    // one-time script load so grant -> deny -> grant works on one page load.
+    updateAnalyticsConsent(true);
+    ensureAnalyticsLoaded();
+  };
+
+  const denyAnalytics = () => {
+    updateAnalyticsConsent(false);
+    clearAnalyticsCookies();
+  };
 
   function setChoice(choice) {
-    localStorage.setItem(STORAGE_KEY, choice);
-    if (choice === "analytics") {
-      loadAnalytics();
-    } else {
-      gtag("consent", "update", {
-        analytics_storage: "denied",
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied"
-      });
-    }
-    hideBanner();
+    const record = { choice, decidedAt: new Date().toISOString(), policyVersion: POLICY_VERSION };
+    safeStorageSet(STORAGE_KEY, JSON.stringify(record));
+    if (choice === "analytics") grantAnalytics();
+    else denyAnalytics();
+    // Close first so focus can return to a still-visible opener; only then hide the banner.
     closeSettings();
+    hideBanner();
   }
 
   function getChoice() {
-    const value = localStorage.getItem(STORAGE_KEY);
-    return value === "analytics" || value === "necessary" ? value : null;
+    const value = safeStorageGet(STORAGE_KEY);
+    if (value) {
+      try {
+        const record = JSON.parse(value);
+        const decidedAt = Date.parse(record?.decidedAt || "");
+        const fresh = Number.isFinite(decidedAt) && (Date.now() - decidedAt) <= DECISION_MAX_AGE_MS;
+        if ((record?.choice === "analytics" || record?.choice === "necessary") && record?.policyVersion === POLICY_VERSION && fresh) {
+          memoryChoice = record.choice;
+          return record.choice;
+        }
+      } catch (_) {
+        // Legacy v1 string values are intentionally re-prompted after the policy update.
+      }
+    }
+    return memoryChoice === "analytics" || memoryChoice === "necessary" ? memoryChoice : null;
   }
+
+  const updateConsentClearance = () => {
+    const banner = document.querySelector(".consent-banner");
+    if (!banner || banner.hidden) {
+      document.documentElement.style.removeProperty("--consent-clearance");
+      return;
+    }
+    const rect = banner.getBoundingClientRect();
+    document.documentElement.style.setProperty("--consent-clearance", `${Math.ceil(rect.height + Math.max(0, innerHeight - rect.bottom))}px`);
+  };
 
   function hideBanner() {
     document.querySelector(".consent-banner")?.setAttribute("hidden", "");
+    document.body.classList.remove("consent-visible");
+    updateConsentClearance();
   }
 
   function showBanner() {
     document.querySelector(".consent-banner")?.removeAttribute("hidden");
+    document.body.classList.add("consent-visible");
+    requestAnimationFrame(updateConsentClearance);
   }
 
-  function openSettings() {
+  function openSettings(event) {
     const dialog = document.querySelector("#consent-settings");
     const choice = getChoice();
     const checkbox = dialog?.querySelector("#consent-analytics");
+    settingsOpener = event?.currentTarget instanceof HTMLElement
+      ? event.currentTarget
+      : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
     if (checkbox) checkbox.checked = choice === "analytics";
-    if (dialog?.showModal) dialog.showModal();
-    else dialog?.removeAttribute("hidden");
+    if (dialog?.showModal) {
+      dialog.showModal();
+      dialog.querySelector(".consent-close")?.focus();
+    } else {
+      dialog?.removeAttribute("hidden");
+    }
+  }
+
+  function restoreSettingsFocus() {
+    if (settingsOpener?.isConnected && !settingsOpener.closest("[hidden]")) settingsOpener.focus();
+    settingsOpener = null;
   }
 
   function closeSettings() {
     const dialog = document.querySelector("#consent-settings");
     if (!dialog) return;
     if (dialog.close && dialog.open) dialog.close();
-    else dialog.setAttribute("hidden", "");
+    else {
+      dialog.setAttribute("hidden", "");
+      restoreSettingsFocus();
+    }
   }
 
   function renderConsentUI() {
@@ -93,7 +216,7 @@
       <div class="consent-banner__inner">
         <div class="consent-copy">
           <strong>Analytika návštevnosti</strong>
-          <p>Web používa nevyhnutné lokálne uloženie pre nastavenie vzhľadu a voľby súkromia. Google Analytics zapneme iba s vaším súhlasom, aby sme vedeli, ktoré časti webu sú užitočné.</p>
+          <p>Web používa nevyhnutné lokálne uloženie pre nastavenie vzhľadu a voľby súkromia. Google Analytics zapneme iba s vaším súhlasom. Nevyhnutné lokálne uloženie slúži pre vzhľad a zapamätanie voľby súkromia.</p>
           <a href="/ochrana-sukromia/">Ako pracujeme so súkromím →</a>
         </div>
         <div class="consent-actions">
@@ -103,6 +226,8 @@
         </div>
       </div>`;
     document.body.appendChild(banner);
+    if ("ResizeObserver" in window) new ResizeObserver(updateConsentClearance).observe(banner);
+    window.addEventListener("resize", updateConsentClearance, { passive: true });
 
     const dialog = document.createElement("dialog");
     dialog.id = "consent-settings";
@@ -142,6 +267,7 @@
     banner.querySelector('[data-consent="necessary"]').addEventListener("click", () => setChoice("necessary"));
     banner.querySelector("[data-consent-settings]").addEventListener("click", openSettings);
     dialog.querySelector(".consent-close").addEventListener("click", closeSettings);
+    dialog.addEventListener("close", restoreSettingsFocus);
     dialog.querySelector("[data-consent-save]").addEventListener("click", () => {
       const checked = dialog.querySelector("#consent-analytics").checked;
       setChoice(checked ? "analytics" : "necessary");
@@ -154,18 +280,28 @@
     const choice = getChoice();
     if (choice === "analytics") {
       hideBanner();
-      loadAnalytics();
+      grantAnalytics();
     } else if (choice === "necessary") {
       hideBanner();
+      denyAnalytics();
     } else {
       showBanner();
     }
   }
 
+  // Search may keep the useful local q= URL while GA receives only a redacted
+  // page_location. Set the safe value before history.replaceState can trigger
+  // a history-based page-view measurement.
+  window.beSetSafeAnalyticsLocation = (rawUrl) => {
+    if (getChoice() !== "analytics" || !analyticsConfigured) return;
+    const safeUrl = sanitizeAnalyticsUrl(rawUrl);
+    if (safeUrl) gtag("set", { page_location: safeUrl });
+  };
+
   // Public helper for first-party custom events. It is a no-op unless
-  // analytics was granted and the Google tag has been loaded.
+  // analytics was granted and the Google tag has completed configuration.
   window.beTrack = (eventName, params = {}) => {
-    if (getChoice() !== "analytics" || !analyticsLoaded) return;
+    if (getChoice() !== "analytics" || !analyticsConfigured) return;
     gtag("event", eventName, params);
   };
 

@@ -1,0 +1,16 @@
+{
+  "banner": "DRY RUN – NEPUBLIKOVAŤ",
+  "homepageH1": "Revízie elektrických zariadení a inštalácií",
+  "homepageLead": "Revízne služby pre rodinné domy, byty a vybrané administratívne priestory. Popri nich tu nájdete praktickú Poradňu, odborné vysvetlenia, meranie, novinky a podcast.",
+  "ctaLead": "Potrebujete revíziu?",
+  "ctaAction": "Napísať mi →",
+  "email": "kontakt@bezpecnaelektrika.sk",
+  "businessIdentity": "[DOPLNIŤ PO POTVRDENÍ PODNIKATEĽSKÉHO/PRÁVNEHO NASTAVENIA]",
+  "serviceScope": "[POTVRDIŤ FINÁLNY ROZSAH SLUŽIEB PRED GO-LIVE]",
+  "serviceArea": "[ROZHODNÚŤ PRED GO-LIVE]",
+  "pricingModel": "[ROZHODNÚŤ PRED GO-LIVE]",
+  "commercialContactPath": "E-mail – testovacia cesta; [POTVRDIŤ FINÁLNU KONTAKTNÚ CESTU PRED GO-LIVE]",
+  "capacity": "[POTVRDIŤ PRED GO-LIVE]",
+  "insuranceApplicability": "[ROZHODNÚŤ PODĽA REÁLNEHO PODNIKATEĽSKÉHO MODELU]",
+  "schemaCandidate": "Service + provider identity; finálny provider/type/areaServed až po GO rozhodnutiach"
+}

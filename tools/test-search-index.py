@@ -3,6 +3,7 @@ from pathlib import Path
 import json,re,unicodedata,sys
 ROOT=Path(__file__).resolve().parents[1]
 records=json.loads((ROOT/'data/search-index.json').read_text('utf8'))['records']
+QUESTION_STOPWORDS={'ako','co','preco','kedy','mozem','da','sa','ak','potrebujem','je','su','na','v','vo','a','alebo','pri','pred','po','s','so','z','zo','do','mi','ma','mam','treba'}
 
 def norm(v=''):
  v=re.sub(r'i\s*[Δδ]\s*n',' idn ',str(v),flags=re.I).replace('Δ',' delta ').replace('δ',' delta ')
@@ -12,7 +13,7 @@ def norm(v=''):
 
 def score(r,q):
  q=norm(q); title=norm(r['title']); summary=norm(r['summary']); body=norm(r['text']); aliases=[norm(x) for x in r.get('aliases',[])]; related=[norm(x) for x in r.get('relatedTerms',[])]; headings=[{**h,'norm':norm(h['text'])} for h in r.get('headings',[])]
- s=0; best=None; query_tokens=[x for x in q.split() if len(x)>1]
+ s=0; best=None; query_tokens=[x for x in q.split() if len(x)>1]; meaningful_tokens=[x for x in query_tokens if x not in QUESTION_STOPWORDS]
  if title==q:s=max(s,120)
  if q in aliases:s=max(s,100)
  if title.startswith(q) and title!=q:s=max(s,80)
@@ -31,7 +32,8 @@ def score(r,q):
  if q in summary:s=max(s,30)
  if any(t==q or q in t or t in q for t in related):s=max(s,20)
  if q in body:s=max(s,10)
- searchable=' '.join([title,summary,body,*aliases,*related,*[h['norm'] for h in headings]]); s+=min(sum(1 for x in query_tokens if x in searchable)*6,24)
+ searchable=' '.join([title,summary,body,*aliases,*related,*[h['norm'] for h in headings]]); s+=min(sum(1 for x in meaningful_tokens if x in searchable)*6,24)
+ if not s: return 0,r['url']
  if (re.match(r'^(preco|co|co ak|potrebujem|ako|kedy|mozem|da sa)\b',q) or '?' in q) and r['type']=='poradna':s+=15
  if q.replace(' ','') in {'rcd','rccb','rcbo','zs','lps','pen','pe'} and r['type']=='kb':s+=15
  target=r['url'] + ('#'+best['id'] if best and '#' not in r['url'] else '')
@@ -46,6 +48,7 @@ tests={
  'vypina chranic':'/poradna/prudovy-chranic-opakovane-vypina/','Zs':'/glosar/impedancia-poruchovej-slucky-zs/','poruchova slucka':'/glosar/impedancia-poruchovej-slucky-zs/','Zline':'/glosar/impedancia-poruchovej-slucky-zs/',
  'TN C':'/glosar/tn-c-tn-s-tn-c-s/','TN-C-S':'/glosar/tn-c-tn-s-tn-c-s/','PEN':'/glosar/pe-pen-ochranne-vodice/','LPS':'/glosar/lps-ochrana-pred-bleskom/','bleskozvod':'/glosar/lps-ochrana-pred-bleskom/',
  'kupa domu':'/poradna/revizia-pri-kupe-starsieho-domu-alebo-bytu/','revizna sprava':'/poradna/co-obsahuje-revizna-sprava/','rozvadzac':'/poradna/elektrikar-prerobil-rozvadzac-co-nasleduje/','izolacny odpor':'/glosar/izolacny-odpor/','cena':'/revizie/','telefon':'/#kontakt',
+ 'ako citat reviznu spravu':'/poradna/ako-citat-reviznu-spravu/','citanie reviznej spravy':'/poradna/ako-citat-reviznu-spravu/',
  'co treba k revizii':'/poradna/co-pripravit-pred-reviziou/','priprava na reviziu':'/poradna/co-pripravit-pred-reviziou/',
  'hlinik':'/poradna/hlinikova-elektroinstalacia/','hlinikova elektroinstalacia':'/poradna/hlinikova-elektroinstalacia/','hlinikove rozvody':'/poradna/hlinikova-elektroinstalacia/','prechod al cu':'/poradna/hlinikova-elektroinstalacia/','spoj al cu':'/poradna/hlinikova-elektroinstalacia/'
 }
@@ -66,6 +69,14 @@ for q,expected in deep_tests.items():
  s,target,r=top(q)
  print(f'{q:22} -> {target if r else None} ({s})')
  if target!=expected: errors.append(f'{q!r}: expected target {expected}, got {target}')
+
+
+# v0.6.4 negative-query guardrails: question words alone must not manufacture relevance.
+for query in ["xyzqwerty", "ako xyzqwerty", "preco xyzqwerty", "co xyzqwerty"]:
+    s,target,r=top(query)
+    print(f'{query:22} -> {target if r else None} ({s})')
+    if r is not None or s != 0:
+        errors.append(f"{query!r} should return no search result")
 
 # v0.6.0 A5 customer-intent routing.
 for query in ["revizia domu", "revizia bytu", "cena revizie", "ako casto revizia", "revizia bleskozvodu"]:

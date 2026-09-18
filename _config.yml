@@ -1,0 +1,8 @@
+# GitHub Pages publication boundary.
+# Runtime assets stay publishable; repository-only documentation and validators do not.
+exclude:
+  - "*.md"
+  - docs/
+  - tools/
+  - config/
+  - .build/

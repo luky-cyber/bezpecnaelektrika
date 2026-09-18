@@ -42,7 +42,7 @@ ps=BeautifulSoup(prep,'html.parser')
 canonical=ps.find('link',rel='canonical')
 if not canonical or canonical.get('href')!='https://bezpecnaelektrika.sk/poradna/co-pripravit-pred-reviziou/': errors.append('Preparation answer canonical changed or missing')
 if (ps.find('h1') or {}).get_text(' ',strip=True)!='Čo pripraviť pred revíziou elektroinštalácie?': errors.append('Preparation H1 mismatch')
-for needle in ['1. Dokumentácia, ak existuje','Môže byť potrebné prerušiť napájanie?','Čo pred revíziou netreba robiť','IEC 60364-6:2016','Vyhláška č. 508/2009 Z. z.','dateModified":"2026-08-28']:
+for needle in ['1. Pripravte dostupnú dokumentáciu','4. Upozornite, ak je výpadok napájania problém','Zásuvky, kryty ani rozvádzač svojpomocne nerozoberajte.','IEC 60364-6:2016','Vyhláška č. 508/2009 Z. z.','dateModified":"2026-09-14']:
     if needle not in prep: errors.append(f'Missing discovery-pilot content: {needle}')
 if '/poradna/co-pripravit-pred-reviziou-elektroinstalacie/' in ''.join(p.read_text(encoding='utf-8') for p in ROOT.rglob('*.html')): errors.append('Do not create a duplicate preparation URL')
 if '/poradna/co-pripravit-pred-reviziou/' not in rev: errors.append('Revisions page must link to the detailed preparation answer')
@@ -57,7 +57,7 @@ try:
             if alias not in rec.get('aliases',[]): errors.append(f'Missing preparation search alias: {alias}')
 except Exception as e: errors.append(f'Could not parse search index: {e}')
 sm=text('sitemap.xml')
-if not re.search(r'<loc>https://bezpecnaelektrika\.sk/poradna/co-pripravit-pred-reviziou/</loc>\s*<lastmod>2026-08-28</lastmod>',sm): errors.append('Preparation sitemap lastmod must be 2026-08-28')
+if not re.search(r'<loc>https://bezpecnaelektrika\.sk/poradna/co-pripravit-pred-reviziou/</loc>\s*<lastmod>2026-09-14</lastmod>',sm): errors.append('Preparation sitemap lastmod must reflect current content update')
 if 'search_term' in search: errors.append('Search JS must not send the search term to analytics')
 
 

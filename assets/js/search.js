@@ -3,6 +3,7 @@
 
   const INDEX_URL = "/data/search-index.json";
   const MAX_RESULTS = 8;
+  const QUESTION_STOPWORDS = new Set(["ako","co","preco","kedy","mozem","da","sa","ak","potrebujem","je","su","na","v","vo","a","alebo","pri","pred","po","s","so","z","zo","do","mi","ma","mam","treba"]);
   let indexPromise = null;
   let lastTrigger = null;
   let overlay = null;
@@ -35,7 +36,11 @@
           if (!response.ok) throw new Error(`Search index HTTP ${response.status}`);
           return response.json();
         })
-        .then((payload) => payload.records || []);
+        .then((payload) => payload.records || [])
+        .catch((error) => {
+          indexPromise = null;
+          throw error;
+        });
     }
     return indexPromise;
   };
@@ -65,6 +70,7 @@
     let score = 0;
     let bestHeading = null;
     const queryTokens = q.split(" ").filter((token) => token.length > 1);
+    const meaningfulTokens = queryTokens.filter((token) => !QUESTION_STOPWORDS.has(token));
 
     if (title === q) score = Math.max(score, 120);
     if (aliases.includes(q)) score = Math.max(score, 100);
@@ -90,12 +96,13 @@
     if (body.includes(q)) score = Math.max(score, 10);
 
     const searchable = [title, summary, body, ...aliases, ...related, ...headings.map((h) => h.norm)].join(" ");
-    const tokenHits = queryTokens.filter((token) => searchable.includes(token)).length;
+    const tokenHits = meaningfulTokens.filter((token) => searchable.includes(token)).length;
     if (tokenHits) score += Math.min(tokenHits * 6, 24);
 
+    // Intent/type bonuses may improve a genuine match, but must never create one.
+    if (!score) return null;
     if (questionIntent(q) && record.type === "poradna") score += 15;
     if (abbreviationIntent(q) && record.type === "kb") score += 15;
-    if (!score) return null;
 
     const targetUrl = bestHeading && !record.url.includes("#") ? `${record.url}#${bestHeading.id}` : record.url;
     return { record, score, targetUrl, bestHeading };
@@ -323,10 +330,17 @@
     return overlay;
   };
 
+  const setSearchTriggersExpanded = (expanded) => {
+    document.querySelectorAll("[data-search-open]").forEach((button) => {
+      button.setAttribute("aria-expanded", String(expanded));
+    });
+  };
+
   const openOverlay = (trigger, initial = "") => {
     buildOverlay();
     lastTrigger = trigger || document.activeElement;
     overlay.hidden = false;
+    setSearchTriggersExpanded(true);
     document.documentElement.classList.add("search-open");
     overlayTracking = { used: false, enabled: true };
     overlayInput.value = initial;
@@ -339,6 +353,7 @@
     if (!overlay || overlay.hidden) return;
     overlay.hidden = true;
     document.documentElement.classList.remove("search-open");
+    setSearchTriggersExpanded(false);
     lastTrigger?.focus?.();
   };
 
@@ -356,6 +371,7 @@
       if (root.dataset.syncQuery === "true") {
         const url = new URL(location.href);
         if (input.value.trim()) url.searchParams.set("q", input.value.trim()); else url.searchParams.delete("q");
+        window.beSetSafeAnalyticsLocation?.(url.href);
         history.replaceState(null, "", url);
       }
     });
@@ -381,6 +397,7 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-search-open]").forEach((button) => {
+      button.setAttribute("aria-expanded", "false");
       button.addEventListener("click", () => openOverlay(button));
     });
     document.querySelectorAll("[data-site-search]").forEach(setupInlineSearch);
