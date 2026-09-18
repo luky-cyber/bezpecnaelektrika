@@ -1,6 +1,6 @@
-# Bezpečná elektrika v0.6.8-rc16
+# Bezpečná elektrika v0.6.8
 
-Static website for GitHub Pages / `bezpecnaelektrika.sk`, current release candidate v0.6.8-rc16 „Search cache revalidation hardening“.
+Static website for GitHub Pages / `bezpecnaelektrika.sk`, production release v0.6.8, promoted from accepted RC16 „Search cache revalidation hardening“.
 
 ## What is included
 - Responsive desktop, iPhone/iPad and Android layout
@@ -29,7 +29,7 @@ Static website for GitHub Pages / `bezpecnaelektrika.sk`, current release candid
 Technical/legal text is an informational overview and includes links to official public sources. It is not a substitute for current standards, project documentation or professional assessment of a specific installation.
 
 ## v0.6.8 – Commercial readiness & release identity
-RC16 keeps production strictly pre-commercial and retains the RC10–RC15 design, navigation, credential-viewer, safety, privacy and accessibility guardrails. It changes Search index loading from `force-cache` to `no-cache`, so returning browsers revalidate the current editorial Search index instead of retaining stale snippets. Commercial Switch remains fail-closed and production acceptance remains a separate post-deploy step. Details: `RELEASE-v0.6.8.md`.
+v0.6.8 is the production release promoted from accepted RC16. It remains strictly pre-commercial and retains the RC10–RC16 design, navigation, credential-viewer, Search freshness, safety, privacy and accessibility guardrails. Commercial Switch remains fail-closed. Details: `RELEASE-v0.6.8.md`.
 
 
 

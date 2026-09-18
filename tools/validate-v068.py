@@ -13,7 +13,7 @@ def run(label, argv):
     if r.returncode:
         errors.append(f'{label} failed: {r.stdout[-900:]} {r.stderr[-500:]}')
 
-# v0.6.8 RC16 artifacts and release identity.
+# v0.6.8 final production artifacts and release identity.
 for rel in [
     'config/release.json', 'config/commercial-state.json', 'config/commercial-dry-run.json',
     'tools/sync-release-identity.py', 'tools/build-commercial-dry-run.py',
@@ -29,10 +29,10 @@ try:
     expected = {
         'project': 'Bezpečná elektrika',
         'version': '0.6.8',
-        'release': 'v0.6.8-rc16',
-        'channel': 'release-candidate',
+        'release': 'v0.6.8',
+        'channel': 'production',
         'date': '2026-09-18',
-        'fingerprint': 'be-v0.6.8-rc16-search-cache-revalidation',
+        'fingerprint': 'be-v0.6.8-production',
         'commercialState': 'precommercial',
     }
     for k, val in expected.items():
@@ -48,9 +48,9 @@ if len(html) != 42:
     errors.append(f'Expected 42 production HTML files, got {len(html)}')
 for p in html:
     raw = p.read_text(encoding='utf-8')
-    if raw.count('data-release-version="v0.6.8-rc16"') != 1:
+    if raw.count('data-release-version="v0.6.8"') != 1:
         errors.append(f'Visible release marker missing/duplicate: {p.relative_to(ROOT)}')
-    if '>v0.6.8-rc16</a>' not in raw:
+    if '>v0.6.8</a>' not in raw:
         errors.append(f'Visible release text missing: {p.relative_to(ROOT)}')
 
 # Fail-closed commercial state.
@@ -61,7 +61,7 @@ try:
     required = cs.get('requiredDecisions') or {}
     for k in ['businessLegalSetup', 'serviceScope', 'serviceArea', 'pricingModel', 'commercialContactPath', 'capacity', 'insuranceApplicability']:
         if required.get(k) != 'blocked':
-            errors.append(f'Commercial decision must remain blocked in RC16: {k}')
+            errors.append(f'Commercial decision must remain blocked in final v0.6.8: {k}')
 except Exception as e:
     errors.append(f'Commercial state parse failed: {e}')
 
@@ -277,8 +277,8 @@ for required in ['/* RC14 — remaining close controls meet the shared 44 px tou
     if required not in v040:
         errors.append(f'RC14 44px close-control guardrail missing: {required}')
 readme = text('README.md')
-if '# Bezpečná elektrika v0.6.8-rc16' not in readme or 'current release candidate v0.6.8-rc16' not in readme:
-    errors.append('RC16 README current-release identity is stale')
+if '# Bezpečná elektrika v0.6.8' not in readme or 'production release v0.6.8, promoted from accepted RC16' not in readme:
+    errors.append('Final v0.6.8 README release identity is stale')
 release_notes = text('RELEASE-v0.6.8.md')
 if 'uvádzajú STN 33 1630:2025 + STN EN 50699/50678' in release_notes:
     errors.append('RC14 release documentation still claims unpublished standards are visible on Revízie')
@@ -289,6 +289,8 @@ if '## RC15 — credential viewer cold-start fit hardening (2026-09-18)' not in 
 
 if '## RC16 — Search cache revalidation hardening (2026-09-18)' not in release_notes:
     errors.append('RC16 release note missing')
+if '## v0.6.8 production promotion (2026-09-18)' not in release_notes:
+    errors.append('Final v0.6.8 production promotion note missing')
 
 # RC16 Search index freshness: current editorial state must be revalidated,
 # not indefinitely served from an older browser cache.
@@ -332,4 +334,4 @@ if errors:
     for e in sorted(set(errors)):
         print(' -', e)
     raise SystemExit(1)
-print('V0.6.8 CHECK OK · RC16 search cache revalidation + retained RC15 credential cold-start fit, navigation, design, a11y, safety and commercial guardrails')
+print('V0.6.8 CHECK OK · final production release + retained RC16 search revalidation, credential cold-start fit, navigation, design, a11y, safety and commercial guardrails')

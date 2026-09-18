@@ -1,9 +1,9 @@
 {
   "project": "Bezpečná elektrika",
   "version": "0.6.8",
-  "release": "v0.6.8-rc16",
-  "channel": "release-candidate",
+  "release": "v0.6.8",
+  "channel": "production",
   "date": "2026-09-18",
-  "fingerprint": "be-v0.6.8-rc16-search-cache-revalidation",
+  "fingerprint": "be-v0.6.8-production",
   "commercialState": "precommercial"
 }

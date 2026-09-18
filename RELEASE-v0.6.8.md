@@ -1,6 +1,6 @@
 # v0.6.8 – Commercial readiness & release identity
 
-Dátum: 14. 9. 2026
+Dátum: 18. 9. 2026
 
 ## Cieľ
 
@@ -121,6 +121,15 @@ Produkčný v0.6.8 RC8 zostáva striktne **pre-commercial**. Žiadny aktívny ob
 - Mobile selected states, static tags/badges and CTA surfaces are visually consolidated so accent colour communicates state/meaning instead of decorating every small element.
 - RC10 macro-layout changes, Home/Revisions balanced pre-commercial status cards, RC9 portrait-logo containment and all safety/privacy/commercial guardrails remain intact.
 - No expert claims, service scope, pricing statements, SEO metadata or content `dateModified` values were changed by this micro-UI pass.
+
+## v0.6.8 production promotion (2026-09-18)
+
+- Accepted RC16 is promoted to the final `v0.6.8` production release without further functional or editorial changes.
+- Mobile and desktop production smoke testing passed, including credential cold-start fit, 100 % / fit switching, Contact navigation, Revisions contextual navigation, Search, theme and responsive/reflow checks.
+- The RC16 Search cache fix was verified on the existing mobile browser without clearing site data: the current issued-certificate wording replaced the previously stale cached wording.
+- Release channel changes from `release-candidate` to `production`; the public commercial state remains strictly `precommercial`.
+- Commercial Switch remains fail-closed: this release does not activate public commercial services, ordering CTAs, pricing, `LocalBusiness`, `Electrician`, `Service`, `Offer` or `areaServed`.
+- The strict automated Production Acceptance still reports the previously identified server-response-header hardening gap on the current DNS-only GitHub Pages hosting. This is retained as a known infrastructure follow-up and is not represented as an automated `PRODUCTION PASS`.
 
 ## RC16 — Search cache revalidation hardening (2026-09-18)
 
