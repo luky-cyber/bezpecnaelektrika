@@ -31,7 +31,7 @@
 
   const loadIndex = () => {
     if (!indexPromise) {
-      indexPromise = fetch(INDEX_URL, { credentials: "same-origin", cache: "force-cache" })
+      indexPromise = fetch(INDEX_URL, { credentials: "same-origin", cache: "no-cache" })
         .then((response) => {
           if (!response.ok) throw new Error(`Search index HTTP ${response.status}`);
           return response.json();

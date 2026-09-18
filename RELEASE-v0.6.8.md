@@ -122,6 +122,14 @@ Produkčný v0.6.8 RC8 zostáva striktne **pre-commercial**. Žiadny aktívny ob
 - RC10 macro-layout changes, Home/Revisions balanced pre-commercial status cards, RC9 portrait-logo containment and all safety/privacy/commercial guardrails remain intact.
 - No expert claims, service scope, pricing statements, SEO metadata or content `dateModified` values were changed by this micro-UI pass.
 
+## RC16 — Search cache revalidation hardening (2026-09-18)
+
+- Search runtime changes `data/search-index.json` fetching from `force-cache` to `no-cache`, so browsers revalidate the current Search index instead of indefinitely preferring an older locally cached editorial state.
+- This closes the production finding where an existing mobile browser could still show the historical wording that the E2/A certificate was awaited even though the current Search index correctly states that the certificate has been issued.
+- A v0.6.8 regression guardrail rejects `force-cache` for the Search index and requires the revalidation policy.
+- Search records, expert claims, service scope, pricing, SEO metadata and content `dateModified` values are unchanged.
+- RC15 credential cold-start hardening and all RC14/RC13/RC12 design, navigation, accessibility, safety, privacy and pre-commercial guardrails remain unchanged.
+
 ## RC15 — credential viewer cold-start fit hardening (2026-09-18)
 
 - Fixes a reproducible first-open/cold-start credential-viewer race seen in Android/Acode WebView: the dialog is opened and measured before the deferred full-resolution certificate image receives its `src`.
@@ -156,4 +164,3 @@ Produkčný v0.6.8 RC8 zostáva striktne **pre-commercial**. Žiadny aktívny ob
 - The same contextual model is shared by desktop navigation and the mobile hamburger; the persistent mobile bottom navigation intentionally continues to mark the parent `Revízie` destination across the whole page.
 - RC11 shared-author micro-UI, RC10 macro-layout/design-DNA polish, RC9 portrait-logo containment and all safety/privacy/commercial guardrails remain unchanged.
 - No expert claims, service scope, pricing statements, SEO metadata or content `dateModified` values changed in this RC.
-
